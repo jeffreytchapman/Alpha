@@ -9,6 +9,13 @@
   <script src="https://espruino.github.io/TinyDash/tinydash.js"></script>
   <script src="https://www.puck-js.com/puck.js"></script>  
   <script>
+   Puck.accelOn(1.6); // default is 12.5Hz, with gyro
+   // or Puck.accelOn(1.6); for 1.6Hz low power, without gyro
+   Puck.on('accel', function(a) {
+   console.log(a);
+   }
+   
+   
   var elements = {
     heading : TD.label({x:10,y:10,width:190,height:50,label:"My Dashboard"})
   }
