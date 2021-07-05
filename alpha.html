@@ -28,7 +28,7 @@
       }
       connection = c;
       // remove modal window
-      elements.modal.remove();
+      //elements.modal.remove();
       // Handle the data we get back, and call 'onLine'
       // whenever we get a line
       var buf = "";
@@ -59,7 +59,7 @@
   var elements = {
     heading : TD.label({x:10,y:10,width:190,height:50,label:"My Dashboard"}),
     light : TD.gauge({x:10,y:70,width:190,height:220,label:"Light",value:0,min:0,max:100}),
-    connect : TD.button({x:420,y:200,width:190,height:90,label:"Connect!",onchange:connectDevice}),
+    connect : TD.button({x:420,y:200,width:190,height:90,label:"Connect",onchange:connectDevice}),
     //modal: TD.modal({x:10,y:10,width:190,height:430,label:"Click to connect",onchange:connectDevice})
   }
   for (var i in elements)
