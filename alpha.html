@@ -30,7 +30,9 @@
       // remove modal window
       //elements.modal.remove();
       //green light flash
-      Puck.write("digitalPulse(LED3,1,500);\n");
+      //below works but calls connect a second time
+      //Puck.write("digitalPulse(LED3,1,500);\n");
+     
       // Handle the data we get back, and call 'onLine'
       // whenever we get a line
       var buf = "";
