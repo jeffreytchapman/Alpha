@@ -12,7 +12,7 @@
   var on = false;
   setInterval(function() {
   on = !on;
-  digitalPulse(LED2, 1, 200);
+  Puck.write('digitalPulse(LED2, 1, 200)');
   }, 500);
   }
   
