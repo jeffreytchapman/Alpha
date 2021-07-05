@@ -3,7 +3,7 @@
  </head>
  <body>
   <script src="https://www.puck-js.com/puck.js"></script>
-  <button onclick=connectnow()>Connect!</button>
+  <button onclick=connectnow()>Connect</button>
   <button onclick=disconnectnow()>Disconnect</button>
   <script type="text/javascript">
   
@@ -12,7 +12,7 @@
   var on = false;
   setInterval(function() {
   on = !on;
-  LED2.write(on);
+  Puck.LED2.write(on);
   }, 500);
   }
   
