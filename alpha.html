@@ -32,6 +32,11 @@
       //green light flash
       //below works but calls connect a second time
       //Puck.write("digitalPulse(LED2,1,2000);\n");
+      var on = false;
+      setInterval(function() {
+      on = !on;
+      LED2.write(on);
+      }, 500);
      
       // Handle the data we get back, and call 'onLine'
       // whenever we get a line
