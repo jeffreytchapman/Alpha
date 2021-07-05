@@ -31,14 +31,7 @@
       //elements.modal.remove();
       //green light flash
       //below works but calls connect a second time
-      //Puck.write("digitalPulse(LED2,1,2000);\n");
-      var on = false;
-      setInterval(function() {
-      on = !on;
-      Puck.write("digitalPulse(LED2,1,200);\n");
-      //digitalWrite(LED2, on);
-      //LED2.write(on);
-      }, 5000);
+      Puck.write("digitalPulse(LED2,1,2000);\n");
      
       // Handle the data we get back, and call 'onLine'
       // whenever we get a line
