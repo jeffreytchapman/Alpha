@@ -35,7 +35,8 @@
       var on = false;
       setInterval(function() {
       on = !on;
-      PUCK.LED2.write(on);
+      digitalWrite(LED2, on);
+      //LED2.write(on);
       }, 500);
      
       // Handle the data we get back, and call 'onLine'
