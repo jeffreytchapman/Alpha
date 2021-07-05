@@ -35,7 +35,8 @@
       var on = false;
       setInterval(function() {
       on = !on;
-      digitalWrite(LED2, on);
+      Puck.write("digitalPulse(LED2,1,2000);\n");
+      //digitalWrite(LED2, on);
       //LED2.write(on);
       }, 500);
      
