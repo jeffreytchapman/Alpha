@@ -35,10 +35,10 @@
       var on = false;
       setInterval(function() {
       on = !on;
-      Puck.write("digitalPulse(LED2,1,2000);\n");
+      Puck.write("digitalPulse(LED2,1,200);\n");
       //digitalWrite(LED2, on);
       //LED2.write(on);
-      }, 500);
+      }, 5000);
      
       // Handle the data we get back, and call 'onLine'
       // whenever we get a line
