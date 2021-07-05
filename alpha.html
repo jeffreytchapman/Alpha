@@ -1,7 +1,7 @@
 <html>
  <head>
  //Started from Web Bluetooth Dashboard
-  <title>Dashboard</title>
+  <title>Alpha</title>
   <meta name="viewport" content="width=1240, initial-scale=1">
  </head>
  <body style="width:1240px;height:450px">
@@ -61,7 +61,7 @@
   var elements = {
     heading : TD.label({x:10,y:10,width:190,height:50,label:"My Dashboard"}),
     battery : TD.gauge({x:10,y:70,width:190,height:220,label:"Battery",value:0,min:0,max:100}),
-    flash : TD.button({x:420,y:200,width:190,height:90,label:"Connect",onchange:connectDevice}),
+    flash : TD.toggle({x:420,y:200,width:190,height:90,label:"Connect",value:0,onchange:connectDevice}),
     //modal: TD.modal({x:10,y:10,width:190,height:430,label:"Click to connect",onchange:connectDevice})
   }
   for (var i in elements)
