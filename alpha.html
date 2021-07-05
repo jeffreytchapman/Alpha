@@ -31,7 +31,7 @@
       //elements.modal.remove();
       //green light flash
       //below works but calls connect a second time
-      Puck.write("digitalPulse(LED2,1,2000);\n");
+      //Puck.write("digitalPulse(LED2,1,2000);\n");
      
       // Handle the data we get back, and call 'onLine'
       // whenever we get a line
@@ -55,6 +55,7 @@
           connection.write("setInterval(function(){Bluetooth.println(JSON.stringify({battery:E.getBattery()}));},1000);NRF.on('disconnect', function() {reset()});\n",
             function() { console.log("Ready..."); });
           }, 1500);
+          Puck.write("digitalPulse(LED2,1,200);\n");
         });
       });
 
@@ -63,7 +64,7 @@
   var elements = {
     heading : TD.label({x:10,y:10,width:190,height:50,label:"My Dashboard"}),
     battery : TD.gauge({x:10,y:70,width:190,height:220,label:"Battery",value:0,min:0,max:100}),
-    connect : TD.button({x:420,y:200,width:190,height:90,label:"Connect",onchange:connectDevice}),
+    connect : TD.button({x:420,y:200,width:190,height:90,label:"Connect!",onchange:connectDevice}),
     //modal: TD.modal({x:10,y:10,width:190,height:430,label:"Click to connect",onchange:connectDevice})
   }
   for (var i in elements)
