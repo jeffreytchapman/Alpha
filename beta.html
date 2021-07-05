@@ -3,16 +3,21 @@
  </head>
  <body>
   <script src="https://www.puck-js.com/puck.js"></script>
-  <button onclick=connectnow()>Connect</button>
+  <button onclick=connectnow()>Connect!</button>
   <button onclick=disconnectnow()>Disconnect</button>
   <script type="text/javascript">
   
   function connectnow() {
-  Puck.write('LED1.set();\n');
+  //Puck.write('LED1.set();\n');
+  var on = false;
+  setInterval(function() {
+  on = !on;
+  LED2.write(on);
+  }, 500);
   }
   
   function disconnectnow() {
-  Puck.write('LED1.reset();\n');
+  Puck.write('LED2.reset();\n');
   }
   </script>
    </body>
