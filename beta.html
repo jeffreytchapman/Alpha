@@ -3,7 +3,7 @@
  </head>
  <body>
   <script src="https://www.puck-js.com/puck.js"></script>
-  <button onclick=connectnow()>Connect1</button>
+  <button onclick=connectnow()>Connect2</button>
   <button onclick=disconnectnow()>Disconnect</button>
   <script type="text/javascript">
   
@@ -12,7 +12,7 @@
   var on = false;
   setInterval(function() {
   on = !on;
-  Puck.write('digitalPulse(LED2, 1, 200)');
+  Puck.write('digitalPulse(LED2, 1, 200);\n');
   }, 500);
   }
   
