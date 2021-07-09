@@ -13,6 +13,7 @@
   var flasthtimer;
   function connectnow() {
     flashtimer = setInterval(flasher, 2000);
+    document.getElementById("batterylevel").value = E.getBattery();
   }
 
   function flasher() {
