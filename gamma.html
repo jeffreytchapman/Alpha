@@ -3,7 +3,7 @@
  </head>
  <body>
   <script src="https://www.puck-js.com/puck.js"></script>
-  <button id="btnConnectnow" onclick=connectnow()>Connect</button>
+  <button id="btnConnectnow" onclick=connectnow()>Connect!</button>
   <button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="4" readonly>
@@ -18,7 +18,7 @@
 
   function flasher() {
     Puck.write('digitalPulse(LED2, 1, 200);\n');
-    document.getElementById("batterylevel").value = E.getBattery();
+    document.getElementById("batterylevel").value = Puck.E.getBattery();
   }
   //Puck.write('LED2.set();\n');
   //var on = false;
