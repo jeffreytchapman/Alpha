@@ -3,7 +3,7 @@
  </head>
  <body>
   <script src="https://www.puck-js.com/puck.js"></script>
-  <button id="btnConnectnow" onclick=connectnow()>Connect5</button>
+  <button id="btnConnectnow" onclick=connectnow()>Connect6</button>
   <button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="4" readonly>
@@ -11,12 +11,12 @@
   <script type="text/javascript">
   
   var flasthtimer;
-  var bat;
-  bat =Puck.eval("E.getBattery();\n");
+  //var bat;
+  //bat =Puck.eval("E.getBattery();\n");
   function connectnow() {
     flashtimer = setInterval(flasher, 2000);
     //document.getElementById("batterylevel").value = E.getBattery();
-    document.getElementById("batterylevel").value=bat;
+    //document.getElementById("batterylevel").value=bat;
   }
 
   function flasher() {
