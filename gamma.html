@@ -13,11 +13,12 @@
   var flasthtimer;
   function connectnow() {
     flashtimer = setInterval(flasher, 2000);
-    document.getElementById("batterylevel").value = E.getBattery();
+    //document.getElementById("batterylevel").value = E.getBattery();
   }
 
   function flasher() {
     Puck.write('digitalPulse(LED2, 1, 200);\n');
+    document.getElementById("batterylevel").value = E.getBattery();
   }
   //Puck.write('LED2.set();\n');
   //var on = false;
