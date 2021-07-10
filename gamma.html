@@ -5,7 +5,7 @@
   <script src="https://www.puck-js.com/puck.js"></script>
   <button id="btnConnectnow" onclick=connectnow()>Connect</button>
   <button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
-  <button id="btnBattery" onclick=battery()>Battery4</button>
+  <button id="btnBattery" onclick=battery()>Battery</button>
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="4" readonly>
   
@@ -30,7 +30,7 @@
      //document.getElementById("batterylevel").value=Puck.write('E.getBattery();\n');
      var batteryvalue
      batteryvalue=Puck.eval("E.getBattery()")
-     console.log("batteryvalue="b & batteryvalue)
+     console.log("batteryvalue=" & batteryvalue)
      //document.getElementById("batterylevel").value=batteryvalue
    }
   </script>
