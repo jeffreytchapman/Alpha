@@ -5,7 +5,6 @@
   <script src="https://www.puck-js.com/puck.js"></script>
   <button id="btnConnectnow" onclick=connectnow()>Connect</button>
   <button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
-  <button id="btnBattery" onclick=battery()>Battery</button>
   <button id="btnBatteryFill" onclick=myDisplay()>Battery Fill3</button>
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly>
@@ -13,7 +12,6 @@
   <script type="text/javascript">
   
   var flashtimer
-  var batteryvalue
   function connectnow() {
     flashtimer = setInterval(flasher, 2000);
   }
@@ -26,23 +24,6 @@
     clearInterval(flashtimer);
     Puck.write('reset();\n');
   }
-  
-   function battery() {
-     console.log("im here");
-     //document.getElementById("batterylevel").value=Puck.write('E.getBattery();\n');
-     //batteryvalue=Puck.write("E.getBattery();\n") gives a funky promise
-     batteryvalue=Puck.eval("E.getBattery()");
-     console.log("batteryvalue=", batteryvalue);
-     console.log("im done");
-     //document.getElementById("batterylevel").value=batteryvalue
-   }
-   
-   function batteryfill() {
-     console.log("im here agin");
-     console.log("batteryvalue=", batteryvalue);
-     document.getElementById("batterylevel").value=batteryvalue;
-     console.log("im done again");
-   }
     
    async function myDisplay() {
      let myPromise = new Promise(function(myResolve, myReject) {
@@ -50,9 +31,6 @@
      });
      document.getElementById("batterylevel").value = await myPromise;
    }
-
-//myDisplay();
-   
     
   </script>
    </body>
