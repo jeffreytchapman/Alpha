@@ -6,9 +6,9 @@
   <button id="btnConnectnow" onclick=connectnow()>Connect</button>
   <button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
   <button id="btnBattery" onclick=battery()>Battery</button>
-  <button id="btnBatteryFill" onclick=myDisplay()>Battery Fill1</button>
+  <button id="btnBatteryFill" onclick=myDisplay()>Battery Fill2</button>
   <label for="batterylevel">Battery Level:</label>
-  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="4" readonly>
+  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="" readonly>
   
   <script type="text/javascript">
   
@@ -51,7 +51,7 @@
      document.getElementById("batterylevel").value = await myPromise;
    }
 
-myDisplay();
+//myDisplay();
    
     
   </script>
