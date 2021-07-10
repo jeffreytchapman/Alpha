@@ -29,7 +29,7 @@
      console.log("im here");
      //document.getElementById("batterylevel").value=Puck.write('E.getBattery();\n');
      var batteryvalue
-     batteryvalue=Promise.resolve(Puckeval.("E.getBattery()"))
+     batteryvalue=Puck.write("E.getBattery();\n")
      //batteryvalue=Puck.eval("E.getBattery()") gives a promise
      console.log("batteryvalue=", batteryvalue)
      //document.getElementById("batterylevel").value=batteryvalue
