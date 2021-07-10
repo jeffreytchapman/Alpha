@@ -6,7 +6,7 @@
   <button id="btnConnectnow" onclick=connectnow()>Connect</button>
   <button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
   <button id="btnBattery" onclick=battery()>Battery</button>
-  <button id="btnBatteryFill" onclick=myCalculator()>Battery Fill3</button>
+  <button id="btnBatteryFill" onclick=myDisplay()>Battery Fill1</button>
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="4" readonly>
   
@@ -44,16 +44,14 @@
      console.log("im done again");
    }
     
-   function myDisplayer(some) {
-     document.getElementById("batterylevel").value = some;
+   async function myDisplay() {
+     let myPromise = new Promise(function(myResolve, myReject) {
+       myResolve(Puck.eval("E.getBattery()"));
+     });
+     document.getElementById("batterylevel").value = await myPromise;
    }
 
-   function myCalculator(num1, num2, myCallback) {
-     let sum = num1 + num2;
-     myDisplayer(Puck.eval("E.getBattery()"));
-   }
-
-   //myCalculator(5, 5, myDisplayer); 
+myDisplay();
    
     
   </script>
