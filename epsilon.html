@@ -1,0 +1,37 @@
+<html>
+ <head>
+ </head>
+ <body>
+  <script src="https://www.puck-js.com/puck.js"></script>
+  <button id="btnConnectnow" onclick=connectnow()>Connect</button>
+  <button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
+  <button id="btnBatteryFill" onclick=myDisplay()>Battery Fill3</button>
+  <label for="batterylevel">Battery Level:</label>
+  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly>
+  
+  <script type="text/javascript">
+  
+  var flashtimer
+  function connectnow() {
+    flashtimer = setInterval(flasher, 2000);
+  }
+
+  function flasher() {
+    Puck.write('digitalPulse(LED2, 1, 200);\n');
+  }
+  
+  function disconnectnow() {
+    clearInterval(flashtimer);
+    Puck.write('reset();\n');
+  }
+    
+   async function myDisplay() {
+     let myPromise = new Promise(function(myResolve, myReject) {
+       myResolve(Puck.eval("E.getBattery()"));
+     });
+     document.getElementById("batterylevel").value = await myPromise;
+   }
+    
+  </script>
+   </body>
+</html>
