@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Mine</title>
+    <title>Mine2</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -10,9 +10,13 @@
   
   <script>
   // Code to upload to Bangle.js
-  var BANGLE_CODE = `Puck.on('accel',function(a) {
-    var d = ["A",Math.round(a.acc.x), Math.round(a.acc.y), Math.round(a.acc.z)];
-    //Bluetooth.println(d.join(","));
+  var BANGLE_CODE = `
+    Puck.on('accel',function(a) {
+    var d = [
+      "A",
+      Math.round(a.acc.x), Math.round(a.acc.y), Math.round(a.acc.z)
+      ];
+    Bluetooth.println(d.join(","));
   });
   Puck.accelOn();
   `;
