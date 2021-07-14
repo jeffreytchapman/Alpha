@@ -31,7 +31,7 @@ document.getElementById("btnConnect").addEventListener("click", function() {
     connection.close();
     connection = undefined;
     document.getElementById("btnbConnect").innerHTML = "Reconnect";
-    return:
+    return;
   }
   // Connect
   Puck.connect(function(c) {
