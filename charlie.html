@@ -5,8 +5,14 @@
  <body>
 <script src="https://www.puck-js.com/puck.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
+
+<button id="btnConnect">Connect</button>
+<button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
+<button id="btnBatteryFill" onclick=myDisplay()>Battery Fill3</button>
+<label for="batterylevel">Battery Level:</label>
+<input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly>
   
-//<button id="btnConnect" style="position:absolute;left:5px;top:5px;z-index:1000">ConnectOld</button>
+<!--<button id="btnConnect" style="position:absolute;left:5px;top:5px;z-index:1000">ConnectOld</button>-->
   
 <script>
 // Code to upload to Bangle.js
