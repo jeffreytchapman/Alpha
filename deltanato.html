@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Mine</title>
+    <title>Mine2</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -30,7 +30,8 @@
     function connectclick() {
       document.getElementById("btnConnect").disabled = true;
       document.getElementById("btnDisconnect").disabled = false;
-      Puck.write('Puck.accelOn(1.6);\n');
+      //Puck.write('Puck.accelOn(1.6);\n');
+      Puck.accelOn(1.6);
       acceltimer = setInterval(accelcollect,1000);
       flashtimer = setInterval(flasher, 2000);
     }
