@@ -44,6 +44,7 @@
     
     function disconnectclick() {
       clearInterval(flashtimer);
+      clearInterval(acceltimer);
       document.getElementById("btnConnect").disabled = false;
       document.getElementById("btnDisconnect").disabled = true;
       Puck.write('reset();\n');
