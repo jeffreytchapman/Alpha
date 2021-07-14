@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>Vector3</title>
+  <title>Vector4</title>
  </head>
  <body>
 <script src="https://www.puck-js.com/puck.js"></script>
@@ -19,7 +19,7 @@ Puck.on('accel',function(a) {
     "A",
     Math.round(a.acc.x), Math.round(a.acc.y), Math.round(a.acc.z)
     ];
-  Bluetooth.println(d.join(","));
+  //Bluetooth.println(d.join(","));
 });
 Puck.accelOn();
 `;
@@ -36,15 +36,16 @@ async function myDisplay() {
 var connection;
 document.getElementById("btnConnect").addEventListener("click", function() {
   // disconnect if connected already
-  if (connection) {
+ console.log("Connection:"+connection); 
+ if (connection) {
     clearInterval(flashtimer);
     Puck.write('reset();\n'); 
     connection.close();
     connection = undefined;
   }
   // Connect
-  Puck.connect(function(c) {
-    if (!c) {
+  Puck.connect(function(c) { 
+   if (!c) {
       alert("Couldn't connect!");
       return;
     }
@@ -87,11 +88,11 @@ function onLine(line) {
   if (d.length==4 && d[0]=="A") {
     // we have an accelerometer reading
     accel.x= parseInt(d[1]);
-    console.log("X:"+accel.x);
+    //console.log("X:"+accel.x);
     accel.y=parseInt(d[2]);
-    console.log("Y:"+accel.y);
+    //console.log("Y:"+accel.y);
     accel.z=parseInt(d[3]);
-    console.log("Z:"+accel.z);
+    //console.log("Z:"+accel.z);
     render();
   }
 }
