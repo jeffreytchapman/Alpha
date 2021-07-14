@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Mine1</title>
+    <title>Mine2</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -36,6 +36,13 @@
     
     function flasher() {
       Puck.write('digitalPulse(LED2, 1, 200);\n');
+    }
+    
+    function disconnectclick() {
+      clearInterval(flashtimer);
+      document.getElementById("btnConnect").disabled = false;
+      document.getElementById("btnDisconnect").disabled = true;
+      Puck.write('reset();\n');
     }
 
     // WebGL boilerplate
