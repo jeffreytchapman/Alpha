@@ -7,8 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
 
 <button id="btnConnect">Connect</button>
-<button id="btnDisconnectnow" onclick=disconnectnow()>Disconnect</button>
-<button id="btnBatteryFill" onclick=myDisplay()>Battery Fill3</button>
+<button id="btnBatteryCheck" onclick=myDisplay()>Battery Check</button>
 <label for="batterylevel">Battery Level:</label>
 <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly>
   
@@ -26,11 +25,26 @@ Puck.accelOn();
 `;
 var accel = new THREE.Vector3( 0, 0, 1);
 
+var flashtimer
+
+function flasher() {
+  Puck.write('digitalPulse(LED2, 1, 200);\n');
+}
+   
+async function myDisplay() {
+  let myPromise = new Promise(function(myResolve, myReject) {
+    myResolve(Puck.eval("E.getBattery()"));
+  });
+  document.getElementById("batterylevel").value = await myPromise;
+}
+ 
 // When we click the connect button...
 var connection;
 document.getElementById("btnConnect").addEventListener("click", function() {
   // disconnect if connected already
   if (connection) {
+    clearInterval(flashtimer);
+    Puck.write('reset();\n'); 
     connection.close();
     connection = undefined;
   }
@@ -41,6 +55,7 @@ document.getElementById("btnConnect").addEventListener("click", function() {
       return;
     }
     connection = c;
+    flashtimer = setInterval(flasher, 2000);
     // Handle the data we get back, and call 'onLine'
     // whenever we get a line
     var buf = "";
