@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>Vector2</title>
+  <title>Vector</title>
  </head>
  <body>
 <script src="https://www.puck-js.com/puck.js"></script>
@@ -27,10 +27,6 @@ var accel = new THREE.Vector3( 0, 0, 1);
 
 var flashtimer
 
-function flasher() {
-  Puck.write('digitalPulse(LED2, 1, 200);\n');
-}
-   
 async function myDisplay() {
   let myPromise = new Promise(function(myResolve, myReject) {
     myResolve(Puck.eval("E.getBattery()"));
@@ -56,6 +52,10 @@ document.getElementById("btnConnect").addEventListener("click", function() {
     }
     connection = c;
     flashtimer = setInterval(flasher, 2000);
+    function flasher() {
+      Puck.write('digitalPulse(LED2, 1, 200);\n');
+    }
+   
     // Handle the data we get back, and call 'onLine'
     // whenever we get a line
     var buf = "";
