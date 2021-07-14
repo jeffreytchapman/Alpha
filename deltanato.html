@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Mine2</title>
+    <title>Mine3</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -25,13 +25,17 @@
     var accel = new THREE.Vector3( 0, 0, 1);
 
     // When we click the connect button...
-    var connection;
+    var acceltimer;
     var flashtimer;
     function connectclick() {
-      connection=true
       document.getElementById("btnConnect").disabled = true;
       document.getElementById("btnDisconnect").disabled = false;
+      acceltimer = setInterval(accelcollect,1000);
       flashtimer = setInterval(flasher, 2000);
+    }
+    
+    function accelcollect() {
+      Puck.write('Puck.accel();\n');
     }
     
     function flasher() {
