@@ -89,7 +89,7 @@ function init() {
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
-    camera.position.set(0, -4, 10);
+    camera.position.set(0, -4, 8);
     camera.lookAt(scene.position);
 
     cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
