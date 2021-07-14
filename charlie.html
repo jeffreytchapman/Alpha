@@ -13,7 +13,7 @@ var BANGLE_CODE = `
 Puck.on('accel',function(a) {
   var d = [
     "A",
-    Math.round(a.acc.x*100), Math.round(a.acc.y*100), Math.round(a.acc.z*100)
+    Math.round(a.acc.x), Math.round(a.acc.y), Math.round(a.acc.z)
     ];
   Bluetooth.println(d.join(","));
 });
@@ -64,11 +64,11 @@ function onLine(line) {
   var d = line.split(",");
   if (d.length==4 && d[0]=="A") {
     // we have an accelerometer reading
-    accel.x= parseInt(d[1])/100;
+    accel.x= parseInt(d[1]);
     console.log("X:"+accel.x);
-    accel.y=parseInt(d[2])/100;
+    accel.y=parseInt(d[2]);
     console.log("Y:"+accel.y);
-    accel.z=parseInt(d[3])/100;
+    accel.z=parseInt(d[3]);
     console.log("Z:"+accel.z);
     render();
   }
