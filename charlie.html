@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>Vector1</title>
+  <title>Vector2</title>
  </head>
  <body>
 <script src="https://www.puck-js.com/puck.js"></script>
@@ -35,9 +35,9 @@ document.getElementById("btnConnect").addEventListener("click", function() {
   }
   // Connect
   Puck.connect(function(c) {
-    console.log("c:"+c);
+    //console.log("c:"+c);
     if (!c) {
-      alert("Couldn't connect!");
+      alert("Puck Disconnected");
       return;
     }
     connection = c;
