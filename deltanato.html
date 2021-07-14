@@ -23,92 +23,36 @@
  
     var accel = new THREE.Vector3( 0, 0, 1);
 
-// When we click the connect button...
-var connection;
-connectnow() {
-  // disconnect if connected already
-  if (connection) {
-    connection.write("reset();\n");
-    connection.close();
-    connection = undefined;
-    document.getElementById("btnConnect").innerHTML = "Connect";
-    return;
-  }
-  // Connect
-  Puck.connect(function(c) {
-    //console.log("c:"+c);
-    if (!c) {
-      alert("Puck Disconnected");
-      return;
+    // When we click the connect button...
+    var connection;
+    connectnow() {
+    }  
+
+    // WebGL boilerplate
+    var scene, camera, renderer, cube;
+    var WIDTH  = window.innerWidth;
+    var HEIGHT = window.innerHeight;
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
+      camera.position.set(0, -4, 8);
+      camera.lookAt(scene.position);
+      cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
+      scene.add(cube);
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(WIDTH, HEIGHT);
+      document.body.appendChild(renderer.domElement);
     }
-    connection = c;
-    document.getElementById("btnConnect").innerHTML = "Disconnect";
-    // Handle the data we get back, and call 'onLine'
-    // whenever we get a line
-    var buf = "";
-    connection.on("data", function(d) {
-      buf += d;
-      var l = buf.split("\n");
-      buf = l.pop();
-      l.forEach(onLine);
-    });
-    // First, reset the Bangle
-    connection.write("reset();\n", function() {
-      // Wait for it to reset itself
-      setTimeout(function() {
-        // Now upload our code to it
-        connection.write("\x03\x10if(1){"+BANGLE_CODE+"}\n",
-          function() { console.log("Ready..."); });
-      }, 1500);
-    });
-  });
-});
+    
+    function render() {
+      cube.lookAt(accel);
+      renderer.render(scene, camera);
+    }
 
-// When we get a line of data, check it and if it's
-// from the accelerometer, update it
-function onLine(line) {
-  //console.log("RECEIVED:"+line);
-  var d = line.split(",");
-  if (d.length==4 && d[0]=="A") {
-    // we have an accelerometer reading
-    accel.x= parseInt(d[1]);
-    //console.log("X:"+accel.x);
-    accel.y=parseInt(d[2]);
-    //console.log("Y:"+accel.y);
-    accel.z=parseInt(d[3]);
-    //console.log("Z:"+accel.z);
+    init();
     render();
-  }
-}
-
- // WebGL boilerplate
-var scene, camera, renderer, cube;
-var WIDTH  = window.innerWidth;
-var HEIGHT = window.innerHeight;
-function init() {
-    scene = new THREE.Scene();
-
-    camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
-    camera.position.set(0, -4, 8);
-    camera.lookAt(scene.position);
-
-    cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
-    scene.add(cube);
-
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(WIDTH, HEIGHT);
-
-    document.body.appendChild(renderer.domElement);
-}
-function render() {
-    cube.lookAt(accel);
-    renderer.render(scene, camera);
-}
-
-init();
-render();
  
-</script>
+ </script>
 
  </body>
 </html>
