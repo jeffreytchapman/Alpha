@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Mine3</title>
+    <title>Mine4</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -36,7 +36,7 @@
     }
     
     function accelcollect() {
-      Puck.eval("Puck.accel()",function(x) { console.log(x); })
+      Puck.eval("Puck.accel()",function(x) { console.log(x.acc.z); })
       //Puck.write('Puck.accel();\n');
     }
     
