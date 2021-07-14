@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>Vector</title>
+  <title>Vector2</title>
  </head>
  <body>
 <script src="https://www.puck-js.com/puck.js"></script>
@@ -24,8 +24,6 @@ Puck.on('accel',function(a) {
 Puck.accelOn();
 `;
 var accel = new THREE.Vector3( 0, 0, 1);
-
-var flashtimer
 
 async function myDisplay() {
   let myPromise = new Promise(function(myResolve, myReject) {
@@ -51,6 +49,7 @@ document.getElementById("btnConnect").addEventListener("click", function() {
       return;
     }
     connection = c;
+    var flashtimer
     flashtimer = setInterval(flasher, 2000);
     function flasher() {
       Puck.write('digitalPulse(LED2, 1, 200);\n');
