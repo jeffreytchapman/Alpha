@@ -1,0 +1,108 @@
+<html>
+ <head>
+  <title>Accelerometer 3d8</title>
+ </head>
+ <body>
+<script src="https://www.puck-js.com/puck.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
+  
+<button id="btnConnect" style="position:absolute;left:5px;top:5px;z-index:1000">Connect</button>
+<script>
+// Code to upload to Bangle.js
+var BANGLE_CODE = `
+Puck.on('accel',function(a) {
+  var d = [
+    "A",
+    Math.round(a.acc.x*100), Math.round(a.acc.y*100), Math.round(a.acc.z*100)
+    ];
+  Bluetooth.println(d.join(","));
+});
+Puck.accelOn();
+`;
+var accel = new THREE.Vector3( 0, 0, 1);
+
+// When we click the connect button...
+var connection;
+document.getElementById("btnConnect").addEventListener("click", function() {
+  // disconnect if connected already
+  if (connection) {
+    connection.close();
+    connection = undefined;
+  }
+  // Connect
+  Puck.connect(function(c) {
+    if (!c) {
+      alert("Couldn't connect!");
+      return;
+    }
+    connection = c;
+    // Handle the data we get back, and call 'onLine'
+    // whenever we get a line
+    var buf = "";
+    connection.on("data", function(d) {
+      buf += d;
+      var l = buf.split("\n");
+      buf = l.pop();
+      l.forEach(onLine);
+    });
+    // First, reset the Bangle
+    connection.write("reset();\n", function() {
+      // Wait for it to reset itself
+      setTimeout(function() {
+        // Now upload our code to it
+        connection.write("\x03\x10if(1){"+BANGLE_CODE+"}\n",
+          function() { console.log("Ready..."); });
+      }, 1500);
+    });
+  });
+});
+
+// When we get a line of data, check it and if it's
+// from the accelerometer, update it
+function onLine(line) {
+  console.log("RECEIVED:"+line);
+  var d = line.split(",");
+  if (d.length==4 && d[0]=="A") {
+    // we have an accelerometer reading
+    accel.x= parseInt(d[1])/100;
+    console.log("X:"+accel.x);
+    accel.y=parseInt(d[2])/100;
+    console.log("Y:"+accel.y);
+    accel.z=parseInt(d[3])/100;
+    console.log("Z:"+accel.z);
+    render();
+  }
+}
+
+ // WebGL boilerplate
+var scene, camera, renderer, cube;
+var WIDTH  = window.innerWidth;
+var HEIGHT = window.innerHeight;
+function init() {
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
+    camera.position.set(0, -4, 10);
+    camera.lookAt(scene.position);
+
+    cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
+    scene.add(cube);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(WIDTH, HEIGHT);
+
+    document.body.appendChild(renderer.domElement);
+}
+function render() {
+    cube.lookAt(accel);
+    renderer.render(scene, camera);
+}
+
+init();
+render();
+ 
+ 
+</script>
+
+ </body>
+</html>
