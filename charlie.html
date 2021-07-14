@@ -28,9 +28,10 @@ var connection;
 document.getElementById("btnConnect").addEventListener("click", function() {
   // disconnect if connected already
   if (connection) {
+    connection.write("reset();\n");
     connection.close();
     connection = undefined;
-    document.getElementById("btnConnect").innerHTML = "Reconnect";
+    document.getElementById("btnConnect").innerHTML = "Connect";
     return;
   }
   // Connect
