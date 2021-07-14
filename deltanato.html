@@ -7,6 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
   
   <button id="btnConnect" onclick=connectclick()>Connect</button>
+  <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
   
   <script type="text/javascript">
     // Code to upload to Bangle.js
@@ -27,6 +28,9 @@
     var connection;
     var flashtimer;
     function connectclick() {
+      connection=true
+      document.getElementById("btnConnect").disabled = true;
+      document.getElementById("btnDisonnect").disabled = false;
       flashtimer = setInterval(flasher, 2000);
     }
     
