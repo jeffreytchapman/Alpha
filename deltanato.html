@@ -1,6 +1,7 @@
 <html>
   <head>
-    <title>Mine7</title>
+    <title>Mine8
+    </title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -32,11 +33,12 @@
       document.getElementById("btnDisconnect").disabled = false;
       Puck.write('Puck.accelOn(1.6);\n');
       acceltimer = setInterval(accelcollect,1000);
-      //flashtimer = setInterval(flasher, 2000);
+      flashtimer = setInterval(flasher, 2000);
     }
     
     function accelcollect() {
-      Puck.write('Puck.accel();\n');
+      Puck.eval("BTN.read()",function(x) { console.log(x); })
+      //Puck.write('Puck.accel();\n');
     }
     
     function flasher() {
@@ -45,7 +47,7 @@
     
     function disconnectclick() {
       Puck.write('Puck.accelOff();\n');
-      //clearInterval(flashtimer);
+      clearInterval(flashtimer);
       clearInterval(acceltimer);
       document.getElementById("btnConnect").disabled = false;
       document.getElementById("btnDisconnect").disabled = true;
