@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>Vector2</title>
+  <title>Vector3</title>
  </head>
  <body>
 <script src="https://www.puck-js.com/puck.js"></script>
@@ -49,11 +49,14 @@ document.getElementById("btnConnect").addEventListener("click", function() {
       return;
     }
     connection = c;
-    var flashtimer
-    flashtimer = setInterval(flasher, 2000);
-    function flasher() {
-      Puck.write('digitalPulse(LED2, 1, 200);\n');
-    }
+    
+    document.getElementById("btnConnect").innerHTML = "Disconnect" 
+   
+    //var flashtimer
+    //flashtimer = setInterval(flasher, 2000);
+    //function flasher() {
+      //Puck.write('digitalPulse(LED2, 1, 200);\n');
+    //}
    
     // Handle the data we get back, and call 'onLine'
     // whenever we get a line
