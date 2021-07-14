@@ -1,12 +1,12 @@
 <html>
   <head>
-    <title>Mine4</title>
+    <title>Mine5</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
   
-  <button id="btnConnect">Connect</button>
+  <button id="btnConnect" onclick=connectnow()>Connect</button>
   
   <script>
     // Code to upload to Bangle.js
@@ -25,7 +25,7 @@
 
 // When we click the connect button...
 var connection;
-document.getElementById("btnConnect").addEventListener("click", function() {
+connectnow() {
   // disconnect if connected already
   if (connection) {
     connection.write("reset();\n");
