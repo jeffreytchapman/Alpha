@@ -28,6 +28,7 @@ document.getElementById("btnConnect").addEventListener("click", function() {
   if (connection) {
     connection.close();
     connection = undefined;
+    document.getElementById("btnbConnect").innerHTML = "Reconnect";
   }
   // Connect
   Puck.connect(function(c) {
@@ -36,6 +37,7 @@ document.getElementById("btnConnect").addEventListener("click", function() {
       return;
     }
     connection = c;
+    document.getElementById("btnbConnect").innerHTML = "Disconnect";
     // Handle the data we get back, and call 'onLine'
     // whenever we get a line
     var buf = "";
