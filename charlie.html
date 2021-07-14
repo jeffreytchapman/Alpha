@@ -35,6 +35,7 @@ document.getElementById("btnConnect").addEventListener("click", function() {
   }
   // Connect
   Puck.connect(function(c) {
+    console.log("c:"+c);
     if (!c) {
       alert("Couldn't connect!");
       return;
