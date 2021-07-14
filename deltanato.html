@@ -6,9 +6,9 @@
   <script src="https://www.puck-js.com/puck.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
   
-  <button id="btnConnect" onclick=connectnow()>Connect</button>
+  <button id="btnConnect" onclick=connectclick()>Connect</button>
   
-  <script>
+  <script type="text/javascript">
     // Code to upload to Bangle.js
     var BANGLE_CODE = `
       Puck.on('accel',function(a) {
@@ -25,8 +25,14 @@
 
     // When we click the connect button...
     var connection;
-    function connectnow() {
-    }  
+    var flashtimer;
+    function connectclick() {
+      flashtimer = setInterval(flasher, 2000);
+    }
+    
+    function flasher() {
+      Puck.write('digitalPulse(LED2, 1, 200);\n');
+    }
 
     // WebGL boilerplate
     var scene, camera, renderer, cube;
