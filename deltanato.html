@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Mine</title>
+    <title>Mine1</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -56,9 +56,12 @@
       Puck.write('digitalPulse(LED2, 1, 200);\n');
     }
     
-    function batterycheck() {
-      console.log("battery level="+Puck.eval('E.getBattery();\n'));
-    }
+    async function batterycheck() {
+     let myPromise = new Promise(function(myResolve, myReject) {
+       myResolve(Puck.eval("E.getBattery()"));
+     });
+     document.getElementById("batterylevel").value = await myPromise;
+   }
     
     function disconnectclick() {
       Puck.write('Puck.accelOff();\n');
