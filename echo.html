@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Mine1</title>
+    <title>Angle Delta</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -8,6 +8,8 @@
   
   <button id="btnConnect" onclick=connectclick()>Connect</button>
   <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
+  <label for="anglechange">Angle change:</label>
+  <input type="text" id="anglechange" name="anglechange" maxlength="3" size="3" readonly>
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly>
   
@@ -26,17 +28,22 @@
  
     var accel = new THREE.Vector3( 0, 0, 1);
 
-    // When we click the connect button...
+    
     var acceltimer;
     var flashtimer;
     var batterychecktimer;
+    var previousx=0
+    var previousy=0
+    var previousz=8000
+    
+    // When we click the connect button...
     function connectclick() {
       document.getElementById("btnConnect").disabled = true;
       document.getElementById("btnDisconnect").disabled = false;
       Puck.write('Puck.accelOn(1.6);\n')
       acceltimer = setInterval(accelcollect,650);
       flashtimer = setInterval(flasher, 650);
-      batterychecktimer= setInterval(batterycheck, 1000*60*10);
+      batterychecktimer= setInterval(batterycheck, 1000*60*0.5);
     }
     
     function accelcollect() {
@@ -45,6 +52,7 @@
         accel.y=x.acc.y;
         accel.z=x.acc.z;
         render();
+        document.getElementById("batterylevel").value=(57.2958*Math.acos((previousx * x.acc.x + previousy * x.acc.y + previousz * x.acc.z) / (Math.sqrt(Math.pow(previousx,2) + Math.pow(previousy,2) + Math.pow(previoiusz,2)) * Math.sqrt(Math.pow(x.accelx,2) + Math.pow(x.accel.y,2) + Math.pow(x.accel.z,2))))
         //console.log("x="+x.acc.x);
         //console.log("y="+x.acc.y);
         //console.log("z="+x.acc.z);
