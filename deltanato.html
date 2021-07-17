@@ -8,6 +8,8 @@
   
   <button id="btnConnect" onclick=connectclick()>Connect</button>
   <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
+  <label for="batterylevel">Battery Level:</label>
+  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly>
   
   <script type="text/javascript">
     // Code to upload to Bangle.js
@@ -27,12 +29,14 @@
     // When we click the connect button...
     var acceltimer;
     var flashtimer;
+    var batterychecktimer;
     function connectclick() {
       document.getElementById("btnConnect").disabled = true;
       document.getElementById("btnDisconnect").disabled = false;
       Puck.write('Puck.accelOn(1.6);\n')
-      acceltimer = setInterval(accelcollect,2000);
-      flashtimer = setInterval(flasher, 2000);
+      acceltimer = setInterval(accelcollect,650);
+      flashtimer = setInterval(flasher, 650);
+      batterychecktimer= setInterval(batterycheck, 1000*1);
     }
     
     function accelcollect() {
@@ -50,6 +54,10 @@
     
     function flasher() {
       Puck.write('digitalPulse(LED2, 1, 200);\n');
+    }
+    
+    function batterycheck() {
+      console.log("battery level="+Puck.eval('E.getBattery();\n');
     }
     
     function disconnectclick() {
