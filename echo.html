@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Angle Delta</title>
+    <title>Angle Delta1</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -44,10 +44,11 @@
       acceltimer = setInterval(accelcollect,650);
       flashtimer = setInterval(flasher, 650);
       batterychecktimer= setInterval(batterycheck, 1000*60*0.5);
-      Puck.setTime(function() {
+      Puck.setTime(function())
+      //Puck.setTime(function() {
         //Puck.close();
-        window.alert("Time set successfully!");
-      });
+        //window.alert("Time set successfully!");
+      //});
     }
     
     function accelcollect() {
