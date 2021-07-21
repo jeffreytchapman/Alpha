@@ -11,7 +11,7 @@
   <label for="anglechange">Angle change:</label>
   <input type="text" id="anglechange" name="anglechange" maxlength="3" size="3" readonly>
   <label for="batterylevel">Battery Level:</label>
-  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly>
+  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly><br>
   
   <script type="text/javascript">
     // Code to upload to Bangle.js
@@ -44,6 +44,10 @@
       acceltimer = setInterval(accelcollect,650);
       flashtimer = setInterval(flasher, 650);
       batterychecktimer= setInterval(batterycheck, 1000*60*0.5);
+      Puck.setTime(function() {
+        //Puck.close();
+        window.alert("Time set successfully!");
+      });
     }
     
     function accelcollect() {
