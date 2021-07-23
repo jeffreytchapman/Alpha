@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox</title>
+    <title>Fox1</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -30,13 +30,12 @@
  
     var accel = new THREE.Vector3( 0, 0, 1);
 
-    
+    //Variables
     var acceltimer;
     var flashtimer;
     var batterychecktimer;
-    var previousx=0
-    var previousy=0
-    var previousz=8000
+    const previouspositon = {x:"0", y:"0", z:"8000", time:"0", starttime:"0"};
+    const currentpositon = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
     
     // When we click the connect button...
     function connectclick() {
@@ -51,11 +50,17 @@
     
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
+        //Get allel data
         accel.x=x.acc.x;
+        currentposition.x=accel.x
         accel.y=x.acc.y;
+        currentposition.y=accel.y
         accel.z=x.acc.z;
+        currentposition.z=accel.z
+        //Render Vector3
         render();
-        document.getElementById("anglechange").value=57.2958*Math.acos((previousx * x.acc.x + previousy * x.acc.y + previousz * x.acc.z) / (Math.sqrt(Math.pow(previousx,2) + Math.pow(previousy,2) + Math.pow(previousz,2)) * Math.sqrt(Math.pow(x.acc.x,2) + Math.pow(x.acc.y,2) + Math.pow(x.acc.z,2))))
+        
+        document.getElementById("anglechange").value=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))))
         //console.log("x="+x.acc.x);
         //console.log("y="+x.acc.y);
         //console.log("z="+x.acc.z);
