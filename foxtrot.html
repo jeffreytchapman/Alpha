@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <title>Fox</title>
+  </head>
+  <body>
+  <script src="https://www.puck-js.com/puck.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
+  
+  <button id="btnConnect" onclick=connectclick()>Connect</button>
+  <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
+  <label for="anglechange">Position duration:</label>
+  <input type="text" id="positionduration" name="positionduration" maxlength="7" size="7" readonly>
+  <label for="anglechange">Angle change:</label>
+  <input type="text" id="anglechange" name="anglechange" maxlength="3" size="3" readonly>
+  <label for="batterylevel">Battery Level:</label>
+  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly><br>
+  
+  <script type="text/javascript">
+    // Code to upload to Bangle.js
+    var BANGLE_CODE = `
+      Puck.on('accel',function(a) {
+      var d = [
+        "A",
+        Math.round(a.acc.x), Math.round(a.acc.y), Math.round(a.acc.z)
+        ];
+      Bluetooth.println(d.join(","));
+    });
+    Puck.accelOn();
+    `;
+ 
+    var accel = new THREE.Vector3( 0, 0, 1);
+
+    
+    var acceltimer;
+    var flashtimer;
+    var batterychecktimer;
+    var previousx=0
+    var previousy=0
+    var previousz=8000
+    
+    // When we click the connect button...
+    function connectclick() {
+      document.getElementById("btnConnect").disabled = true;
+      document.getElementById("btnDisconnect").disabled = false;
+      Puck.write('Puck.accelOn(1.6);\n')
+      acceltimer = setInterval(accelcollect,650);
+      flashtimer = setInterval(flasher, 650);
+      batterychecktimer= setInterval(batterycheck, 1000*60*10);
+      Puck.setTime();
+    }
+    
+    function accelcollect() {
+      Puck.eval("Puck.accel()",function(x) {
+        accel.x=x.acc.x;
+        accel.y=x.acc.y;
+        accel.z=x.acc.z;
+        render();
+        document.getElementById("anglechange").value=57.2958*Math.acos((previousx * x.acc.x + previousy * x.acc.y + previousz * x.acc.z) / (Math.sqrt(Math.pow(previousx,2) + Math.pow(previousy,2) + Math.pow(previousz,2)) * Math.sqrt(Math.pow(x.acc.x,2) + Math.pow(x.acc.y,2) + Math.pow(x.acc.z,2))))
+        //console.log("x="+x.acc.x);
+        //console.log("y="+x.acc.y);
+        //console.log("z="+x.acc.z);
+      })
+      //Puck.write('Puck.accel();\n');
+    }
+    
+    function flasher() {
+      Puck.write('digitalPulse(LED2, 1, 200);\n');
+    }
+    
+    async function batterycheck() {
+     let myPromise = new Promise(function(myResolve, myReject) {
+       myResolve(Puck.eval("E.getBattery()"));
+     });
+     document.getElementById("batterylevel").value = await myPromise;
+   }
+    
+    function disconnectclick() {
+      Puck.write('Puck.accelOff();\n');
+      clearInterval(flashtimer);
+      clearInterval(acceltimer);
+      document.getElementById("btnConnect").disabled = false;
+      document.getElementById("btnDisconnect").disabled = true;
+      Puck.write('reset();\n');
+    }
+
+    // WebGL boilerplate
+    var scene, camera, renderer, cube;
+    var WIDTH  = window.innerWidth;
+    var HEIGHT = window.innerHeight;
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
+      camera.position.set(0, -4, 8);
+      camera.lookAt(scene.position);
+      cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
+      scene.add(cube);
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(WIDTH, HEIGHT);
+      document.body.appendChild(renderer.domElement);
+    }
+    
+    function render() {
+      cube.lookAt(accel);
+      renderer.render(scene, camera);
+    }
+
+    init();
+    render();
+ 
+ </script>
+
+ </body>
+</html>
