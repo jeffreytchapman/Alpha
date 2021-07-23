@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox</title>
+    <title>Fox1</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -48,7 +48,7 @@
       batterychecktimer= setInterval(batterycheck, 1000*60*10);
       //Set times
       Puck.setTime();
-      previousposition.time=Puck.getTime();
+      previousposition.time=Date();
       previousposition.starttime=previousposition.time
     }
     
@@ -56,16 +56,23 @@
       Puck.eval("Puck.accel()",function(x) {
         //Get accel data
         accel.x=x.acc.x;
-        currentposition.x=accel.x
+        currentposition.x=accel.x;
         accel.y=x.acc.y;
-        currentposition.y=accel.y
+        currentposition.y=accel.y;
         accel.z=x.acc.z;
-        currentposition.z=accel.z
+        currentposition.z=accel.z;
+        currentposition.time=Date();
         //Render Vector3
         render();
         
         anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))))
         document.getElementById("anglechange").value=anglechange
+        if (anglechange < 20) {
+          currentposition.starttime=previousposition.starttime;
+          previousposition=currentposition;
+          document.getElementById("positionduration").value=Date();
+          //working here
+        }
         //console.log("x="+x.acc.x);
         //console.log("y="+x.acc.y);
         //console.log("z="+x.acc.z);
