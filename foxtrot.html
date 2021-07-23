@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox2</title>
+    <title>Fox</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -34,6 +34,7 @@
     var acceltimer;
     var flashtimer;
     var batterychecktimer;
+    var anglechange="0";
     const previousposition = {x:"0", y:"0", z:"8000", time:"0", starttime:"0"};
     const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
     
@@ -45,12 +46,15 @@
       acceltimer = setInterval(accelcollect,650);
       flashtimer = setInterval(flasher, 650);
       batterychecktimer= setInterval(batterycheck, 1000*60*10);
+      //Set times
       Puck.setTime();
+      previousposition.time=Puck.getTime();
+      previousposition.starttime=previousposition.time
     }
     
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
-        //Get allel data
+        //Get accel data
         accel.x=x.acc.x;
         currentposition.x=accel.x
         accel.y=x.acc.y;
@@ -60,7 +64,8 @@
         //Render Vector3
         render();
         
-        document.getElementById("anglechange").value=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))))
+        anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))))
+        document.getElementById("anglechange").value=anglechange
         //console.log("x="+x.acc.x);
         //console.log("y="+x.acc.y);
         //console.log("z="+x.acc.z);
