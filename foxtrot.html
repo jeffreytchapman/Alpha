@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox2</title>
+    <title>Fox3</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -48,7 +48,7 @@
       batterychecktimer= setInterval(batterycheck, 1000*60*10);
       //Set times
       Puck.setTime();
-      previousposition.time=Date();
+      previousposition.time=getTime();
       previousposition.starttime=previousposition.time
     }
     
@@ -61,7 +61,7 @@
         currentposition.y=accel.y;
         accel.z=x.acc.z;
         currentposition.z=accel.z;
-        currentposition.time=Date();
+        currentposition.time=getTime();
         //Render Vector3
         render();
         
@@ -73,7 +73,7 @@
           previousposition=currentposition;
         }
         //document.getElementById("positionduration").value=Date()-previousposition.starttime;
-        console.log("Date:"+Date());
+        console.log("Date:"+getTime());
         console.log("previousposition.starttime:"+previousposition.starttime);
         //console.log("z="+x.acc.z);
       })
