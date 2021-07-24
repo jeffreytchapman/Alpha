@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox7</title>
+    <title>Fox8</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -62,8 +62,8 @@
         currentposition.y=accel.y;
         accel.z=x.acc.z;
         currentposition.z=accel.z;
-        currentposition.time=date.getTime();
-        console.log("date.getTime()"+date.getTime());
+        currentposition.time= new date.getTime();
+        console.log("date.getTime()"+ new date.getTime());
         currentposition.starttime=currentposition.time
         //Render Vector3
         render();
