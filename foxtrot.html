@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox10</title>
+    <title>Fox12</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -73,12 +73,12 @@
         anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
         document.getElementById("anglechange").value=anglechange;
         //If angle change is significant reset previous position and time
-        //if (anglechange > 20) {
-          //previousposition=currentposition;
-        //}
-        //document.getElementById("positionduration").value=Date()-previousposition.starttime;
-        console.log("currentposition.starttime:"+currentposition.starttime);
-        console.log("previousposition.starttime:"+previousposition.starttime);
+        if (anglechange > 20) {
+          previousposition=currentposition;
+        }
+        document.getElementById("positionduration").value=Math.trunc((accelclickdate.getTime()-previousposition.starttime)/(1000*60))+" min";
+        //console.log("currentposition.starttime:"+currentposition.starttime);
+        //console.log("previousposition.starttime:"+previousposition.starttime);
         //console.log("z="+x.acc.z);
       })
       //Puck.write('Puck.accel();\n');
