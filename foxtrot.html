@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox8</title>
+    <title>Fox9</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -49,7 +49,8 @@
       batterychecktimer= setInterval(batterycheck, 1000*60*10);
       //Set times
       Puck.setTime();
-      previousposition.time=date.getTime();
+      const connectclickdate = new Date();
+      previousposition.time=connectclickdate.getTime();
       previousposition.starttime=previousposition.time;
     }
     
@@ -62,8 +63,9 @@
         currentposition.y=accel.y;
         accel.z=x.acc.z;
         currentposition.z=accel.z;
-        currentposition.time= new date.getTime();
-        console.log("date.getTime()"+ new date.getTime());
+        const accelclickdate = new Date();
+        currentposition.time= acceclclickdate.getTime();
+        console.log("accelclickdate.getTime()"+ accelclickdate.getTime());
         currentposition.starttime=currentposition.time
         //Render Vector3
         render();
