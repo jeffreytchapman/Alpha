@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox5</title>
+    <title>Fox7</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -43,14 +43,14 @@
     function connectclick() {
       document.getElementById("btnConnect").disabled = true;
       document.getElementById("btnDisconnect").disabled = false;
-      Puck.write('Puck.accelOn(1.6);\n')
+      Puck.write('Puck.accelOn(1.6);\n');
       acceltimer = setInterval(accelcollect,650);
       flashtimer = setInterval(flasher, 650);
       batterychecktimer= setInterval(batterycheck, 1000*60*10);
       //Set times
       Puck.setTime();
       previousposition.time=date.getTime();
-      previousposition.starttime=previousposition.time
+      previousposition.starttime=previousposition.time;
     }
     
     function accelcollect() {
@@ -63,7 +63,7 @@
         accel.z=x.acc.z;
         currentposition.z=accel.z;
         currentposition.time=date.getTime();
-        console.log("currentposition.time"+currentposition.time);
+        console.log("date.getTime()"+date.getTime());
         currentposition.starttime=currentposition.time
         //Render Vector3
         render();
