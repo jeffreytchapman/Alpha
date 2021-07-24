@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox12</title>
+    <title>Fox13</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -74,7 +74,11 @@
         document.getElementById("anglechange").value=anglechange;
         //If angle change is significant reset previous position and time
         if (anglechange > 20) {
-          previousposition=currentposition;
+          previousposition.x=currentposition.x;
+          previousposition.y=currentposition.y;
+          previousposition.z=currentposition.z;
+          previousposition.time=currentposition.time;
+          previousposition.starttime=currentposition.starttime;
         }
         document.getElementById("positionduration").value=Math.trunc((accelclickdate.getTime()-previousposition.starttime)/(1000*60))+" min";
         //console.log("currentposition.starttime:"+currentposition.starttime);
