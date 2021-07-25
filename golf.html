@@ -5,6 +5,7 @@
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   
   <button id="btnConnect" onclick=connectclick()>Connect</button>
   <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
@@ -14,6 +15,7 @@
   <input type="text" id="anglechange" name="anglechange" maxlength="3" size="3" readonly>
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly><br>
+  <canvas id="chartx" style="width:100%;max-width:600px"></canvas>
   
   <script type="text/javascript">
     // Code to upload to Bangle.js
