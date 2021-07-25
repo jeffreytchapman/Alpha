@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Fox15</title>
+    <title>Fox16</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -71,7 +71,7 @@
         
         //Get angle change
         anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
-        document.getElementById("anglechange").value=anglechange;
+        document.getElementById("anglechange").value=Math.round(anglechange);
         //If angle change is significant reset previous position and time
         if (anglechange > 20) {
           previousposition.x=currentposition.x;
