@@ -1,0 +1,138 @@
+<html>
+  <head>
+    <title>Golf</title>
+  </head>
+  <body>
+  <script src="https://www.puck-js.com/puck.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
+  
+  <button id="btnConnect" onclick=connectclick()>Connect</button>
+  <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
+  <label for="anglechange">Position duration:</label>
+  <input type="text" id="positionduration" name="positionduration" maxlength="7" size="7" readonly>
+  <label for="anglechange">Angle change:</label>
+  <input type="text" id="anglechange" name="anglechange" maxlength="3" size="3" readonly>
+  <label for="batterylevel">Battery Level:</label>
+  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly><br>
+  
+  <script type="text/javascript">
+    // Code to upload to Bangle.js
+    var BANGLE_CODE = `
+      Puck.on('accel',function(a) {
+      var d = [
+        "A",
+        Math.round(a.acc.x), Math.round(a.acc.y), Math.round(a.acc.z)
+        ];
+      Bluetooth.println(d.join(","));
+    });
+    Puck.accelOn();
+    `;
+ 
+    var accel = new THREE.Vector3( 0, 0, 1);
+
+    //Variables
+    var acceltimer;
+    var flashtimer;
+    var batterychecktimer;
+    var anglechange="0";
+    const date = new Date();
+    const previousposition = {x:"0", y:"0", z:"8000", time:"0", starttime:"0"};
+    const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
+    
+    // When we click the connect button...
+    function connectclick() {
+      document.getElementById("btnConnect").disabled = true;
+      document.getElementById("btnDisconnect").disabled = false;
+      Puck.write('Puck.accelOn(1.6);\n');
+      acceltimer = setInterval(accelcollect,650);
+      flashtimer = setInterval(flasher, 650);
+      batterychecktimer= setInterval(batterycheck, 1000*60*10);
+      //Set times
+      Puck.setTime();
+      const connectclickdate = new Date();
+      previousposition.time=connectclickdate.getTime();
+      previousposition.starttime=previousposition.time;
+    }
+    
+    function accelcollect() {
+      Puck.eval("Puck.accel()",function(x) {
+        //Get accel data
+        accel.x=x.acc.x;
+        currentposition.x=accel.x;
+        accel.y=x.acc.y;
+        currentposition.y=accel.y;
+        accel.z=x.acc.z;
+        currentposition.z=accel.z;
+        const accelclickdate = new Date();
+        currentposition.time= accelclickdate.getTime();
+        currentposition.starttime=currentposition.time
+        //Render Vector3
+        render();
+        
+        //Get angle change
+        anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
+        document.getElementById("anglechange").value=Math.round(anglechange);
+        //If angle change is significant reset previous position and time
+        if (anglechange > 20) {
+          previousposition.x=currentposition.x;
+          previousposition.y=currentposition.y;
+          previousposition.z=currentposition.z;
+          previousposition.time=currentposition.time;
+          previousposition.starttime=currentposition.starttime;
+        }
+        document.getElementById("positionduration").value=Math.trunc((accelclickdate.getTime()-previousposition.starttime)/(1000*60))+" min";
+        //console.log("currentposition.starttime:"+currentposition.starttime);
+        //console.log("previousposition.starttime:"+previousposition.starttime);
+        //console.log("z="+x.acc.z);
+      })
+      //Puck.write('Puck.accel();\n');
+    }
+    
+    function flasher() {
+      Puck.write('digitalPulse(LED2, 1, 200);\n');
+    }
+    
+    async function batterycheck() {
+     let myPromise = new Promise(function(myResolve, myReject) {
+       myResolve(Puck.eval("E.getBattery()"));
+     });
+     document.getElementById("batterylevel").value = await myPromise;
+   }
+    
+    function disconnectclick() {
+      Puck.write('Puck.accelOff();\n');
+      clearInterval(flashtimer);
+      clearInterval(acceltimer);
+      document.getElementById("btnConnect").disabled = false;
+      document.getElementById("btnDisconnect").disabled = true;
+      Puck.write('reset();\n');
+    }
+
+    // WebGL boilerplate
+    var scene, camera, renderer, cube;
+    var WIDTH  = window.innerWidth-0;
+    var HEIGHT = window.innerHeight-80;
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
+      camera.position.set(0, -4, 8);
+      camera.lookAt(scene.position);
+      cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
+      scene.add(cube);
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(WIDTH, HEIGHT);
+      document.body.appendChild(renderer.domElement);
+    }
+    
+    function render() {
+      cube.lookAt(accel);
+      renderer.render(scene, camera);
+    }
+
+    init();
+    render();
+ 
+ </script>
+
+ </body>
+</html>
