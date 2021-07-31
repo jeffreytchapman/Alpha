@@ -3,7 +3,7 @@
     <title>Hotel</title>
   </head>
   <body>
-  <!--Golf updated accel every 650 ms, detected change greater than 20, checked battery every 10 minutes, and averaged x over a minute and wrote it to the console-->
+  <!--Hotel checked battery at beginning and every 10  minutes-->
   <script src="https://www.puck-js.com/puck.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -65,6 +65,8 @@
       const connectclickdate = new Date();
       previousposition.time=connectclickdate.getTime();
       previousposition.starttime=previousposition.time;
+      //check battery
+      batterycheck();
     }
     
     function accelcollect() {
