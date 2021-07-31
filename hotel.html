@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel</title>
+    <title>Hotel1</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -111,8 +111,8 @@
           }
           averagex=averagex/93;
           console.log("averagex="+averagex);
-          console.log("accelcollectdate.getTIme()="+accelcollectdate.getTime());
-          console.log("currentminutesamplesposition last="+currentminutesamplesposition[92].time);
+          console.log("length of minute="+Math.trunc((accelcollectdate.getTime()-minuteposition[0].time)/1000));
+          //console.log("currentminutesamplesposition last="+currentminutesamplesposition[92].time);
           minuteposition[0].time=accelcollectdate.getTime();
         }
       })
