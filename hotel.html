@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hote</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -100,12 +100,12 @@
         //console.log("z="+x.acc.z);
         
         //determine minute position
-        
-        console.log("length of minute="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
-        
         currentminutesamplesposition.pop;
         currentminutesamplesposition.unshift=currentposition;
-        
+        console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
+        console.log("minuteposition[0]="+Math.trunc((minuteposition[0].time)/1000));
+        console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
+       
         //console.log("currentposition.time="+currentposition.time);
         //console.log("minuteposition[0].time="+minuteposition[0].time);
         if (currentposition.time-minuteposition[0].time>=60000) {
