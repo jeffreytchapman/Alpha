@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Golf</title>
+    <title>Golf1</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -42,6 +42,12 @@
     const date = new Date();
     const previousposition = {x:"0", y:"0", z:"8000", time:"0", starttime:"0"};
     const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
+    
+    const currentminutesamplesposition = [];
+    for (let i = 0; i < 93; i++) {
+      currentminutesamplesposition[i]=previousposition
+    }
+    console.table(currentminutesamplesposition);
     
     // When we click the connect button...
     function connectclick() {
