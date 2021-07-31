@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Golf10</title>
+    <title>Golf11</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -102,13 +102,14 @@
         currentminutesamplesposition.unshift=currentposition;
         //console.log("accelclickdate.getTime()="+accelcollectdate.getTime());
         //console.log("minuteposition[0].time="+minuteposition[0].time);
-        if (date.getTime()-minuteposition[0].time>=60000) {
+        if (accelcollectdate.getTime()-minuteposition[0].time>=60000) {
           const averagex=0;
           for (let i = 0; i < 93; i++) {
-            averagex=averagex+currentminutesamplesposition[i].x;
+            averagex=averagex + currentminutesamplesposition[i].x;
           }
           averagex=averagex/93;
           console.log("averagex="+averagex);
+          console.log("accelcollectdate.getTIme()="+accelcollectdate.getTime());
           console.log("currentminutesamplesposition last="+currentminutesamplesposition[92].time);
         }
       })
