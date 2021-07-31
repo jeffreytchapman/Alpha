@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel</title>
+    <title>Hotel1</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -49,8 +49,8 @@
     }
     //console.table(currentminutesamplesposition);
     const minuteposition = [];
-    //minuteposition[0]=previousposition;
-    //console.log("minuteposition="+minuteposition[0].time)
+    minuteposition[0]=previous;
+    console.log("at load minuteposition[0]="+minuteposition[0].time)
     
     // When we click the connect button...
     function connectclick() {
@@ -95,9 +95,6 @@
           previousposition.starttime=currentposition.starttime;
         }
         document.getElementById("positionduration").value=Math.trunc((currentposition.time-previousposition.starttime)/(1000*60))+" min";
-        //console.log("currentposition.starttime:"+currentposition.starttime);
-        //console.log("previousposition.starttime:"+previousposition.starttime);
-        //console.log("z="+x.acc.z);
         
         //determine minute position
         currentminutesamplesposition.pop;
