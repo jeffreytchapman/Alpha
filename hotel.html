@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -66,10 +66,12 @@
       const connectclickdate = new Date();
       previousposition.time=connectclickdate.getTime();
       previousposition.starttime=previousposition.time;
+      console.log("at connectclick minuteposition[0]="+minuteposition[0].time)
     }
     
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
+        console.log("at start of accelcollect minuteposition[0]="+minuteposition[0].time)
         const accelcollectdate = new Date();
         //Get accel data
         accel.x=x.acc.x;
@@ -97,11 +99,12 @@
         document.getElementById("positionduration").value=Math.trunc((currentposition.time-previousposition.starttime)/(1000*60))+" min";
         
         //determine minute position
+        console.log("before pop minuteposition[0]="+minuteposition[0].time)
         currentminutesamplesposition.pop;
         currentminutesamplesposition.unshift=currentposition;
-        console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
-        console.log("minuteposition[0]="+Math.trunc((minuteposition[0].time)/1000));
-        console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
+        //console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
+        console.log("after pop minuteposition[0]="+Math.trunc((minuteposition[0].time)/1000));
+        //console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
        
         //console.log("currentposition.time="+currentposition.time);
         //console.log("minuteposition[0].time="+minuteposition[0].time);
@@ -114,6 +117,7 @@
           console.log("averagex="+averagex);
           console.log("length of minute="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
           minuteposition[0].time=currentposition.time;
+          console.log("after 60 sec update minuteposition[0]="+minuteposition[0].time)
         }
       })
       //Puck.write('Puck.accel();\n');
