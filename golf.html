@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Golf1</title>
+    <title>Golf2</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -40,14 +40,14 @@
     var batterychecktimer;
     var anglechange="0";
     const date = new Date();
-    const previousposition = {x:"0", y:"0", z:"8000", time:"0", starttime:"0"};
+    const previousposition = {x:"0", y:"0", z:"8000", time:date.getTime(), starttime:date.getTime()};
     const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
-    
     const currentminutesamplesposition = [];
     for (let i = 0; i < 93; i++) {
       currentminutesamplesposition[i]=previousposition
     }
-    console.table(currentminutesamplesposition);
+    const minuteposition[];
+    minuteposition[0]=previousposition
     
     // When we click the connect button...
     function connectclick() {
@@ -94,6 +94,18 @@
         //console.log("currentposition.starttime:"+currentposition.starttime);
         //console.log("previousposition.starttime:"+previousposition.starttime);
         //console.log("z="+x.acc.z);
+        
+        //determine minute position
+        currentminutesamplesposition.pop;
+        currentminutesamplesposition.unshift=currentposition
+        if (date.getTime()-minuteposition.time>=60000) {
+          const averagex=0
+          for (let i = 0; i < 93; i++) {
+            sumx=sumx+currentminutesamplesposition[i].x
+          }
+          averagex=averagex/93
+          console.log("averagex="+averagex)
+        }
       })
       //Puck.write('Puck.accel();\n');
     }
