@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -93,7 +93,7 @@
           previousposition.x=currentposition.x;
           previousposition.y=currentposition.y;
           previousposition.z=currentposition.z;
-          previousposition.time=currentposition.time;
+          //previousposition.time=currentposition.time;
           previousposition.starttime=currentposition.starttime;
         }
         document.getElementById("positionduration").value=Math.trunc((currentposition.time-previousposition.starttime)/(1000*60))+" min";
