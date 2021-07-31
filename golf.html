@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Golf2</title>
+    <title>Golf3</title>
   </head>
   <body>
   <script src="https://www.puck-js.com/puck.js"></script>
@@ -44,10 +44,12 @@
     const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
     const currentminutesamplesposition = [];
     for (let i = 0; i < 93; i++) {
-      currentminutesamplesposition[i]=previousposition
+      currentminutesamplesposition[i]=previousposition;
     }
+    console.table(currentminutesampleposition);
     const minuteposition = [];
-    minuteposition[0]=previousposition
+    minuteposition[0]=previousposition;
+    console.log("minuteposition="+minuteposition[0])
     
     // When we click the connect button...
     function connectclick() {
@@ -97,14 +99,16 @@
         
         //determine minute position
         currentminutesamplesposition.pop;
-        currentminutesamplesposition.unshift=currentposition
+        currentminutesamplesposition.unshift=currentposition;
+        console.log("data.getTime="+data.getTime());
+        console.log("minuteposition.time="+minuteposition.time);
         if (date.getTime()-minuteposition.time>=60000) {
-          const averagex=0
+          const averagex=0;
           for (let i = 0; i < 93; i++) {
-            sumx=sumx+currentminutesamplesposition[i].x
+            sumx=sumx+currentminutesamplesposition[i].x;
           }
-          averagex=averagex/93
-          console.log("averagex="+averagex)
+          averagex=averagex/93;
+          console.log("averagex="+averagex);
         }
       })
       //Puck.write('Puck.accel();\n');
