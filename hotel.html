@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -70,6 +70,7 @@
     
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
+        const accelcollectdate = new Date();
         //Get accel data
         accel.x=x.acc.x;
         currentposition.x=accel.x;
@@ -77,7 +78,6 @@
         currentposition.y=accel.y;
         accel.z=x.acc.z;
         currentposition.z=accel.z;
-        const accelcollectdate = new Date();
         currentposition.time= accelcollectdate.getTime();
         currentposition.starttime=currentposition.time
         //Render Vector3
@@ -94,7 +94,7 @@
           previousposition.time=currentposition.time;
           previousposition.starttime=currentposition.starttime;
         }
-        document.getElementById("positionduration").value=Math.trunc((accelcollectdate.getTime()-previousposition.starttime)/(1000*60))+" min";
+        document.getElementById("positionduration").value=Math.trunc((currentposition.time-previousposition.starttime)/(1000*60))+" min";
         //console.log("currentposition.starttime:"+currentposition.starttime);
         //console.log("previousposition.starttime:"+previousposition.starttime);
         //console.log("z="+x.acc.z);
@@ -102,18 +102,18 @@
         //determine minute position
         currentminutesamplesposition.pop;
         currentminutesamplesposition.unshift=currentposition;
-        //console.log("accelclickdate.getTime()="+accelcollectdate.getTime());
+        console.log("length of minute="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
+        //console.log("currentposition.time="+currentposition.time);
         //console.log("minuteposition[0].time="+minuteposition[0].time);
-        if (accelcollectdate.getTime()-minuteposition[0].time>=60000) {
+        if (currentposition.time-minuteposition[0].time>=60000) {
           var averagex=0;
           for (let i = 0; i < 93; i++) {
             averagex=averagex + currentminutesamplesposition[i].x;
           }
           averagex=averagex/93;
           console.log("averagex="+averagex);
-          console.log("length of minute="+Math.trunc((accelcollectdate.getTime()-minuteposition[0].time)/1000));
-          //console.log("currentminutesamplesposition last="+currentminutesamplesposition[92].time);
-          minuteposition[0].time=accelcollectdate.getTime();
+          console.log("length of minute="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
+          minuteposition[0].time=currentposition.time;
         }
       })
       //Puck.write('Puck.accel();\n');
