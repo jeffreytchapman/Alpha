@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -59,14 +59,13 @@
       Puck.write('Puck.accelOn(1.6);\n');
       acceltimer = setInterval(accelcollect,650);
       flashtimer = setInterval(flasher, 650);
+      batterycheck();
       batterychecktimer= setInterval(batterycheck, 1000*60*10);
       //Set times
       Puck.setTime();
       const connectclickdate = new Date();
       previousposition.time=connectclickdate.getTime();
       previousposition.starttime=previousposition.time;
-      //check battery
-      batterycheck();
     }
     
     function accelcollect() {
