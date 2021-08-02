@@ -176,8 +176,10 @@
       options: {
         legend: {display: false},
         scales: {
-          yAxes: [{ticks: {min: -8192, max:8192}}],
+          yAxes: [{ticks: {min: -8192, max:8192}, position:{"right"}}],
           xAxes: [{ticks: {min: 0, max:12*60}}],
+          //chart.options.scales.x.position = 'center';
+          //chart.options.scales.y.position = 'center';
         }
       }
     });
