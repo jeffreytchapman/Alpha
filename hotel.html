@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel2</title>
+    <title>Hotel1/title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -158,7 +158,7 @@
     render();
     
     //Charting
-    var xValues = [0,-50,-60,-70,-80,-90,-100,-110,-120,-130,-140,-150,-600,-700];
+    var xValues = [0,50,60,70,80,90,100,110,120,130,140,150,600,700];
     var yValues = [0,7,8,8,9,9,9,10,11,14,14,15,8000,-8000];
 
     new Chart("chartx", {
@@ -178,7 +178,7 @@
         scales: {
           yAxes: [{ticks: {min: -8192, max: 8192},
                    position: "right"}],
-          xAxes: [{ticks: {min: -720, max: 0},
+          xAxes: [{ticks: {min: 0, max: 7200},
                    position: "center"}],
           //chart.options.scales.x.position = 'center';
           //chart.options.scales.y.position = 'center';
