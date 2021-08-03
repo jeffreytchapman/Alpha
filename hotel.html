@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel</title>
+    <title>Hotel1</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -96,9 +96,10 @@
         console.log("minuteposition[0]="+Math.trunc((minuteposition[0].time)/1000));
         console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
         if (currentposition.time-minuteposition[0].time>=60000) {
-          var averagex=0;
-          var averagey=0
-          var averagez=0
+          let averagex=0;
+          let averagey=0;
+          let averagez=0;
+          let timetoadd=currentposition.time
           for (let i = 0; i < 93; i++) {
             averagex=averagex + currentminutesamplesposition[i].x;
             averagey=averagey + currentminutesamplesposition[i].y;
@@ -108,7 +109,11 @@
           averagey=averagey/93;
           averagez=averagez/93;
           //console.log("averagex="+averagex);
-          minuteposition[0]=position;
+          minuteposition.unshift;
+          minuteposition[0].x=averagex;
+          minuteposition[0].y=averagey;
+          minuteposition[0].z=averagez;
+          minuteposition[0].time=timetoadd;
           console.log("after 60 sec update minuteposition[0].time="+minuteposition[0].time);
           console.log("after 60 sec update minuteposition[0].x="+minuteposition[0].x);
           console.log("after 60 sec update minuteposition[0].y="+minuteposition[0].y);
