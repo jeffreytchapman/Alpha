@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -86,10 +86,10 @@
         document.getElementById("positionduration").value=Math.trunc((currentposition.time-previousposition.starttime)/(1000*60))+" min";
         
         //determine minute position
-        position.x=currentposition.x
-        position.y=currentposition.y
-        position.z=currentposition.z
-        position.time=currentposition.time
+        position.x=currentposition.x;
+        position.y=currentposition.y;
+        position.z=currentposition.z;
+        position.time=accelcollectdate.getTime();
         currentminutesamplesposition.pop;
         currentminutesamplesposition.unshift=position;
         console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
