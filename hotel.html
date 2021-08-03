@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -102,7 +102,7 @@
         position.time=currentposition.time
         currentminutesamplesposition.pop;
         currentminutesamplesposition.unshift=position;
-        //console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
+        console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
         if (currentposition.time-minuteposition[0].time>=60000) {
           var averagex=0;
           var averagey=0
