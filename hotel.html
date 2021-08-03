@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel</title>
+    <title>Hotel1</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -43,13 +43,14 @@
     const date = new Date();
     const previousposition = {x:"0", y:"0", z:"8000", time:date.getTime(), starttime:date.getTime()};
     const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
+    const position = {x:"0", y:"0", z:"0", time:"0"};
     const currentminutesamplesposition = [];
     for (let i = 0; i < 93; i++) {
-      currentminutesamplesposition[i]=previousposition;
+      currentminutesamplesposition[i]=position;
     }
     //console.table(currentminutesamplesposition);
     const minuteposition = [];
-    minuteposition[0]={x:"0", y:"0", z:"8000", time:date.getTime(), starttime:date.getTime()};
+    minuteposition[0]={x:"0", y:"0", z:"8000", time:date.getTime()};
     
     // When we click the connect button...
     function connectclick() {
@@ -96,18 +97,31 @@
         document.getElementById("positionduration").value=Math.trunc((currentposition.time-previousposition.starttime)/(1000*60))+" min";
         
         //determine minute position
+        position.x=currentposition.x
+        position.y=currentposition.y
+        position.z=currentposition.z
+        position.time=currentposition.time
         currentminutesamplesposition.pop;
-        currentminutesamplesposition.unshift=currentposition;
-        console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
+        currentminutesamplesposition.unshift=position;
+        //console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
         if (currentposition.time-minuteposition[0].time>=60000) {
           var averagex=0;
+          var averagey=0
+          var averagez=0
           for (let i = 0; i < 93; i++) {
             averagex=averagex + currentminutesamplesposition[i].x;
+            averagey=averagey + currentminutesamplesposition[i].y;
+            averagez=averagez + currentminutesamplesposition[i].z;
           }
           averagex=averagex/93;
-          console.log("averagex="+averagex);
-          minuteposition[0].time=currentposition.time;
-          console.log("after 60 sec update minuteposition[0]="+minuteposition[0].time)
+          averagey=averagey/93;
+          averagez=averagez/93;
+          //console.log("averagex="+averagex);
+          minuteposition[0]=position;
+          console.log("after 60 sec update minuteposition[0].time="+minuteposition[0].time);
+          console.log("after 60 sec update minuteposition[0].x="+minuteposition[0].x);
+          console.log("after 60 sec update minuteposition[0].y="+minuteposition[0].y);
+          console.log("after 60 sec update minuteposition[0].z="+minuteposition[0].z);
         }
       })
       //Puck.write('Puck.accel();\n');
@@ -186,10 +200,6 @@
       }
     });
     
-    
-    
- 
  </script>
-
  </body>
 </html>
