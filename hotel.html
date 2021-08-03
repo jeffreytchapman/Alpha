@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel2</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -21,18 +21,7 @@
   </div>
   
   <script type="text/javascript">
-    // Code to upload to Bangle.js
-    var BANGLE_CODE = '
-      Puck.on('accel',function(a) {
-      var d = [
-        "A",
-        Math.round(a.acc.x), Math.round(a.acc.y), Math.round(a.acc.z)
-        ];
-      Bluetooth.println(d.join(","));
-    });
-    Puck.accelOn();
-    ';
- 
+
     var accel = new THREE.Vector3( 0, 0, 1);
 
     //Variables
