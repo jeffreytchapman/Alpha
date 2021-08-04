@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -174,13 +174,13 @@
     new Chart("chartpastminute", {
       type: "line",
       data: {
-        labels: xValues,
+        labels: chartpastminutexvalues,
         datasets: [{
           fill: false,
           lineTension: 0,
           backgroundColor: "rgba(0,0,255,1.0)",
           borderColor: "rgba(0,0,255,0.1)",
-          data: yValues
+          data: chartpastminuteyValues
         }]
       },
       options: {
