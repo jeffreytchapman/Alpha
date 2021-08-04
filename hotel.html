@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel1</title>
+    <title>Hotel</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -38,8 +38,8 @@
       positionbyseconds[i]=position;
     }
     //console.table(currentminutesamplesposition);
-    const minuteposition = [];
-    minuteposition[0]={x:"0", y:"0", z:"8000", time:date.getTime()};
+    const positionbyminutes = [];
+    positionbyminutes[0]={x:"0", y:"0", z:"8000", time:date.getTime()};
     
     // When we click the connect button...
     function connectclick() {
@@ -93,9 +93,9 @@
         positionbyseconds.pop;
         positionbyseconds.unshift=position;
         console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
-        console.log("minuteposition[0]="+Math.trunc((minuteposition[0].time)/1000));
-        console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
-        if (currentposition.time-minuteposition[0].time>=60000) {
+        console.log("positionbyminutes[0]="+Math.trunc((positionbyminutes[0].time)/1000));
+        console.log("currentposition.time-positionbyminutes[0]="+Math.trunc((currentposition.time-positionbyminutes[0].time)/1000));
+        if (currentposition.time-positionbyminutes[0].time>=60000) {
           let averagex=0;
           let averagey=0;
           let averagez=0;
@@ -109,15 +109,15 @@
           averagey=averagey/93;
           averagez=averagez/93;
           //console.log("averagex="+averagex);
-          minuteposition.unshift;
-          minuteposition[0].x=averagex;
-          minuteposition[0].y=averagey;
-          minuteposition[0].z=averagez;
-          minuteposition[0].time=timetoadd;
-          console.log("after 60 sec update minuteposition[0].time="+minuteposition[0].time);
-          console.log("after 60 sec update minuteposition[0].x="+minuteposition[0].x);
-          console.log("after 60 sec update minuteposition[0].y="+minuteposition[0].y);
-          console.log("after 60 sec update minuteposition[0].z="+minuteposition[0].z);
+          positionbyminutes.unshift;
+          positionbyminutes[0].x=averagex;
+          positionbyminutes[0].y=averagey;
+          positionbyminutes[0].z=averagez;
+          positionbyminutes[0].time=timetoadd;
+          console.log("after 60 sec update positionbyminutes[0].time="+positionbyminutes[0].time);
+          console.log("after 60 sec update positionbyminutes[0].x="+positionbyminutes[0].x);
+          console.log("after 60 sec update positionbyminutes[0].y="+positionbyminutes[0].y);
+          console.log("after 60 sec update positionbyminutes[0].z="+positionbyminutes[0].z);
         }
       })
       //Puck.write('Puck.accel();\n');
