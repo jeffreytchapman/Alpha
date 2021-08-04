@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel</title>
+    <title>Hotel1</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -33,9 +33,9 @@
     const previousposition = {x:"0", y:"0", z:"8000", time:date.getTime(), starttime:date.getTime()};
     const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
     const position = {x:"0", y:"0", z:"0", time:"0"};
-    const currentminutesamplesposition = [];
+    const positionbyseconds = [];
     for (let i = 0; i < 93; i++) {
-      currentminutesamplesposition[i]=position;
+      positionbyseconds[i]=position;
     }
     //console.table(currentminutesamplesposition);
     const minuteposition = [];
@@ -90,8 +90,8 @@
         position.y=currentposition.y;
         position.z=currentposition.z;
         position.time=accelcollectdate.getTime();
-        currentminutesamplesposition.pop;
-        currentminutesamplesposition.unshift=position;
+        positionbyseconds.pop;
+        positionbyseconds.unshift=position;
         console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
         console.log("minuteposition[0]="+Math.trunc((minuteposition[0].time)/1000));
         console.log("currentposition.time-minuteposition[0]="+Math.trunc((currentposition.time-minuteposition[0].time)/1000));
@@ -101,9 +101,9 @@
           let averagez=0;
           let timetoadd=currentposition.time
           for (let i = 0; i < 93; i++) {
-            averagex=averagex + currentminutesamplesposition[i].x;
-            averagey=averagey + currentminutesamplesposition[i].y;
-            averagez=averagez + currentminutesamplesposition[i].z;
+            averagex=averagex + positionbyseconds[i].x;
+            averagey=averagey + positionbyseconds[i].y;
+            averagez=averagez + positionbyseconds[i].z;
           }
           averagex=averagex/93;
           averagey=averagey/93;
