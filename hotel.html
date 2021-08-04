@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel</title>
+    <title>Hotel1</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -17,7 +17,7 @@
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly><br>
   <div>
-    <canvas id="chartx" style="width:100%;max-width:800px"></canvas>
+    <canvas id="chartpositionpastminute" style="width:100%;max-width:800px"></canvas>
   </div>
   
   <script type="text/javascript">
@@ -168,27 +168,28 @@
     render();
     
     //Charting
-    var xValues = [-100,-50,0,50,60,70,80,90,100,110,120,130,140,150,600,700];
-    var yValues = [2000,-2000,0,7,8,8,9,9,9,10,11,14,14,15,8000,-8000];
+    var positionpastmiutexvalues = [-100,-50,0,50,60,70,80,90,100,110,120,130,140,150,600,700];
+    var positionpastmiuteyvalues = [2000,-2000,0,7,8,8,9,9,9,10,11,14,14,15,8000,-8000];
 
-    new Chart("chartx", {
+    new Chart("chartpositionpastminute", {
       type: "line",
       data: {
-        labels: xValues,
+        labels: positionpastminutexvalues,
         datasets: [{
           fill: false,
           lineTension: 0,
           backgroundColor: "rgba(0,0,255,1.0)",
           borderColor: "rgba(0,0,255,0.1)",
-          data: yValues
+          data: positionpastminuteyvalues
         }]
       },
       options: {
+        title: "Position past minute",
         legend: {display: false},
         scales: {
-          yAxes: [{ticks: {min: -8192, max: 8192},
+          yAxes: [{ticks: {min: -8400, max: 8400},
                    position: "right"}],
-          xAxes: [{ticks: {min: -720, max: 0},
+          xAxes: [{ticks: {min: -60, max: 0},
                    position: "center"}],
           //chart.options.scales.x.position = 'center';
           //chart.options.scales.y.position = 'center';
