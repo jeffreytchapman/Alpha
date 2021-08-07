@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel4</title>
+    <title>Hotel5</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -75,6 +75,14 @@
         currentposition.starttime=currentposition.time
         //Render Vector3
         render();
+        //Update past minute chart
+        fruits.unshift("Lemon");
+        positionpastminuteyvalues.unshift(currentposition.y);
+        positionpastminutexvalues.unshift(currentposition.time);
+        positionpastminuteyvalues.pop();
+        positionpastminutexvalues.pop();
+        chartpositionpastminute.update("none");
+        
         
         //Get angle change
         anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
