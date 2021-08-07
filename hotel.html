@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel3</title>
+    <title>Hotel2</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -83,7 +83,7 @@
         positionpastminutexvalues.unshift(currentposition.time);
         positionpastminuteyvalues.pop();
         positionpastminutexvalues.pop();
-        testchartpositionpastminute.update("none");
+        //testchartpositionpastminute.update("none");
         
         
         //Get angle change
@@ -185,7 +185,7 @@
     //var positionpastminutexvalues = [-60,0];
     //var positionpastminuteyvalues = [2000,-2000];
 
-    var pastminutectx = documnent.getElementById("chartpositionpastminute");
+    var pastminutectx = document.getElementById("chartpositionpastminute");
     var chartpositionpastminute = new Chart(pastminutectx, {
       type: "line",
       data: {
