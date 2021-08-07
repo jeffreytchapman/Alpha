@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel</title>
+    <title>Hotel1</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -34,10 +34,14 @@
     const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
     const position = {x:"0", y:"0", z:"0", time:"0"};
     const positionbyseconds = [];
+    const positionpastminutexvalues = [];
+    const positionpastminuteyvalues = [];
     for (let i = 0; i < 93; i++) {
       positionbyseconds[i]=position;
+      positionpastminutexvalues[i]=position.x;
+      positionpastminuteyvalues[i]=(date.getTime()-650*i);
     }
-    //console.table(currentminutesamplesposition);
+    
     const positionbyminutes = [];
     positionbyminutes[0]={x:"0", y:"0", z:"8000", time:date.getTime()};
     
