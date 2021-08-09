@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel4</title>
+    <title>Hotel5</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -42,7 +42,8 @@
     for (let i = 0; i < 93; i++) {
       positionbyseconds[i]=position;
       positionpastminuteyvalues[i]=position.x;
-      positionpastminutexvalues[i]=(date.getTime()-650*i);
+      //positionpastminutexvalues[i]=(date.getTime()-650*i);
+      positionpastminutexvalues[i]=(date.getTime()-650*(92-i));
     }
     
     const positionbyminutes = [];
@@ -78,11 +79,15 @@
         currentposition.starttime=currentposition.time
         //Render Vector3
         render();
-        //Update past minute chart
-        positionpastminuteyvalues.unshift(currentposition.y);
-        positionpastminutexvalues.unshift(currentposition.time);
-        positionpastminuteyvalues.pop();
-        positionpastminutexvalues.pop();
+        //Update past minute chart, most recent position at largest end of array
+        //positionpastminuteyvalues.unshift(currentposition.y);
+        //positionpastminutexvalues.unshift(currentposition.time);
+        //positionpastminuteyvalues.pop();
+        //positionpastminutexvalues.pop();
+        positionpastminuteyvalues.shift(currentposition.y);
+        positionpastminutexvalues.shift(currentposition.time);
+        positionpastminuteyvalues.push();
+        positionpastminutexvalues.push();
         chartpositionpastminute.update("none");
         
         
