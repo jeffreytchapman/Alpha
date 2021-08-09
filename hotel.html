@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel5</title>
+    <title>Hotel6</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -81,10 +81,10 @@
         //positionpastminutexvalues.unshift(currentposition.time);
         //positionpastminuteyvalues.pop();
         //positionpastminutexvalues.pop();
-        positionpastminuteyvalues.shift(currentposition.y);
-        positionpastminutexvalues.shift(currentposition.time);
-        positionpastminuteyvalues.push();
-        positionpastminutexvalues.push();
+        positionpastminuteyvalues.push(currentposition.y);
+        positionpastminutexvalues.push(currentposition.time);
+        positionpastminuteyvalues.shift();
+        positionpastminutexvalues.shift();
         chartpositionpastminute.update("none");
         
         
