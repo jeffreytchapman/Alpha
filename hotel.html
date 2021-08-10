@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel7</title>
+    <title>Hotel8</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -41,6 +41,7 @@
       positionbyseconds[i]=position;
       positionpastminutexvalues[i]=position.x;
       positionpastminuteyvalues[i]=position.y;
+      positionpastminutezvalues[i]=position.z;
       positionpastminutetimevalues[i]=(date.getTime()-650*(92-i));
     }
     
@@ -84,8 +85,9 @@
         positionpastminutetimevalues.shift();
         positionpastminuteyvalues.push(currentposition.y);
         positionpastminuteyvalues.shift();
+        positionpastminutezvalues.push(currentposition.z);
+        positionpastminutezvalues.shift();
         chartpositionpastminute.update("none");
-        
         
         //Get angle change
         anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
@@ -202,11 +204,18 @@
           backgroundColor: "rgba(0,255,0,1.0)",
           borderColor: "rgba(0,255,0,0.1)",
           data: positionpastminuteyvalues,
+        }, {
+          label: "Z",
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(255,0,0,1.0)",
+          borderColor: "rgba(255,0,0,0.1)",
+          data: positionpastminutezvalues,
         }]
       },
       options: {
         title: "Position past minute",
-        legend: {display: false},
+        legend: {display: true},
         scales: {
           yAxes: [{ticks: {min: -10000, max: 10000},
                    position: "right"}],
