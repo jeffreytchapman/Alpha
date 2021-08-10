@@ -1,0 +1,231 @@
+<html>
+  <head>
+    <title>India</title>
+  </head>
+  <body>
+  <!--Hotel checked battery at beginning and every 10  minutes-->
+  <script src="https://www.puck-js.com/puck.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  
+  <button id="btnConnect" onclick=connectclick()>Connect</button>
+  <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
+  <label for="anglechange">Position duration:</label>
+  <input type="text" id="positionduration" name="positionduration" maxlength="7" size="7" readonly>
+  <label for="anglechange">Angle change:</label>
+  <input type="text" id="anglechange" name="anglechange" maxlength="3" size="3" readonly>
+  <label for="batterylevel">Battery Level:</label>
+  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly><br>
+  <div>
+    <canvas id="chartpositionpastminute" style="width:100%;max-width:800px"></canvas>
+  </div>
+  
+  <script type="text/javascript">
+
+    var accel = new THREE.Vector3( 0, 0, 1);
+
+    //Variables
+    var acceltimer;
+    var flashtimer;
+    var batterychecktimer;
+    var anglechange = "0";
+    const date = new Date();
+    const previousposition = {x:"0", y:"0", z:"8000", time:date.getTime(), starttime:date.getTime()};
+    const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
+    const position = {x:"0", y:"0", z:"0", time:"0"};
+    const positionbyseconds = [];
+    const positionpastminutetimevalues = [];
+    const positionpastminutexvalues = [];
+    const positionpastminuteyvalues = [];
+    const positionpastminutezvalues = [];
+    for (let i = 0; i < 93; i++) {
+      positionbyseconds[i]=position;
+      positionpastminutexvalues[i]=position.x;
+      positionpastminuteyvalues[i]=position.y;
+      positionpastminutezvalues[i]=position.z;
+      positionpastminutetimevalues[i]=(date.getTime()-650*(92-i));
+    }
+    
+    const positionbyminutes = [];
+    positionbyminutes[0]={x:"0", y:"0", z:"8000", time:date.getTime()};
+    
+    // When we click the connect button...
+    function connectclick() {
+      document.getElementById("btnConnect").disabled = true;
+      document.getElementById("btnDisconnect").disabled = false;
+      Puck.write('Puck.accelOn(1.6);\n');
+      acceltimer = setInterval(accelcollect,650);
+      flashtimer = setInterval(flasher, 650);
+      batterycheck();
+      batterychecktimer= setInterval(batterycheck, 1000*60*10);
+      //Set times
+      Puck.setTime();
+      const connectclickdate = new Date();
+      previousposition.time=connectclickdate.getTime();
+      previousposition.starttime=previousposition.time;
+    }
+    
+    function accelcollect() {
+      Puck.eval("Puck.accel()",function(x) {
+        const accelcollectdate = new Date();
+        //Get accel data
+        accel.x=x.acc.x;
+        currentposition.x=accel.x;
+        accel.y=x.acc.y;
+        currentposition.y=accel.y;
+        accel.z=x.acc.z;
+        currentposition.z=accel.z;
+        currentposition.time= accelcollectdate.getTime();
+        currentposition.starttime=currentposition.time
+        //Render Vector3
+        render();
+        //Update past minute chart, most recent position at largest end of array
+        positionpastminutexvalues.push(currentposition.x);
+        positionpastminutetimevalues.push(currentposition.time);
+        positionpastminutexvalues.shift();
+        positionpastminutetimevalues.shift();
+        positionpastminuteyvalues.push(currentposition.y);
+        positionpastminuteyvalues.shift();
+        positionpastminutezvalues.push(currentposition.z);
+        positionpastminutezvalues.shift();
+        chartpositionpastminute.update("none");
+        
+        //Get angle change
+        anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
+        document.getElementById("anglechange").value=Math.round(anglechange);
+        //If angle change is significant reset previous position and time
+        if (anglechange > 20) {
+          previousposition.x=currentposition.x;
+          previousposition.y=currentposition.y;
+          previousposition.z=currentposition.z;
+          previousposition.time=currentposition.time;
+          previousposition.starttime=currentposition.starttime;
+        }
+        document.getElementById("positionduration").value=Math.trunc((currentposition.time-previousposition.starttime)/(1000*60))+" min";
+        
+        //determine minute position
+        position.x=currentposition.x;
+        position.y=currentposition.y;
+        position.z=currentposition.z;
+        position.time=accelcollectdate.getTime();
+        positionbyseconds.pop;
+        positionbyseconds.unshift=position;
+        console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
+        console.log("positionbyminutes[0]="+Math.trunc((positionbyminutes[0].time)/1000));
+        console.log("currentposition.time-positionbyminutes[0]="+Math.trunc((currentposition.time-positionbyminutes[0].time)/1000));
+        if (currentposition.time-positionbyminutes[0].time>=60000) {
+          let averagex=0;
+          let averagey=0;
+          let averagez=0;
+          let timetoadd=currentposition.time
+          for (let i = 0; i < 93; i++) {
+            averagex=averagex + positionbyseconds[i].x;
+            averagey=averagey + positionbyseconds[i].y;
+            averagez=averagez + positionbyseconds[i].z;
+          }
+          averagex=averagex/93;
+          averagey=averagey/93;
+          averagez=averagez/93;
+          //console.log("averagex="+averagex);
+          positionbyminutes.unshift;
+          positionbyminutes[0].x=averagex;
+          positionbyminutes[0].y=averagey;
+          positionbyminutes[0].z=averagez;
+          positionbyminutes[0].time=timetoadd;
+          console.log("after 60 sec update positionbyminutes[0].time="+positionbyminutes[0].time);
+          console.log("after 60 sec update positionbyminutes[0].x="+positionbyminutes[0].x);
+          console.log("after 60 sec update positionbyminutes[0].y="+positionbyminutes[0].y);
+          console.log("after 60 sec update positionbyminutes[0].z="+positionbyminutes[0].z);
+        }
+      })
+      //Puck.write('Puck.accel();\n');
+    }
+    
+    function flasher() {
+      Puck.write('digitalPulse(LED2, 1, 200);\n');
+    }
+    
+    async function batterycheck() {
+     let myPromise = new Promise(function(myResolve, myReject) {
+       myResolve(Puck.eval("E.getBattery()"));
+     });
+     document.getElementById("batterylevel").value = await myPromise;
+   }
+    
+    function disconnectclick() {
+      Puck.write('Puck.accelOff();\n');
+      clearInterval(flashtimer);
+      clearInterval(acceltimer);
+      document.getElementById("btnConnect").disabled = false;
+      document.getElementById("btnDisconnect").disabled = true;
+      Puck.write('reset();\n');
+    }
+
+    // WebGL boilerplate
+    var scene, camera, renderer, cube;
+    var WIDTH  = window.innerWidth-400;
+    var HEIGHT = window.innerHeight-400;
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
+      camera.position.set(0, -4, 8);
+      camera.lookAt(scene.position);
+      cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
+      scene.add(cube);
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(WIDTH, HEIGHT);
+      document.body.appendChild(renderer.domElement);
+    }
+    
+    function render() {
+      cube.lookAt(accel);
+      renderer.render(scene, camera);
+    }
+
+    init();
+    render();
+    
+    //Charting
+    var pastminutectx = document.getElementById("chartpositionpastminute");
+    var chartpositionpastminute = new Chart(pastminutectx, {
+      type: "line",
+      data: {
+        labels: positionpastminutetimevalues,
+        datasets: [{
+          label: "X",
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,0.1)",
+          data: positionpastminutexvalues,
+        }, {
+          label: "Y",
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,255,0,1.0)",
+          borderColor: "rgba(0,255,0,0.1)",
+          data: positionpastminuteyvalues,
+        }, {
+          label: "Z",
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(255,0,0,1.0)",
+          borderColor: "rgba(255,0,0,0.1)",
+          data: positionpastminutezvalues,
+        }]
+      },
+      options: {
+        title: "Position past minute",
+        legend: {display: true},
+        scales: {
+          yAxes: [{ticks: {min: -10000, max: 10000},
+                   position: "right"}],
+          xAxes: [{ticks: {min: 0, max: 60},
+                   position: "center"}],
+        }
+      }
+    });
+    
+ </script>
+ </body>
+</html>
