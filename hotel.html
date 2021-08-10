@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hotel6</title>
+    <title>Hotel7</title>
   </head>
   <body>
   <!--Hotel checked battery at beginning and every 10  minutes-->
@@ -36,9 +36,11 @@
     const positionbyseconds = [];
     const positionpastminutetimevalues = [];
     const positionpastminutexvalues = [];
+    const positionpastminuteyvalues = [];
     for (let i = 0; i < 93; i++) {
       positionbyseconds[i]=position;
       positionpastminutexvalues[i]=position.x;
+      positionpastminuteyvalues[i]=position.y;
       positionpastminutetimevalues[i]=(date.getTime()-650*(92-i));
     }
     
@@ -80,6 +82,8 @@
         positionpastminutetimevalues.push(currentposition.time);
         positionpastminutexvalues.shift();
         positionpastminutetimevalues.shift();
+        positionpastminuteyvalues.push(currentposition.y);
+        positionpastminuteyvalues.shift();
         chartpositionpastminute.update("none");
         
         
@@ -179,20 +183,25 @@
     render();
     
     //Charting
-    //var positionpastminutexvalues = [-60,0];
-    //var positionpastminuteyvalues = [2000,-2000];
-
     var pastminutectx = document.getElementById("chartpositionpastminute");
     var chartpositionpastminute = new Chart(pastminutectx, {
       type: "line",
       data: {
         labels: positionpastminutetimevalues,
         datasets: [{
+          label: "X",
           fill: false,
           lineTension: 0,
           backgroundColor: "rgba(0,0,255,1.0)",
           borderColor: "rgba(0,0,255,0.1)",
-          data: positionpastminutexvalues
+          data: positionpastminutexvalues,
+        }, {
+          label: "Y",
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,255,0,1.0)",
+          borderColor: "rgba(0,255,0,0.1)",
+          data: positionpastminuteyvalues,
         }]
       },
       options: {
@@ -203,8 +212,6 @@
                    position: "right"}],
           xAxes: [{ticks: {min: 0, max: 60},
                    position: "center"}],
-          //chart.options.scales.x.position = 'center';
-          //chart.options.scales.y.position = 'center';
         }
       }
     });
