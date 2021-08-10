@@ -38,8 +38,8 @@
     const positionpastminuteyvalues = [];
     for (let i = 0; i < 93; i++) {
       positionbyseconds[i]=position;
-      positionpastminuteyvalues[i]=position.x;
-      positionpastminutexvalues[i]=(date.getTime()-650*(92-i));
+      positionpastminutexvalues[i]=position.x;
+      positionpastminutetimevalues[i]=(date.getTime()-650*(92-i));
     }
     
     const positionbyminutes = [];
@@ -76,10 +76,10 @@
         //Render Vector3
         render();
         //Update past minute chart, most recent position at largest end of array
-        positionpastminuteyvalues.push(currentposition.y);
-        positionpastminutexvalues.push(currentposition.time);
-        positionpastminuteyvalues.shift();
+        positionpastminutexvalues.push(currentposition.x);
+        positionpastminutetimevalues.push(currentposition.time);
         positionpastminutexvalues.shift();
+        positionpastminutetimevalues.shift();
         chartpositionpastminute.update("none");
         
         
@@ -186,13 +186,13 @@
     var chartpositionpastminute = new Chart(pastminutectx, {
       type: "line",
       data: {
-        labels: positionpastminutexvalues,
+        labels: positionpastminutetimevalues,
         datasets: [{
           fill: false,
           lineTension: 0,
           backgroundColor: "rgba(0,0,255,1.0)",
           borderColor: "rgba(0,0,255,0.1)",
-          data: positionpastminuteyvalues
+          data: positionpastminutexvalues
         }]
       },
       options: {
