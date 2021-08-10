@@ -17,7 +17,7 @@
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly><br>
   <div>
-    <canvas id="chartpositionpastminute" style="width:100%;max-width:2000px"></canvas>
+    <canvas id="chartpositionpastminute" style="width:100%;max-width:1200px"></canvas>
   </div>
   
   <script type="text/javascript">
@@ -163,7 +163,7 @@
 
     // WebGL boilerplate
     var scene, camera, renderer, cube;
-    var WIDTH  = window.innerWidth-400;
+    var WIDTH  = window.innerWidth-200;
     var HEIGHT = window.innerHeight-400;
     function init() {
       scene = new THREE.Scene();
