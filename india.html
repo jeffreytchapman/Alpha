@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India14</title>
+    <title>India15</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -30,8 +30,9 @@
     var batterychecktimer;
     var anglechange = "0";
     const date = new Date();
-    const previousposition = {x:"0", y:"0", z:"8000", time:date.getTime(), starttime:date.getTime()};
-    const currentposition = {x:"0", y:"0", z:"0", time:"0", starttime:"0"};
+    var lastsignificantpositionchangetime= date.getTime();
+    const previousposition = {x:"0", y:"0", z:"8000", time:date.getTime()};
+    const currentposition = {x:"0", y:"0", z:"0", time:"0"};
     const position = {x:"0", y:"0", z:"0", time:"0"};
     const positionbyseconds = [];
     const positionpastminutetimevalues = [];
@@ -62,7 +63,6 @@
       Puck.setTime();
       const connectclickdate = new Date();
       previousposition.time=connectclickdate.getTime();
-      previousposition.starttime=previousposition.time;
     }
     
     // When we click the savepositionbymimutesbutton button...
@@ -89,7 +89,6 @@
         accel.z=x.acc.z;
         currentposition.z=accel.z;
         currentposition.time= accelcollectdate.getTime();
-        currentposition.starttime=currentposition.time
         //Render Vector3
         render();
         
@@ -113,9 +112,12 @@
           previousposition.y=currentposition.y;
           previousposition.z=currentposition.z;
           previousposition.time=currentposition.time;
-          previousposition.starttime=currentposition.starttime;
+          lastsignificantpositionchangetime=currentposition.time
         }
-        document.getElementById("positionduration").value=Math.trunc((currentposition.time-previousposition.starttime)/(1000*60))+" min";
+        document.getElementById("positionduration").value=Math.trunc((currentposition.time-lastsignificantpositionchangetime)/(1000*60))+" min";
+        
+        
+        
         
         //determine minute position
         position.x=currentposition.x;
@@ -129,7 +131,8 @@
           let averagex=0;
           let averagey=0;
           let averagez=0;
-          var timetoadd=position.time;
+          let timetoadd=position.time
+          //var timetoadd=position.time;
           //const timetoadd=position.time;
           for (let i = 0; i < 93; i++) {
             averagex=averagex + positionbyseconds[i].x;
@@ -156,6 +159,11 @@
       })
       //Puck.write('Puck.accel();\n');
     }
+    
+    function updateminutedata() {
+      
+    }
+    
     
     function flasher() {
       Puck.write('digitalPulse(LED2, 1, 200);\n');
