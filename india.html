@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India7</title>
+    <title>India8</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -123,7 +123,7 @@
         position.time=accelcollectdate.getTime();
         positionbyseconds.pop;
         positionbyseconds.unshift=position;
-        if (currentposition.time-positionbyminutes[0].time>=60000) {
+        if (currentposition.time-positionbyminutes[(positionbyminutes.length-1)].time>=60000) {
           let averagex=0;
           let averagey=0;
           let averagez=0;
