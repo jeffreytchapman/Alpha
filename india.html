@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India43</title>
+    <title>India44</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -141,31 +141,37 @@
         let averagex=0;
         let averagey=0;
         let averagez=0;
+        let timetoadd=0
         //let timetoadd=position.time
         //var timetoadd=position.time;
         //const timetoadd=position.time;
         for (let i = 0; i < 93; i++) {
-          console.log("positionbyseconds[i]=" + positionbyseconds[i].x)
+          console.log("positionbyseconds[i].x=" + positionbyseconds[i].x)
           averagex=averagex + positionbyseconds[i].x;
           averagey=averagey + positionbyseconds[i].y;
           averagez=averagez + positionbyseconds[i].z;
         }
-        console.log("prechange inputposition.x=" + inputposition.x)
-        inputposition.x=Math.trunc(averagex/93);
+        //console.log("prechange inputposition.x=" + inputposition.x)
+        //inputposition.x=Math.trunc(averagex/93);
         console.log("postchange inputposition.x=" + inputposition.x)
-        inputposition.y=Math.trunc(averagey/93);
-        inputposition.z=Math.trunc(averagez/93);
+        //inputposition.y=Math.trunc(averagey/93);
+        //inputposition.z=Math.trunc(averagez/93);
         const updateminutedatadate = new Date();
-        inputposition.time=updateminutedatadate.getTime();
-        positionbyminutes.push(inputposition);
-        //positionbyminutes[0].x=averagex;
+        timetoadd=updateminutedatadate.getTime();
+        console.log("positionbyminutes.length pre push=" + positionbyminutes.length)
+        positionbyminutes.push();
+        console.log("positionbyminutes.length post push=" + positionbyminutes.length)
+        positionbyminutes[(positionbyminutes.length-1)].x=(averagex/93);
+        positionbyminutes[(positionbyminutes.length-1)].y=(averagey/93);
+        positionbyminutes[(positionbyminutes.length-1)].z=(averagez/93);
+        positionbyminutes[(positionbyminutes.length-1)].time=timetoadd;
         //positionbyminutes[0].y=averagey;
         //positionbyminutes[0].z=averagez;
         //positionbyminutes[0].time=timetoadd;
         if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
           document.getElementById("btnSavepositionbyminutes").disabled = false;
         }
-        console.log("position to be added" + inputposition)
+        //console.log("position to be added" + inputposition)
         console.log("after 60 sec update positionbyminutes[last].time="+positionbyminutes[(positionbyminutes.length-1)].time);
         console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-1)].x);
         console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-1)].y);
