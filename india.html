@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India36</title>
+    <title>India37</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -102,12 +102,12 @@
         render();
         
         //update positionbyseconds
-        //position.x=currentposition.x;
-        //position.y=currentposition.y;
-        //position.z=currentposition.z;
-        //position.time=accelcollectdate.getTime();
+        position.x=currentposition.x;
+        position.y=currentposition.y;
+        position.z=currentposition.z;
+        position.time=accelcollectdate.getTime();
         positionbyseconds.pop;
-        positionbyseconds.unshift=currentposition;
+        positionbyseconds.unshift=position;
         
         //Update past minute chart, most recent position at end of array
         positionpastminutexvalues.push(currentposition.x);
@@ -122,7 +122,6 @@
         
         //Get angle change
         anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
-        console.log("anglechange=" + anglechange)
         document.getElementById("anglechange").value=Math.round(anglechange);
         //If angle change is significant reset previous position and time
         if (anglechange > 20) {
