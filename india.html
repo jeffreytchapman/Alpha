@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India</title>
+    <title>India2</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -47,7 +47,7 @@
     }
     
     const positionbyminutes = [];
-    positionbyminutes[0]={x:"0", y:"0", z:"8000", time:date.getTime()};
+    //positionbyminutes[0]={x:"0", y:"0", z:"8000", time:date.getTime()};
     
     // When we click the connect button...
     function connectclick() {
@@ -137,6 +137,9 @@
           positionbyminutes[0].y=averagey;
           positionbyminutes[0].z=averagez;
           positionbyminutes[0].time=timetoadd;
+          if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
+            document.getElementById("btnSavepositionbyminutes").disabled = false;
+          }
           console.log("after 60 sec update positionbyminutes[0].time="+positionbyminutes[0].time);
           console.log("after 60 sec update positionbyminutes[0].x="+positionbyminutes[0].x);
           console.log("after 60 sec update positionbyminutes[0].y="+positionbyminutes[0].y);
