@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India35</title>
+    <title>India36</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -121,9 +121,6 @@
         chartpositionpastminute.update("none");
         
         //Get angle change
-        console.log("previousposition.x=" + previousposition.x);
-        console.log("currentposition.x" + currentposition.x);
-        console.log("previousposition.x*currentposition.x" + previousposition.x * currentposition.x);
         anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
         console.log("anglechange=" + anglechange)
         document.getElementById("anglechange").value=Math.round(anglechange);
