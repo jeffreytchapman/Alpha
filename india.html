@@ -146,10 +146,10 @@
           if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
             document.getElementById("btnSavepositionbyminutes").disabled = false;
           }
-          console.log("after 60 sec update positionbyminutes[0].time="+positionbyminutes[0].time);
-          console.log("after 60 sec update positionbyminutes[0].x="+positionbyminutes[0].x);
-          console.log("after 60 sec update positionbyminutes[0].y="+positionbyminutes[0].y);
-          console.log("after 60 sec update positionbyminutes[0].z="+positionbyminutes[0].z);
+          console.log("after 60 sec update positionbyminutes[last].time="+positionbyminutes[(positionbyminutes.length-1)].time);
+          console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-1)].x);
+          console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-1)].y);
+          console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-1)].z);
         }
       })
       //Puck.write('Puck.accel();\n');
