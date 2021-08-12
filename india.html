@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India58</title>
+    <title>India59</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -102,11 +102,14 @@
         
         //update positionbyseconds using an intermediary
         let positiontoadd = new positionvariable();
-        positiontoadd=currentposition
-        console.log("positiontoadd.x=" + positiontoadd.x)
+        positiontoadd.x=currentposition.x;
+        positiontoadd.y=currentposition.y;
+        positiontoadd.z=currentposition.z;
+        positiontoadd.time=currentposition.time;
+        console.log("positiontoadd.x=" + positiontoadd.x);
         positionbyseconds.pop;
         positionbyseconds.unshift(positiontoadd);
-        console.log("positionbyseconds[0].x=" + positionbyseconds[0].x)
+        console.log("positionbyseconds[0].x=" + positionbyseconds[0].x);
         
         //Update past minute chart, most recent position at end of array
         positionpastminutexvalues.push(currentposition.x);
