@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India39</title>
+    <title>India40</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -102,12 +102,12 @@
         render();
         
         //update positionbyseconds
-        position.x=currentposition.x;
-        position.y=currentposition.y;
-        position.z=currentposition.z;
-        position.time=accelcollectdate.getTime();
         positionbyseconds.pop;
-        positionbyseconds.unshift=position;
+        positionbyseconds.unshift=;
+        positionbyseconds[0].x=currentposition.x;
+        positionbyseconds[0].y=currentposition.y;
+        positionbyseconds[0].z=currentposition.z;
+        positionbyseconds[0].time=accelcollectdate.getTime();
         
         //Update past minute chart, most recent position at end of array
         positionpastminutexvalues.push(currentposition.x);
