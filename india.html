@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India5</title>
+    <title>India6</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -136,11 +136,13 @@
           averagex=averagex/93;
           averagey=averagey/93;
           averagez=averagez/93;
-          positionbyminutes.unshift;
+          console.log("pre push length=" + positionbyminutes.length);
+          positionbyminutes.push;
           positionbyminutes[0].x=averagex;
           positionbyminutes[0].y=averagey;
           positionbyminutes[0].z=averagez;
           positionbyminutes[0].time=timetoadd;
+          console.log("post push length=" + positionbyminutes.length);
           if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
             document.getElementById("btnSavepositionbyminutes").disabled = false;
           }
