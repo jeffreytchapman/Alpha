@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India49</title>
+    <title>India50</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -105,13 +105,13 @@
         //Render Vector3
         render();
         
-        //update positionbyseconds
-        position.x=currentposition.x;
-        position.y=currentposition.y;
-        position.z=currentposition.z;
-        position.time=accelcollectdate.getTime();
+        //update positionbyseconds using an intermediary
+        let positionx=currentposition.x;
+        let positiony=currentposition.y;
+        let positionz=currentposition.z;
+        let positiontime=accelcollectdate.getTime();
         positionbyseconds.pop;
-        positionbyseconds.unshift=position;
+        positionbyseconds.unshift=(x:positionx, y:positiony, z:positionz, time:positiontime);
         console.log("positionbyseconds[0].x=" + positionbyseconds[0].x);        
         
         //Update past minute chart, most recent position at end of array
