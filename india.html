@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India19</title>
+    <title>India20</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -145,6 +145,8 @@
         inputposition.x=averagex/93;
         inputposition.y=averagey/93;
         inputposition.z=averagez/93;
+        const updateminutedatadate = new Date();
+        inputposition.time=updateminutedatadate.getTime();
         positionbyminutes.push(inputposition);
         //positionbyminutes[0].x=averagex;
         //positionbyminutes[0].y=averagey;
