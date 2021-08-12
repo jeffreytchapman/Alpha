@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India38</title>
+    <title>India39</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -148,16 +148,16 @@
         //var timetoadd=position.time;
         //const timetoadd=position.time;
         for (let i = 0; i < 93; i++) {
-          console.log("positionpastminutexvalues[i]=" + positionpastminutexvalues[i])
-          averagex=averagex + positionpastminutexvalues[i];
-          averagey=averagey + positionpastminuteyvalues[i];
-          averagez=averagez + positionpastminutezvalues[i];
+          console.log("positionbyseconds[i]=" + positionbyseconds[i].x)
+          averagex=averagex + positionbyseconds[i].x;
+          averagey=averagey + positionbyseconds[i].y;
+          averagez=averagez + positionbyseconds[i].z;
         }
         console.log("prechange inputposition.x=" + inputposition.x)
-        inputposition.x=averagex/93;
+        inputposition.x=Math.trunc(averagex/93);
         console.log("postchange inputposition.x=" + inputposition.x)
-        inputposition.y=averagey/93;
-        inputposition.z=averagez/93;
+        inputposition.y=Math.trunc(averagey/93);
+        inputposition.z=Math.trunc(averagez/93);
         const updateminutedatadate = new Date();
         inputposition.time=updateminutedatadate.getTime();
         positionbyminutes.push(inputposition);
