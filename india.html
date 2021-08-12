@@ -111,8 +111,9 @@
         let positionz=currentposition.z;
         let positiontime=accelcollectdate.getTime();
         positionbyseconds.pop;
-        positionbyseconds.unshift=(x:positionx, y:positiony, z:positionz, time:positiontime);
-        console.log("positionbyseconds[0].x=" + positionbyseconds[0].x);        
+        positionbyseconds.unshift=(currentposition);
+        console.log("positionbyseconds[0].x=" + positionbyseconds[0].x);   
+        console.log("positionbyseconds[1].x=" + positionbyseconds[1].x); 
         
         //Update past minute chart, most recent position at end of array
         positionpastminutexvalues.push(currentposition.x);
