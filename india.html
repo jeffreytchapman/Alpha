@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India21</title>
+    <title>India22</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -127,7 +127,7 @@
       // position.y=currentposition.y;
       //position.z=currentposition.z;
       //position.time=accelcollectdate.getTime();
-      console.log(inputposition);
+      console.log("inputposition=" + inputposition);
       positionbyseconds.pop;
       positionbyseconds.unshift=inputposition;
       console.log(Math.trunc((inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time)/1000));
@@ -143,7 +143,9 @@
           averagey=averagey + positionbyseconds[i].y;
           averagez=averagez + positionbyseconds[i].z;
         }
+        console.log("prechange inputposition.x=" + inputposition.x)
         inputposition.x=averagex/93;
+        console.log("postchange inputposition.x=" + inputposition.x)
         inputposition.y=averagey/93;
         inputposition.z=averagez/93;
         const updateminutedatadate = new Date();
