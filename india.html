@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India50</title>
+    <title>India51</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -49,7 +49,7 @@
     const positionpastminuteyvalues = [];
     const positionpastminutezvalues = [];
     for (let i = 0; i < 93; i++) {
-      positionbyseconds[i]=position;
+      positionbyseconds[i]={x:0, y:0, z:8000, time:date.getTime()};
       console.log("positionbyseconds[i].x=" + positionbyseconds[i].x)
       positionpastminutexvalues[i]=0;
       positionpastminuteyvalues[i]=0;
@@ -111,7 +111,7 @@
         let positionz=currentposition.z;
         let positiontime=accelcollectdate.getTime();
         positionbyseconds.pop;
-        positionbyseconds.unshift=(currentposition);
+        positionbyseconds.unshift=({x:positionx, y:positiony, z:position.z, time:positiontime});
         console.log("positionbyseconds[0].x=" + positionbyseconds[0].x);   
         console.log("positionbyseconds[1].x=" + positionbyseconds[1].x); 
         
