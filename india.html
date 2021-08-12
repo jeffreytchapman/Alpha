@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India51</title>
+    <title>India52</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -106,12 +106,10 @@
         render();
         
         //update positionbyseconds using an intermediary
-        let positionx=currentposition.x;
-        let positiony=currentposition.y;
-        let positionz=currentposition.z;
-        let positiontime=accelcollectdate.getTime();
+        const positiontoadd = new positionvariable();
+        positiontoadd=currentposition;
         positionbyseconds.pop;
-        positionbyseconds.unshift=({x:positionx, y:positiony, z:position.z, time:positiontime});
+        positionbyseconds.unshift=(positiontoadd);
         console.log("positionbyseconds[0].x=" + positionbyseconds[0].x);   
         console.log("positionbyseconds[1].x=" + positionbyseconds[1].x); 
         
