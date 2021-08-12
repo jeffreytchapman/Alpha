@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India</title>
+    <title>India added save position by minutes button</title>
   </head>
   <body>
   <!--India-->
@@ -10,6 +10,7 @@
   
   <button id="btnConnect" onclick=connectclick()>Connect</button>
   <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
+  <button id="btnSavepositionbyminutes" disabled="False" onclick=savepositionbyminutesclick()>Save</button>
   <label for="anglechange">Position duration:</label>
   <input type="text" id="positionduration" name="positionduration" maxlength="7" size="7" readonly>
   <label for="anglechange">Angle change:</label>
@@ -22,9 +23,8 @@
   
   <script type="text/javascript">
 
-    var accel = new THREE.Vector3( 0, 0, 1);
-
     //Variables
+    var accel = new THREE.Vector3( 0, 0, 1);
     var acceltimer;
     var flashtimer;
     var batterychecktimer;
@@ -65,6 +65,11 @@
       previousposition.starttime=previousposition.time;
     }
     
+    // When we click the savepositionbymimutesbutton button...
+    function savepositionbyminutesclick() {
+      
+    }
+    
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
         const accelcollectdate = new Date();
@@ -81,13 +86,13 @@
         render();
         //Update past minute chart, most recent position at largest end of array
         positionpastminutexvalues.push(currentposition.x);
-        positionpastminutetimevalues.push(currentposition.time);
         positionpastminutexvalues.shift();
-        positionpastminutetimevalues.shift();
         positionpastminuteyvalues.push(currentposition.y);
         positionpastminuteyvalues.shift();
         positionpastminutezvalues.push(currentposition.z);
         positionpastminutezvalues.shift();
+        positionpastminutetimevalues.push(currentposition.time);
+        positionpastminutetimevalues.shift();
         chartpositionpastminute.update("none");
         
         //Get angle change
@@ -110,9 +115,9 @@
         position.time=accelcollectdate.getTime();
         positionbyseconds.pop;
         positionbyseconds.unshift=position;
-        console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
-        console.log("positionbyminutes[0]="+Math.trunc((positionbyminutes[0].time)/1000));
-        console.log("currentposition.time-positionbyminutes[0]="+Math.trunc((currentposition.time-positionbyminutes[0].time)/1000));
+        //console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
+        //console.log("positionbyminutes[0]="+Math.trunc((positionbyminutes[0].time)/1000));
+        /console.log("currentposition.time-positionbyminutes[0]="+Math.trunc((currentposition.time-positionbyminutes[0].time)/1000));
         if (currentposition.time-positionbyminutes[0].time>=60000) {
           let averagex=0;
           let averagey=0;
