@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India6</title>
+    <title>India7</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -127,21 +127,21 @@
           let averagex=0;
           let averagey=0;
           let averagez=0;
-          let timetoadd=currentposition.time
           for (let i = 0; i < 93; i++) {
             averagex=averagex + positionbyseconds[i].x;
             averagey=averagey + positionbyseconds[i].y;
             averagez=averagez + positionbyseconds[i].z;
           }
-          averagex=averagex/93;
-          averagey=averagey/93;
-          averagez=averagez/93;
+          position.x=averagex/93;
+          position.y=averagey/93;
+          position.z=averagez/93;
+          position.time=currentposition.time
           console.log("pre push length=" + positionbyminutes.length);
-          positionbyminutes.push;
-          positionbyminutes[0].x=averagex;
-          positionbyminutes[0].y=averagey;
-          positionbyminutes[0].z=averagez;
-          positionbyminutes[0].time=timetoadd;
+          positionbyminutes.push(position);
+          //positionbyminutes[0].x=averagex;
+          //positionbyminutes[0].y=averagey;
+          //positionbyminutes[0].z=averagez;
+          //positionbyminutes[0].time=timetoadd;
           console.log("post push length=" + positionbyminutes.length);
           if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
             document.getElementById("btnSavepositionbyminutes").disabled = false;
