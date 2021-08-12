@@ -3,7 +3,7 @@
     <title>India</title>
   </head>
   <body>
-  <!--Hotel checked battery at beginning and every 10  minutes-->
+  <!--India-->
   <script src="https://www.puck-js.com/puck.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -17,7 +17,7 @@
   <label for="batterylevel">Battery Level:</label>
   <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="3" readonly><br>
   <div>
-    <canvas id="chartpositionpastminute" style="width:100%;max-width:800px"></canvas>
+    <canvas id="chartpositionpastminute" style="width:100%;max-width:1200px"></canvas>
   </div>
   
   <script type="text/javascript">
@@ -159,12 +159,15 @@
       document.getElementById("btnConnect").disabled = false;
       document.getElementById("btnDisconnect").disabled = true;
       Puck.write('reset();\n');
+      //store
+      window.localStorage.removeItem("storagepositionbyminutes");
+      window.localStorage.setItem("storagepositionbyminutes", JSON.stringify(positionbyminutes));
     }
 
     // WebGL boilerplate
     var scene, camera, renderer, cube;
-    var WIDTH  = window.innerWidth-400;
-    var HEIGHT = window.innerHeight-400;
+    var WIDTH  = window.innerWidth*0.4;
+    var HEIGHT = window.innerHeight*0.4;
     function init() {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
@@ -220,7 +223,7 @@
         scales: {
           yAxes: [{ticks: {min: -10000, max: 10000},
                    position: "right"}],
-          xAxes: [{ticks: {min: 0, max: 60},
+          xAxes: [{ticks: {min: 0, max: 60, display: false},
                    position: "center"}],
         }
       }
