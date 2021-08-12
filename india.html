@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India1</title>
+    <title>India2</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -68,9 +68,12 @@
     // When we click the savepositionbymimutesbutton button...
     function savepositionbyminutesclick() {
       //convert data to csv
-      let csvContent = "data:text/csv;charset=utf-8," 
-        + positionbyminutes.map(e => e.join(",")).join("\n");
-      console.log(csvContent)
+      let csvContent = "data:text/csv;charset=utf-8,";
+      positionbyminutes.forEach(function(rowArray) {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+      });
+      console.log(csvContent);
     }
     
     function accelcollect() {
