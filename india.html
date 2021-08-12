@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India11</title>
+    <title>India12</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -128,6 +128,7 @@
           let averagex=0;
           let averagey=0;
           let averagez=0;
+          let timetoadd=position.time
           for (let i = 0; i < 93; i++) {
             averagex=averagex + positionbyseconds[i].x;
             averagey=averagey + positionbyseconds[i].y;
@@ -136,7 +137,7 @@
           position.x=averagex/93;
           position.y=averagey/93;
           position.z=averagez/93;
-          position.time=currentposition.time;
+          position.time=timetoadd;
           console.log("pre push length=" + positionbyminutes.length);
           positionbyminutes.push(position);
           //positionbyminutes[0].x=averagex;
