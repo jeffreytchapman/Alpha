@@ -1,9 +1,9 @@
 <html>
   <head>
-    <title>India30</title>
+    <title>India31</title>
   </head>
   <body>
-  <!--India added save position by minutes button-->
+  <!--India added save position by minutes button, created positionvariable-->
   <script src="https://www.puck-js.com/puck.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -102,12 +102,12 @@
         render();
         
         //update positionbyseconds
-        position.x=currentposition.x;
-        position.y=currentposition.y;
-        position.z=currentposition.z;
-        position.time=accelcollectdate.getTime();
+        //position.x=currentposition.x;
+        //position.y=currentposition.y;
+        //position.z=currentposition.z;
+        //position.time=accelcollectdate.getTime();
         positionbyseconds.pop;
-        positionbyseconds.unshift=position;
+        positionbyseconds.unshift=currentposition;
         
         //Update past minute chart, most recent position at end of array
         positionpastminutexvalues.push(currentposition.x);
