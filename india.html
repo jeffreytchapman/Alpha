@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India2</title>
+    <title>India1</title>
   </head>
   <body>
   <!--India added save position by minutes button-->
@@ -67,7 +67,10 @@
     
     // When we click the savepositionbymimutesbutton button...
     function savepositionbyminutesclick() {
-      
+      //convert data to csv
+      let csvContent = "data:text/csv;charset=utf-8," 
+        + positionbyminutes.map(e => e.join(",")).join("\n");
+      console.log(csvContent)
     }
     
     function accelcollect() {
@@ -115,9 +118,6 @@
         position.time=accelcollectdate.getTime();
         positionbyseconds.pop;
         positionbyseconds.unshift=position;
-        //console.log("currentposition.time="+Math.trunc((currentposition.time)/1000));
-        //console.log("positionbyminutes[0]="+Math.trunc((positionbyminutes[0].time)/1000));
-        //console.log("currentposition.time-positionbyminutes[0]="+Math.trunc((currentposition.time-positionbyminutes[0].time)/1000));
         if (currentposition.time-positionbyminutes[0].time>=60000) {
           let averagex=0;
           let averagey=0;
@@ -131,7 +131,6 @@
           averagex=averagex/93;
           averagey=averagey/93;
           averagez=averagez/93;
-          //console.log("averagex="+averagex);
           positionbyminutes.unshift;
           positionbyminutes[0].x=averagex;
           positionbyminutes[0].y=averagey;
@@ -192,7 +191,6 @@
       cube.lookAt(accel);
       renderer.render(scene, camera);
     }
-
     init();
     render();
     
