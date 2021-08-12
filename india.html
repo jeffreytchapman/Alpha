@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India46</title>
+    <title>India47</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -57,6 +57,9 @@
       positionpastminutetimevalues[i]=(date.getTime()-650*(92-i));
     }
     
+
+    
+    
     const positionbyminutes = [];
     positionbyminutes[0]={x:0, y:0, z:8000, time:date.getTime()};
     
@@ -102,17 +105,7 @@
         //Render Vector3
         render();
         
-        //update positionbyseconds, try intermediary variable
-        let positionbysecondsx=0;
-        let positionbysecondsy=0;
-        let positionbysecondsz=0;
-        let positionbysecondstime=0;
-        positionbysecondsx=currentposition.x;
-        positionbysecondsy=currentposition.y;
-        positionbysecondsz=currentposition.z;
-        positionbysecondstime=currentposition.time;
-        positionbyseconds.pop();
-        positionbyseconds.unshift(positionbysecondsx, positionbysecondsy, positionbysecondsz, positionbysecondstime);
+
         
         
         //Update past minute chart, most recent position at end of array
@@ -146,6 +139,21 @@
     
     function updateminutedata(inputposition) {
       console.log(Math.trunc((inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time)/1000));
+      
+      //update positionbyseconds, try intermediary variable
+      let positionbysecondsx=0;
+      let positionbysecondsy=0;
+      let positionbysecondsz=0;
+      let positionbysecondstime=0;
+      positionbysecondsx=inputposition.x;
+      positionbysecondsy=inputposition.y;
+      positionbysecondsz=inputposition.z;
+      positionbysecondstime=inputposition.time;
+      positionbyseconds.pop();
+      positionbyseconds.unshift(positionbysecondsx, positionbysecondsy, positionbysecondsz, positionbysecondstime);
+    
+      
+      
       if (inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time>=60000) {
         let averagex=0;
         let averagey=0;
