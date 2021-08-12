@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India48</title>
+    <title>India49</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -105,8 +105,14 @@
         //Render Vector3
         render();
         
-
-        
+        //update positionbyseconds
+        position.x=currentposition.x;
+        position.y=currentposition.y;
+        position.z=currentposition.z;
+        position.time=accelcollectdate.getTime();
+        positionbyseconds.pop;
+        positionbyseconds.unshift=position;
+        console.log("positionbyseconds[0].x=" + positionbyseconds[0].x);        
         
         //Update past minute chart, most recent position at end of array
         positionpastminutexvalues.push(currentposition.x);
@@ -138,23 +144,7 @@
     }
     
     function updateminutedata(inputposition) {
-      console.log(Math.trunc((inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time)/1000));
-      
-      //update positionbyseconds, try intermediary variable
-      let positionbysecondsx=0;
-      let positionbysecondsy=0;
-      let positionbysecondsz=0;
-      let positionbysecondstime=0;
-      positionbysecondsx=inputposition.x;
-      positionbysecondsy=inputposition.y;
-      positionbysecondsz=inputposition.z;
-      positionbysecondstime=inputposition.time;
-      positionbyseconds.pop();
-      positionbyseconds.unshift(positionbysecondsx, positionbysecondsy, positionbysecondsz, positionbysecondstime);
-      console.log("positionbyseconds[0].z=" + positionbyseconds[0].z);
-    
-      
-      
+      console.log(Math.trunc((inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time)/1000));    
       if (inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time>=60000) {
         let averagex=0;
         let averagey=0;
