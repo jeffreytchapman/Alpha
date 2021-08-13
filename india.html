@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India62</title>
+    <title>India63</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable-->
@@ -149,9 +149,9 @@
         }
         //update positionbyminutess using an intermediary
         let positiontoadd = new positionvariable();
-        positiontoadd.x=averagex/93;
-        positiontoadd.y=averagey/93;
-        positiontoadd.z=averagez/93;
+        positiontoadd.x=Math.round(averagex/93);
+        positiontoadd.y=Math.round(averagey/93);
+        positiontoadd.z=Math.round(averagez/93);
         positiontoadd.time=inputposition.time;
         positionbyminutes.push(positiontoadd);
         if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
@@ -194,7 +194,7 @@
     var HEIGHT = window.innerHeight*0.4;
     function init() {
       scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 1, 40);
+      camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 40);
       camera.position.set(0, -4, 8);
       camera.lookAt(scene.position);
       cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
