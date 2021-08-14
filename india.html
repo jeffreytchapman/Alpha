@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India70</title>
+    <title>India71</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -87,10 +87,10 @@
           item.time
           ])
       ];
-      let csvContent = "data:text/csv;charset=utf-8,";
+      let csvcontent = "data:text/csv;charset=utf-8,";
       csvstring.forEach(function(rowArray) {
         let row = rowArray.join(",");
-        csvContent += row + "\r\n";
+        csvcontent += row + "\r\n";
       });
       console.log(csvstring);
       console.log(csvcontent);
