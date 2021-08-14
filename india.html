@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India74</title>
+    <title>India75</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -92,10 +92,14 @@
         let row = rowArray.join(",");
         csvcontent += row + "\r\n";
       });
-      //console.log(csvstring);
-      console.log(csvcontent);
-      //var encodedUri = encodeURI(csvcontent);
-      //window.open(encodedUri);
+      const savepositionbyminutesdate = new Date();
+      var savepositionbyminutestime= savepositionbyminutesdate.getTime();
+      var encodedUri = encodeURI(csvcontent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "savepositionbyminutestime+ ".csv");
+      document.body.appendChild(link); 
+      link.click();
     }
     
     function accelcollect() {
