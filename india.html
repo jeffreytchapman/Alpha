@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India71</title>
+    <title>India72</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -92,7 +92,7 @@
         let row = rowArray.join(",");
         csvcontent += row + "\r\n";
       });
-      console.log(csvstring);
+      //console.log(csvstring);
       console.log(csvcontent);
       
       
@@ -103,25 +103,6 @@
         //csvContent += row + "\r\n";
       //});
       //console.log(csvContent);
-      
-      const itemsArray = [
-        { itemId: 1, itemRef: "Item 001" },
-        { itemId: 2, itemRef: "Item 002" },
-        { itemId: 3, itemRef: "Item 003" }
-      ];
-      
-      const testcsvString = [
-        [
-          "Item ID",
-          "Item Reference"
-        ],
-        ...itemsArray.map(item => [
-          item.itemId,
-          item.itemRef
-          ])
-      ];
-      console.log(testcsvString);
-      
     }
     
     function accelcollect() {
