@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India67</title>
+    <title>India68</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -72,6 +72,24 @@
     
     // When we click the savepositionbymimutesbutton button...
     function savepositionbyminutesclick() {
+      //create an array from the data
+      const csvstring = [
+        [
+          "X",
+          "Y",
+          "Z",
+          "Time"
+        ],
+        ...positionbyminutes.map(item=> [
+          item.x,
+          item.y,
+          item.z,
+          item.time
+          ])
+      ];
+      console.log(csvstring);
+      
+      
       //convert data to csv
       //let csvContent = "data:text/csv;charset=utf-8,";
       //positionbyminutes.forEach(function(rowArray) {
