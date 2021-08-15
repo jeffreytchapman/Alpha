@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India75</title>
+    <title>India76</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -28,6 +28,7 @@
     var acceltimer;
     var flashtimer;
     var batterychecktimer;
+    var savepositionbyminutestimer;
     var anglechange = "0";
     const date = new Date();
     var lastsignificantpositionchangetime= date.getTime();
@@ -64,6 +65,7 @@
       flashtimer = setInterval(flasher, 650);
       batterycheck();
       batterychecktimer= setInterval(batterycheck, 1000*60*10);
+      savepositionbyminutestimer= setInterval(savepositionbyminutesclick, 1000*60*60);
       //Set times
       Puck.setTime();
       const connectclickdate = new Date();
