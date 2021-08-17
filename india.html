@@ -61,8 +61,7 @@
       document.getElementById("btnConnect").disabled = true;
       document.getElementById("btnDisconnect").disabled = false;
       Puck.write('Puck.accelOn(1.6);\n');
-      //Puck.write('NRF.setTxPower(4);\n');
-      NRF.setTxPower(power)
+      Puck.write('NRF.setTxPower(4);\n');
       acceltimer = setInterval(accelcollect,650);
       flashtimer = setInterval(flasher, 650);
       batterycheck();
