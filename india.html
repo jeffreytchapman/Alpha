@@ -71,6 +71,7 @@
       Puck.setTime();
       const connectclickdate = new Date();
       previousposition.time=connectclickdate.getTime();
+      Puck.eval("NRF.getBattery()",function(w) { console.log("battery=" + w); });
     }
     
     // When we click the savepositionbymimutesbutton button...
@@ -180,18 +181,13 @@
           document.getElementById("btnSavepositionbyminutes").disabled = false;
         }
         console.log("after 60 sec update positionbyminutes[last].time="+positionbyminutes[(positionbyminutes.length-1)].time);
-        console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-1)].x);
-        console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-1)].y);
-        console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-1)].z);
-        //console.log("RSSI=" + Puck.eval('BluetoothDevice.rssi();\n'));
-        //console.log("connected=" + Puck.eval("BluetoothDevice.connected()"));
-        //console.log("bat voltage=" + Puck.eval('NRF.getBattery();\n'));
-        Puck.eval("NRF.getBattery()",function(w) { console.log("battery=" + w); });
-        Puck.eval("BTN.read()",function(x) { console.log("button=" + x); });
-        //Puck.eval('new Date().toString()',function(y) { console.log(y); });
+        //items below work
+        //console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-1)].x);
+        //console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-1)].y);
+        //console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-1)].z);
+        //Puck.eval("NRF.getBattery()",function(w) { console.log("battery=" + w); });
       }
     }
-    
     
     function flasher() {
       Puck.write('digitalPulse(LED2, 1, 200);\n');
@@ -211,9 +207,9 @@
       document.getElementById("btnConnect").disabled = false;
       document.getElementById("btnDisconnect").disabled = true;
       Puck.write('reset();\n');
-      //store
-      window.localStorage.removeItem("storagepositionbyminutes");
-      window.localStorage.setItem("storagepositionbyminutes", JSON.stringify(positionbyminutes));
+      //store below works
+      //window.localStorage.removeItem("storagepositionbyminutes");
+      //window.localStorage.setItem("storagepositionbyminutes", JSON.stringify(positionbyminutes));
     }
 
     // WebGL boilerplate
