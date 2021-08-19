@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India87</title>
+    <title>India88</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -185,9 +185,10 @@
         console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-1)].z);
         //console.log("RSSI=" + Puck.eval('BluetoothDevice.rssi();\n'));
         //console.log("connected=" + Puck.eval("BluetoothDevice.connected()"));
-        console.log("bat voltage=" + Puck.eval('NRF.getBattery();\n'));
-        Puck.eval("NRF.getBattery()",function(x) { console.log(x); });
-        Puck.eval("BTN.read()",function(x) { console.log(x); });
+        //console.log("bat voltage=" + Puck.eval('NRF.getBattery();\n'));
+        //Puck.eval("NRF.getBattery()",function(x) { console.log(x); });
+        Puck.eval("BTN.read()",function(x) { console.log("button" + x); });
+        //Puck.eval('new Date().toString()',function(y) { console.log(y); });
       }
     }
     
