@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India90</title>
+    <title>India91</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -107,6 +107,8 @@
     
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
+        //Check if connected to Puck
+        Puck.write('NRF.getSecurityStatus();\n');
         const accelcollectdate = new Date();
         //Get accel data
         accel.x=x.acc.x;
@@ -116,7 +118,6 @@
         accel.z=x.acc.z;
         currentposition.z=accel.z;
         currentposition.time=accelcollectdate.getTime();
-        console.log("time=" +currentposition.time);
         //Render Vector3
         render();
         
