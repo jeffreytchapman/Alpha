@@ -186,6 +186,7 @@
         //console.log("RSSI=" + Puck.eval('BluetoothDevice.rssi();\n'));
         //console.log("connected=" + Puck.eval("BluetoothDevice.connected()"));
         console.log("bat voltage=" + Puck.eval('NRF.getBattery();\n'));
+        Puck.eval("NRF.getBattery()",function(x) { console.log(x); })
       }
     }
     
