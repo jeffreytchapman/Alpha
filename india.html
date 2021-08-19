@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India86</title>
+    <title>India87</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -187,6 +187,7 @@
         //console.log("connected=" + Puck.eval("BluetoothDevice.connected()"));
         console.log("bat voltage=" + Puck.eval('NRF.getBattery();\n'));
         Puck.eval("NRF.getBattery()",function(x) { console.log(x); });
+        Puck.eval("BTN.read()",function(x) { console.log(x); });
       }
     }
     
