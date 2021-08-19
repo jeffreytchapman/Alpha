@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India89</title>
+    <title>India90</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -109,6 +109,20 @@
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
         const accelcollectdate = new Date();
+        //Check if we are connected
+        Puck.eval("NRF.getBattery()",function(w) { 
+          console.log("battery=" + w); 
+          if (w>0) {
+            console.log("connected");
+          } else {
+            console.log("connected");
+          }
+        });
+        //NRF.setRSSIHandler(function(rssi) {
+          //console.log(rssi); // prints -85 (or similar)
+        //});
+        
+        
         //Get accel data
         accel.x=x.acc.x;
         currentposition.x=accel.x;
