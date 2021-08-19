@@ -107,9 +107,6 @@
     
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
-        //Check if connected to Puck
-        Puck.eval('NRF.getSecurityStatus()', function(x) { console.log(x.connected); });
-        Puck.eval("NRF.getBattery()",function(w) { console.log("battery=" + w); });
         const accelcollectdate = new Date();
         //Get accel data
         accel.x=x.acc.x;
@@ -161,7 +158,7 @@
     }
     
     function updateminutedata(inputposition) {
-      console.log(Math.trunc((inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time)/1000));    
+      //console.log(Math.trunc((inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time)/1000));    
       if (inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time>=60000) {
         let averagex=0;
         let averagey=0;
