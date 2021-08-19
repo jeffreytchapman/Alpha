@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>India80</title>
+    <title>India81</title>
   </head>
   <body>
   <!--India added save position by minutes button, created positionvariable, positionbyseconds works, positonbyminutes works-->
@@ -61,7 +61,7 @@
       document.getElementById("btnConnect").disabled = true;
       document.getElementById("btnDisconnect").disabled = false;
       Puck.write('Puck.accelOn(1.6);\n');
-      Puck.write('NRF.setTxPower(-20);\n');
+      Puck.write('NRF.setTxPower(400);\n');
       acceltimer = setInterval(accelcollect,650);
       flashtimer = setInterval(flasher, 650);
       batterycheck();
