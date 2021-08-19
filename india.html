@@ -12,11 +12,11 @@
   <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
   <button id="btnSavepositionbyminutes" disabled="True" onclick=savepositionbyminutesclick()>Save to CSV</button>
   <label for="anglechange">Position duration:</label>
-  <input type="text" id="positionduration" name="positionduration" maxlength="7" size="6" readonly>
+  <input type="text" id="positionduration" name="positionduration" maxlength="3" size="3" readonly>
   <label for="anglechange">Angle change:</label>
-  <input type="text" id="anglechange" name="anglechange" maxlength="3" size="2" readonly>
+  <input type="text" id="anglechange" name="anglechange" maxlength="3" size="1" readonly>
   <label for="batterylevel">Battery Level:</label>
-  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="2" readonly><br>
+  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="1" readonly><br>
   <div>
     <canvas id="chartpositionpastminute" style="width:100%;max-width:1200px"></canvas>
   </div>
@@ -183,10 +183,7 @@
         console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-1)].x);
         console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-1)].y);
         console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-1)].z);
-        console.log("after 60 sec update positionbyminutes[last].time="+positionbyminutes[(positionbyminutes.length-2)].time);
-        console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-2)].x);
-        console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-2)].y);
-        console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-2)].z);
+        console.log("RSSI=" + BluetoothDevice.rssi);
       }
     }
     
