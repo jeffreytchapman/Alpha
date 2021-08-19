@@ -183,7 +183,7 @@
         console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-1)].x);
         console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-1)].y);
         console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-1)].z);
-        console.log("RSSI=" + Puck.write('BluetoothDevice.rssi();\n'));
+        console.log("RSSI=" + Puck.eval('BluetoothDevice.rssi();\n'));
         console.log("connected=" + Puck.eval("BluetoothDevice.connected()"));
       }
     }
