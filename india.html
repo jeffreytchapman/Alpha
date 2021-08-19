@@ -71,7 +71,6 @@
       Puck.setTime();
       const connectclickdate = new Date();
       previousposition.time=connectclickdate.getTime();
-      Puck.eval("NRF.getBattery()",function(w) { console.log("battery=" + w); });
     }
     
     // When we click the savepositionbymimutesbutton button...
@@ -109,20 +108,6 @@
     function accelcollect() {
       Puck.eval("Puck.accel()",function(x) {
         const accelcollectdate = new Date();
-        //Check if we are connected
-        Puck.eval("NRF.getBattery()",function(w) { 
-          console.log("battery=" + w); 
-          if (w>0) {
-            console.log("connected");
-          } else {
-            console.log("connected");
-          }
-        });
-        //NRF.setRSSIHandler(function(rssi) {
-          //console.log(rssi); // prints -85 (or similar)
-        //});
-        
-        
         //Get accel data
         accel.x=x.acc.x;
         currentposition.x=accel.x;
@@ -131,6 +116,7 @@
         accel.z=x.acc.z;
         currentposition.z=accel.z;
         currentposition.time=accelcollectdate.getTime();
+        console.log("time=" +currentposition.time);
         //Render Vector3
         render();
         
