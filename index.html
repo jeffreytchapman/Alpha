@@ -1,280 +1,367 @@
-<html>
-  <head>
-    <title>Juliet</title>
-  </head>
-  <body>
-  <!--Juliet-->
-  <script src="https://www.puck-js.com/puck.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-  
-  <button id="btnConnect" onclick=connectclick()>Connect</button>
-  <button id="btnDisconnect" disabled="True" onclick=disconnectclick()>Disconnect</button>
-  <button id="btnSavepositionbyminutes" disabled="True" onclick=savepositionbyminutesclick()>Save to CSV</button>
-  <label for="anglechange">Position duration:</label>
-  <input type="text" id="positionduration" name="positionduration" maxlength="3" size="3" readonly>
-  <label for="anglechange">Angle change:</label>
-  <input type="text" id="anglechange" name="anglechange" maxlength="3" size="1" readonly>
-  <label for="batterylevel">Battery Level:</label>
-  <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="1" readonly><br>
-  <div>
-    <canvas id="chartpositionpastminute" style="width:100%;max-width:1200px;height:100%;max-height:400px"></canvas>
-  </div>
-  
-  <script type="text/javascript">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Traversy Bootcamp</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark py-3 fixed-top">
+        <div class="container">
+            <a href="#" class="navbar-brand">Bootcamp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="#learn" class="nav-link">What You'll Learn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#questions" class="nav-link">Questions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#instructors" class="nav-link">Instructors</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    //Variables
-    var accel = new THREE.Vector3( 0, 0, 1);
-    var acceltimer;
-    var flashtimer;
-    var batterychecktimer;
-    var savepositionbyminutestimer;
-    var anglechange = "0";
-    const date = new Date();
-    var lastsignificantpositionchangetime= date.getTime();
-    function positionvariable(x, y, z, time) {
-      this.x = x;
-      this.y = y;
-      this.z = z;
-      this.time = time;
-    }
-    const previousposition = new positionvariable(0, 0, 8000, date.getTime());
-    const currentposition = new positionvariable(0, 0, 0, 0);
-    const position = new positionvariable(0, 0, 0, 0);
-    const positionbyseconds = [];
-    const positionpastminutetimevalues = [];
-    const positionpastminutexvalues = [];
-    const positionpastminuteyvalues = [];
-    const positionpastminutezvalues = [];
-    for (let i = 0; i < 93; i++) {
-      positionbyseconds[i]={x:0, y:0, z:8000, time:date.getTime()};
-      positionpastminutexvalues[i]=0;
-      positionpastminuteyvalues[i]=0;
-      positionpastminutezvalues[i]=0;
-      positionpastminutetimevalues[i]=(date.getTime()-650*(92-i));
-    }
-    const positionbyminutes = [];
-    positionbyminutes[0]={x:0, y:0, z:8000, time:date.getTime()};
-    
-    // When we click the connect button...
-    function connectclick() {
-      document.getElementById("btnConnect").disabled = true;
-      document.getElementById("btnDisconnect").disabled = false;
-      Puck.write('Puck.accelOn(1.6);\n');
-      Puck.write('NRF.setTxPower(4);\n');
-      acceltimer = setInterval(accelcollect,650);
-      flashtimer = setInterval(flasher, 650);
-      batterycheck();
-      batterychecktimer= setInterval(batterycheck, 1000*60*10);
-      savepositionbyminutestimer= setInterval(savepositionbyminutesclick, 1000*60*60);
-      //Set times
-      Puck.setTime();
-      const connectclickdate = new Date();
-      previousposition.time=connectclickdate.getTime();
-    }
-    
-    // When we click the savepositionbymimutesbutton button...
-    function savepositionbyminutesclick() {
-      //create an array from the data
-      const csvstring = [
-        [
-          "X",
-          "Y",
-          "Z",
-          "Time"
-        ],
-        ...positionbyminutes.map(item=> [
-          item.x,
-          item.y,
-          item.z,
-          item.time
-          ])
-      ];
-      let csvcontent = "data:text/csv;charset=utf-8,";
-      csvstring.forEach(function(rowArray) {
-        let row = rowArray.join(",");
-        csvcontent += row + "\r\n";
-      });
-      const savepositionbyminutesdate = new Date();
-      var savepositionbyminutestime= savepositionbyminutesdate.getTime();
-      var encodedUri = encodeURI(csvcontent);
-      var link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", savepositionbyminutestime + ".csv");
-      document.body.appendChild(link); 
-      link.click();
-    }
-    
-    function accelcollect() {
-      Puck.eval("Puck.accel()",function(x) {
-        const accelcollectdate = new Date();
-        //Get accel data
-        accel.x=x.acc.x;
-        currentposition.x=accel.x;
-        accel.y=x.acc.y;
-        currentposition.y=accel.y;
-        accel.z=x.acc.z;
-        currentposition.z=accel.z;
-        currentposition.time=accelcollectdate.getTime();
-        //Render Vector3
-        render();
-        
-        //update positionbyseconds using an intermediary
-        let positiontoadd = new positionvariable();
-        positiontoadd.x=currentposition.x;
-        positiontoadd.y=currentposition.y;
-        positiontoadd.z=currentposition.z;
-        positiontoadd.time=currentposition.time;
-        positionbyseconds.pop;
-        positionbyseconds.unshift(positiontoadd);
-        
-        //Update past minute chart, most recent position at end of array
-        positionpastminutexvalues.push(currentposition.x);
-        positionpastminutexvalues.shift();
-        positionpastminuteyvalues.push(currentposition.y);
-        positionpastminuteyvalues.shift();
-        positionpastminutezvalues.push(currentposition.z);
-        positionpastminutezvalues.shift();
-        positionpastminutetimevalues.push(currentposition.time);
-        positionpastminutetimevalues.shift();
-        chartpositionpastminute.update("none");
-        
-        //Get angle change
-        anglechange=57.2958*Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x,2) + Math.pow(previousposition.y,2) + Math.pow(previousposition.z,2)) * Math.sqrt(Math.pow(currentposition.x,2) + Math.pow(currentposition.y,2) + Math.pow(currentposition.z,2))));
-        document.getElementById("anglechange").value=Math.round(anglechange);
-        //If angle change is significant reset previous position and time
-        if (anglechange > 20) {
-          previousposition.x=currentposition.x;
-          previousposition.y=currentposition.y;
-          previousposition.z=currentposition.z;
-          previousposition.time=currentposition.time;
-          lastsignificantpositionchangetime=currentposition.time
-        }
-        document.getElementById("positionduration").value=Math.trunc((currentposition.time-lastsignificantpositionchangetime)/(1000*60))+" min";
-        
-        //go to updateminute data function with every new accel position
-        updateminutedata(currentposition);
-      })
-    }
-    
-    function updateminutedata(inputposition) {
-      //console.log(Math.trunc((inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time)/1000));    
-      if (inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time>=60000) {
-        let averagex=0;
-        let averagey=0;
-        let averagez=0;
-        let timetoadd=0
-        for (let i = 0; i < 93; i++) {
-          averagex=averagex + positionbyseconds[i].x;
-          averagey=averagey + positionbyseconds[i].y;
-          averagez=averagez + positionbyseconds[i].z;
-        }
-        //update positionbyminutess using an intermediary
-        let positiontoadd = new positionvariable();
-        positiontoadd.x=Math.round(averagex/93);
-        positiontoadd.y=Math.round(averagey/93);
-        positiontoadd.z=Math.round(averagez/93);
-        positiontoadd.time=inputposition.time;
-        positionbyminutes.push(positiontoadd);
-        if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
-          document.getElementById("btnSavepositionbyminutes").disabled = false;
-        }
-        console.log("after 60 sec update positionbyminutes[last].time="+positionbyminutes[(positionbyminutes.length-1)].time);
-        //items below work
-        //console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-1)].x);
-        //console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-1)].y);
-        //console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-1)].z);
-        //Puck.eval("NRF.getBattery()",function(w) { console.log("battery=" + w); });
-      }
-    }
-    
-    function flasher() {
-      Puck.write('digitalPulse(LED2, 1, 200);\n');
-    }
-    
-    async function batterycheck() {
-     let myPromise = new Promise(function(myResolve, myReject) {
-       myResolve(Puck.eval("E.getBattery()"));
-     });
-     document.getElementById("batterylevel").value = await myPromise;
-   }
-    
-    function disconnectclick() {
-      Puck.write('Puck.accelOff();\n');
-      clearInterval(flashtimer);
-      clearInterval(acceltimer);
-      document.getElementById("btnConnect").disabled = false;
-      document.getElementById("btnDisconnect").disabled = true;
-      Puck.write('reset();\n');
-      //store below works
-      //window.localStorage.removeItem("storagepositionbyminutes");
-      //window.localStorage.setItem("storagepositionbyminutes", JSON.stringify(positionbyminutes));
-    }
+    <!-- Showcase -->
+    <section class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start">
+        <div class="container">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <div>
+                    <h1>Become a <span class="text-warning">Web Developer</span></h1>
+                    <p class="lead my-4">We focus on teaching our students the fundamentals of the latest and greatest technologies to prepare them for their first dev role</p>
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#enroll">Start the enrollment</button>
+                </div>
+                <img class="img-fluid w-25 d-none d-sm-block" src="img/outer_space.svg" alt="">
+            </div>
+        </div>
+    </section>
 
-    // WebGL boilerplate
-    var scene, camera, renderer, cube;
-    var WIDTH  = window.innerWidth*0.4;
-    var HEIGHT = window.innerHeight*0.4;
-    function init() {
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 40);
-      camera.position.set(0, -4, 8);
-      camera.lookAt(scene.position);
-      cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
-      scene.add(cube);
-      renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(WIDTH, HEIGHT);
-      document.body.appendChild(renderer.domElement);
-    }
+    <!-- Newsletter -->
+    <section class="bg-primary text-light p-5">
+        <div class="container">
+            <div class="d-md-flex justify-content-between align-items-center">
+                <h3 class="mb-3 mb-md-0">Sign Up for Our Newsletter</h3>
+                <div class="input-group level-input">
+                    <label class="input-group-text" for="inputGroupSelectLevel">Level</label>
+                    <select class="form-select" id="inputGroupSelectLevel">
+                      <option selected>Choose Level...</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16">16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                    </select>
+                  </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Boxes -->
+    <section class="p-5">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <div class="card-body text-center">
+                            <div class="h1 mb-3">
+                                <i class="bi bi-laptop"></i>
+                            </div>
+                            <h3 class="card-title mb-3">
+                                Virtual
+                            </h3>
+                            <p class="card-text">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore ad maiores, nostrum ut cumque beatae.
+                            </p>
+                            <a href="" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="card bg-secondary text-light">
+                        <div class="card-body text-center">
+                            <div class="h1 mb-3">
+                                <i class="bi bi-person-square"></i>
+                            </div>
+                            <h3 class="card-title mb-3">
+                                Hybrid
+                            </h3>
+                            <p class="card-text">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore ad maiores, nostrum ut cumque beatae.
+                            </p>
+                            <a href="" class="btn btn-dark">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <div class="card-body text-center">
+                            <div class="h1 mb-3">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <h3 class="card-title mb-3">In Person</h3>
+                            <p class="card-text">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore ad maiores, nostrum ut cumque beatae.
+                            </p>
+                            <a href="" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learn Sections -->
+    <section id="learn" class="p-5">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md">
+                    <img src="img/working.svg" alt="" class="img-fluid">
+                </div>
+                <div class="col-md p-5">
+                    <h2>Learn the FUndamentals</h2>
+                    <p class="lead">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente recusandae, quis cum fugit aliquam illo?
+                    </p>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed accusantium vel ipsum consequuntur dolorem repudiandae nesciunt ipsam consequatur. Dolores quis enim eius illo! Culpa, ipsam voluptatem dolore saepe asperiores corrupti.</p>
+                    <a href="#" class="btn btn-light mt-3">
+                        <i class="bi bi-chevron-right"></i> Read More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
     
-    function render() {
-      cube.lookAt(accel);
-      renderer.render(scene, camera);
-    }
-    init();
-    render();
+
+    <section id="learn" class="p-5 bg-dark text-light">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md p-5">
+                    <h2>Learn React</h2>
+                    <p class="lead">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente recusandae, quis cum fugit aliquam illo?
+                    </p>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed accusantium vel ipsum consequuntur dolorem repudiandae nesciunt ipsam consequatur. Dolores quis enim eius illo! Culpa, ipsam voluptatem dolore saepe asperiores corrupti.</p>
+                    <a href="#" class="btn btn-light mt-3">
+                        <i class="bi bi-chevron-right"></i> Read More
+                    </a>
+                </div>
+                <div class="col-md">
+                    <img src="img/react.png" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
     
-    //Charting
-    var pastminutectx = document.getElementById("chartpositionpastminute");
-    var chartpositionpastminute = new Chart(pastminutectx, {
-      type: "line",
-      data: {
-        labels: positionpastminutetimevalues,
-        datasets: [{
-          label: "X",
-          fill: false,
-          lineTension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",
-          borderColor: "rgba(0,0,255,0.1)",
-          data: positionpastminutexvalues,
-        }, {
-          label: "Y",
-          fill: false,
-          lineTension: 0,
-          backgroundColor: "rgba(0,255,0,1.0)",
-          borderColor: "rgba(0,255,0,0.1)",
-          data: positionpastminuteyvalues,
-        }, {
-          label: "Z",
-          fill: false,
-          lineTension: 0,
-          backgroundColor: "rgba(255,0,0,1.0)",
-          borderColor: "rgba(255,0,0,0.1)",
-          data: positionpastminutezvalues,
-        }]
-      },
-      options: {
-        title: "Position past minute",
-        legend: {display: true},
-        scales: {
-          yAxes: [{ticks: {min: -10000, max: 10000},
-                   position: "right"}],
-          xAxes: [{ticks: {min: 0, max: 60, display: false},
-                   position: "center"}],
-        }
-      }
-    });
-    
- </script>
- </body>
+    <!-- Question Accordion -->
+    <section id="questions" class="p-5">
+        <div class="container">
+            <h2 class="text-center mg-4">Frequently Asked Questions</h2>
+            <div class="accordion accordion-flush" id="questions">
+                <!-- Item 1 -->
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#question-one">
+                      Where exactly are you located?
+                    </button>
+                  </h2>
+                  <div id="question-one" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#questions">
+                    <div class="accordion-body">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis nobis rerum animi excepturi impedit molestias, eveniet obcaecati odio eius repellendus inventore iste totam sequi maiores dolores alias iure corrupti natus hic sint accusamus! Accusantium natus et, ut minus esse, debitis cumque vero labore eligendi adipisci, consectetur nam maxime deserunt obcaecati!</div>
+                  </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#question-two">
+                        How much does it cost to attend?
+                      </button>
+                    </h2>
+                    <div id="question-two" class="accordion-collapse collapse"  data-bs-parent="#questions">
+                      <div class="accordion-body">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis nobis rerum animi excepturi impedit molestias, eveniet obcaecati odio eius repellendus inventore iste totam sequi maiores dolores alias iure corrupti natus hic sint accusamus! Accusantium natus et, ut minus esse, debitis cumque vero labore eligendi adipisci, consectetur nam maxime deserunt obcaecati!</div>
+                    </div>
+                  </div>
+                <!-- Item 3 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#question-three">
+                        What do I need to know?
+                      </button>
+                    </h2>
+                    <div id="question-three" class="accordion-collapse collapse" data-bs-parent="#questions">
+                      <div class="accordion-body">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis nobis rerum animi excepturi impedit molestias, eveniet obcaecati odio eius repellendus inventore iste totam sequi maiores dolores alias iure corrupti natus hic sint accusamus! Accusantium natus et, ut minus esse, debitis cumque vero labore eligendi adipisci, consectetur nam maxime deserunt obcaecati!</div>
+                    </div>
+                  </div>
+                  <!-- Item 4 -->
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#question-four">
+                        How to I sign up?
+                      </button>
+                    </h2>
+                    <div id="question-four" class="accordion-collapse collapse" data-bs-parent="#questions">
+                      <div class="accordion-body">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis nobis rerum animi excepturi impedit molestias, eveniet obcaecati odio eius repellendus inventore iste totam sequi maiores dolores alias iure corrupti natus hic sint accusamus! Accusantium natus et, ut minus esse, debitis cumque vero labore eligendi adipisci, consectetur nam maxime deserunt obcaecati!</div>
+                    </div>
+                  </div>
+        </div>
+    </section>
+
+    <!-- Instructors -->
+    <section id="instructors" class="p-5 bg-primary">
+        <div class="container">
+            <h2 class="text-center text-white">Our Instructors</h2>
+            <p class="lead text-center text-white mb-5">
+                OUr instructors all have at least five years of experience working as aweb developer in the industry!
+            </p>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <img src="https://randomuser.me/api/portraits/men/11.jpg" class="rounded-circle" alt="">
+                            <h3 class="card-title mg-3">John Doe</h3>
+                            <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores doloremque libero autem, nihil odit alias!</p>
+                            <a href="#" class=""><i class="bi bi-twitter text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-facebook text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-linkedin text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-instagram text-dark mx-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <img src="https://randomuser.me/api/portraits/men/12.jpg" class="rounded-circle" alt="">
+                            <h3 class="card-title mg-3">Dave Doe</h3>
+                            <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores doloremque libero autem, nihil odit alias!</p>
+                            <a href="#" class=""><i class="bi bi-twitter text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-facebook text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-linkedin text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-instagram text-dark mx-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <img src="https://randomuser.me/api/portraits/women/11.jpg" class="rounded-circle" alt="">
+                            <h3 class="card-title mg-3">Jane Doe</h3>
+                            <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores doloremque libero autem, nihil odit alias!</p>
+                            <a href="#" class=""><i class="bi bi-twitter text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-facebook text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-linkedin text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-instagram text-dark mx-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <img src="https://randomuser.me/api/portraits/women/12.jpg" class="rounded-circle" alt="">
+                            <h3 class="card-title mg-3">Danielle Doe</h3>
+                            <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores doloremque libero autem, nihil odit alias!</p>
+                            <a href="#" class=""><i class="bi bi-twitter text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-facebook text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-linkedin text-dark mx-1"></i></a>
+                            <a href="#" class=""><i class="bi bi-instagram text-dark mx-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="p-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md">
+                    <h2 class="text-center mb-4">Contact Info</h2>
+                    <ul class="list-group list-group-flush lead">
+                        <li class="list-group-item">
+                            <span class="fw-bold">Main Location:</span> 50 Main Steet Boston MA
+                        </li>
+                        <li class="list-group-item">
+                            <span class="fw-bold">Phone:</span> BR-549
+                        </li>
+                        <li class="list-group-item">
+                            <span class="fw-bold">Email:</span> teacher@here.me
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p-5 bg-dark text-white text-center position-relative">
+        <div class="container">
+            <p class="lead">Copyright &copy; 2021 Frontend Bootcamp</p>
+            <a href="#" class="postion-absolute bottom-0 end-0 p5">
+                <i class="bi bi-arrow-up-circle h1"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal fade" id="enroll" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="enrollLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="lead">Fill out this form and we will get back to you.</p>
+                    <form action="">
+                        <div class="mb3">
+                            <label for="First-name" class="col-form-label" >
+                                First Name:
+                            </label>
+                            <input type="text" class="form-control" id="firstname">
+                        </div>
+                        <div class="mb3">
+                            <label for="Last-name" class="col-form-label" >
+                                Last Name:
+                            </label>
+                            <input type="text" class="form-control" id="lastname">
+                        </div>
+                        <div class="mb3">
+                            <label for="Email" class="col-form-label" >
+                                Email:
+                            </label>
+                            <input type="text" class="form-control" id="email">
+                        </div>
+                        <div class="mb3">
+                            <label for="Phone" class="col-form-label" >
+                                Phone:
+                            </label>
+                            <input type="text" class="form-control" id="phone">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
 </html>
