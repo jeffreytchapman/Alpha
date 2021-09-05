@@ -40,7 +40,7 @@
                 <div>
                     <h1>Become a <span class="text-warning">Web Developer</span></h1>
                     <p class="lead my-4">We focus on teaching our students the fundamentals of the latest and greatest technologies to prepare them for their first dev role</p>
-                    <button class="btn btn-primary btn-lg">Start the enrollment</button>
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#enroll">Start the enrollment</button>
                 </div>
                 <img class="img-fluid w-25 d-none d-sm-block" src="img/outer_space.svg" alt="">
             </div>
@@ -284,6 +284,83 @@
             </div>
         </div>
     </section>
+
+    <!-- Contact -->
+    <section class="p-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md">
+                    <h2 class="text-center mb-4">Contact Info</h2>
+                    <ul class="list-group list-group-flush lead">
+                        <li class="list-group-item">
+                            <span class="fw-bold">Main Location:</span> 50 Main Steet Boston MA
+                        </li>
+                        <li class="list-group-item">
+                            <span class="fw-bold">Phone:</span> BR-549
+                        </li>
+                        <li class="list-group-item">
+                            <span class="fw-bold">Email:</span> teacher@here.me
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p-5 bg-dark text-white text-center position-relative">
+        <div class="container">
+            <p class="lead">Copyright &copy; 2021 Frontend Bootcamp</p>
+            <a href="#" class="postion-absolute bottom-0 end-0 p5">
+                <i class="bi bi-arrow-up-circle h1"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal fade" id="enroll" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="enrollLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="lead">Fill out this form and we will get back to you.</p>
+                    <form action="">
+                        <div class="mb3">
+                            <label for="First-name" class="col-form-label" >
+                                First Name:
+                            </label>
+                            <input type="text" class="form-control" id="firstname">
+                        </div>
+                        <div class="mb3">
+                            <label for="Last-name" class="col-form-label" >
+                                Last Name:
+                            </label>
+                            <input type="text" class="form-control" id="lastname">
+                        </div>
+                        <div class="mb3">
+                            <label for="Email" class="col-form-label" >
+                                Email:
+                            </label>
+                            <input type="text" class="form-control" id="email">
+                        </div>
+                        <div class="mb3">
+                            <label for="Phone" class="col-form-label" >
+                                Phone:
+                            </label>
+                            <input type="text" class="form-control" id="phone">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 </body>
