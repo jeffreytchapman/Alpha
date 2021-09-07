@@ -3,7 +3,7 @@ function PopulateSelectRoom(selectLevel, selectRoom) {
     var selectLevel = document.getElementById(selectLevel);
     var selectRoom = document.getElementById(selectRoom);
     selectRoom.innerHTML = "";
-    if (selectLevel.value >= 6 && selectLevel <= 8) {
+    if (selectLevel.value == "6"||selectLevel.value == "7"||selectLevel.value == "8") {
         for (let i = 1; i < 25; i++) {
             var newOption = document.createElement("option");
             newOption.value = i;
@@ -11,11 +11,11 @@ function PopulateSelectRoom(selectLevel, selectRoom) {
             selectRoom.options.add(newOption);
         }
     }
-    if (selectLevel.value >= 11 && selectLevel <= 18) {
+    if (selectLevel.value == "11"||selectLevel.value == "12"||selectLevel.value == "13"||selectLevel.value == "14"||selectLevel.value == "15"||selectLevel.value == "16"||selectLevel.value == "17"||selectLevel.value == "18") {
         for (let i = 1; i < 37; i++) {
             var newOption = document.createElement("option");
-            newOption.value = i;
-            newOption.innerHTML = i;
+            newOption.value = "i";
+            newOption.innerHTML = "i";
             selectRoom.options.add(newOption);
         }
     }
