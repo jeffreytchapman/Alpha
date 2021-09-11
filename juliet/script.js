@@ -1,9 +1,11 @@
 // Variables
-// Timers
+var room;
+var level;
 var acceltimer;
 var flashtimer;
 var batterychecktimer;
 var savepositionbyminutestimer;
+var accel = new THREE.Vector3( 0, 0, 1);
 var anglechange = "0";
 const date = new Date();
 var lastsignificantpositionchangetime = date.getTime();
@@ -187,10 +189,15 @@ function updateminutedata(inputposition) {
     }
 }
 
-// Populate select room
-function PopulateSelectRoom(selectLevel, selectRoom) {
+// Level Selected
+function LevelSelected(selectLevel, selectRoom) {
     var selectLevel = document.getElementById(selectLevel);
     var selectRoom = document.getElementById(selectRoom);
+    document.getElementById("labelLevel").innerHTML = "Level";
+    document.getElementById("labelRoom").innerHTML = "Set Room";
+    //document.getElementById("labelLevel").style.backgroundColor = "chartreuse";
+    //document.getElementById("labelLevel").style.color = "chartreuse";
+    level=selectLevel.value;
     selectRoom.innerHTML = "";
     if (selectLevel.value == "6" || selectLevel.value == "7" || selectLevel.value == "8") {
         for (let i = 1; i < 25; i++) {
@@ -208,6 +215,17 @@ function PopulateSelectRoom(selectLevel, selectRoom) {
             selectRoom.options.add(newOption);
         }
     }
+}
+
+// Room Selected
+function RoomSelected(selectLevel, selectRoom) {
+    var selectLevel = document.getElementById(selectLevel);
+    var selectRoom = document.getElementById(selectRoom);
+    document.getElementById("labelRoom").innerHTML = "Room";
+    //document.getElementById("labelLevel").style.backgroundColor = "chartreuse";
+    //document.getElementById("labelLevel").style.color.replace = "chartreuse";
+    room=selectRoom.value;
+    console.log("selectRoom="+room)
 }
 
 
