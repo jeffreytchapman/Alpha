@@ -100,7 +100,7 @@ function savepositionbyminutesclick() {
     var encodedUri = encodeURI(csvcontent);
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", savepositionbyminutestime + ".csv");
+    link.setAttribute("download", level + "-" + room + "-" + savepositionbyminutestime + ".csv");
     document.body.appendChild(link);
     link.click();
 }
@@ -164,7 +164,7 @@ function updateminutedata(inputposition) {
         let averagex = 0;
         let averagey = 0;
         let averagez = 0;
-        let timetoadd = 0
+        let timetoadd = 0;
         for (let i = 0; i < 93; i++) {
             averagex = averagex + positionbyseconds[i].x;
             averagey = averagey + positionbyseconds[i].y;
@@ -195,10 +195,18 @@ function LevelSelected(selectLevel, selectRoom) {
     var selectRoom = document.getElementById(selectRoom);
     document.getElementById("labelLevel").innerHTML = "Level";
     document.getElementById("labelRoom").innerHTML = "Set Room";
+    document.getElementById("labelRoom").disabled = "false";
     //document.getElementById("labelLevel").style.backgroundColor = "chartreuse";
     //document.getElementById("labelLevel").style.color = "chartreuse";
     level=selectLevel.value;
+    if (level == "6" || level == "7" || level == "8") {
+        level= "0" + level;
+    }
     selectRoom.innerHTML = "";
+    var newOption = document.createElement("option");
+    newOption.value = "Choose room";
+    newOption.innerHTML = "Choose room";
+    selectRoom.options.add(newOption);
     if (selectLevel.value == "6" || selectLevel.value == "7" || selectLevel.value == "8") {
         for (let i = 1; i < 25; i++) {
             var newOption = document.createElement("option");
@@ -225,11 +233,12 @@ function RoomSelected(selectLevel, selectRoom) {
     //document.getElementById("labelLevel").style.backgroundColor = "chartreuse";
     //document.getElementById("labelLevel").style.color.replace = "chartreuse";
     room=selectRoom.value;
-    console.log("selectRoom="+room)
+    if (room == "1" || room == "2" || room == "3" || room == "4" || room == "5" || room == "6" || room == "7" || room == "8" || room == "9") {
+        room= "0" + room;
+    }
 }
 
-
-// WebGL boilerplate
+// THREE boilerplate
 var scene, camera, renderer, cube;
 var WIDTH = window.innerWidth * 0.4;
 var HEIGHT = window.innerHeight * 0.4;
@@ -239,8 +248,10 @@ function init() {
     camera.position.set(0, -4, 8);
     camera.lookAt(scene.position);
     cube = new THREE.Mesh(new THREE.CubeGeometry(4, 2, 1), new THREE.MeshNormalMaterial());
+    // scene.backgroundcolor("white")
     scene.add(cube);
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setClearColor(0xffffff, 0); // white background - replace ffffff with any hex color
     renderer.setSize(WIDTH, HEIGHT);
     document.body.appendChild(renderer.domElement);
 }
