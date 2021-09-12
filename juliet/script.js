@@ -5,7 +5,7 @@ var acceltimer;
 var flashtimer;
 var batterychecktimer;
 var savepositionbyminutestimer;
-var accel = new THREE.Vector3( 0, 0, 1);
+var accel = new THREE.Vector3(0, 0, 1);
 var anglechange = "0";
 const date = new Date();
 var lastsignificantpositionchangetime = date.getTime();
@@ -140,8 +140,8 @@ function accelcollect() {
         positionpastminutetimevalues.shift();
         chartpositionpastminute.update("none");
 
-        //Get angle change
-        anglechange = 57.2958 * Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x, 2) + Math.pow(previousposition.y, 2) + Math.pow(previousposition.z, 2)) * Math.sqrt(Math.pow(currentposition.x, 2) + Math.pow(currentposition.y, 2) + Math.pow(currentposition.z, 2))));
+        //Get angle change removed from observing protocol
+        /*anglechange = 57.2958 * Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x, 2) + Math.pow(previousposition.y, 2) + Math.pow(previousposition.z, 2)) * Math.sqrt(Math.pow(currentposition.x, 2) + Math.pow(currentposition.y, 2) + Math.pow(currentposition.z, 2))));
         document.getElementById("anglechange").value = Math.round(anglechange);
         //If angle change is significant reset previous position and time
         if (anglechange > 20) {
@@ -152,6 +152,7 @@ function accelcollect() {
             lastsignificantpositionchangetime = currentposition.time
         }
         document.getElementById("positionduration").value = Math.trunc((currentposition.time - lastsignificantpositionchangetime) / (1000 * 60)) + " min";
+        */
 
         //go to updateminute data function with every new accel position
         updateminutedata(currentposition);
@@ -198,9 +199,9 @@ function LevelSelected(selectLevel, selectRoom) {
     document.getElementById("labelRoom").disabled = "false";
     //document.getElementById("labelLevel").style.backgroundColor = "chartreuse";
     //document.getElementById("labelLevel").style.color = "chartreuse";
-    level=selectLevel.value;
+    level = selectLevel.value;
     if (level == "6" || level == "7" || level == "8") {
-        level= "0" + level;
+        level = "0" + level;
     }
     selectRoom.innerHTML = "";
     var newOption = document.createElement("option");
@@ -230,11 +231,12 @@ function RoomSelected(selectLevel, selectRoom) {
     var selectLevel = document.getElementById(selectLevel);
     var selectRoom = document.getElementById(selectRoom);
     document.getElementById("labelRoom").innerHTML = "Room";
+    document.getElementById("btnConnect").disabled = false
     //document.getElementById("labelLevel").style.backgroundColor = "chartreuse";
     //document.getElementById("labelLevel").style.color.replace = "chartreuse";
-    room=selectRoom.value;
+    room = selectRoom.value;
     if (room == "1" || room == "2" || room == "3" || room == "4" || room == "5" || room == "6" || room == "7" || room == "8" || room == "9") {
-        room= "0" + room;
+        room = "0" + room;
     }
 }
 

@@ -40,7 +40,7 @@
     </nav>
 
     <!-- Setup -->
-    <section class="bg-light text-dark p-3">
+    <section class="bg-light text-dark p-lg-3 p-md-2 p-sm-1">
         <div class="container">
             <div class="d-md-flex justify-content-between align-items-center">
                 <div class="input-group level-input">
@@ -64,16 +64,23 @@
                     <label class="input-group-text" disabled="true" id="labelRoom" for="inputGroupSelectRoom">Room</label>
                     <select class="form-select" id="inputGroupSelectRoom" name="SelectRoom" onchange="RoomSelected('inputGroupSelectLevel','inputGroupSelectRoom')"></select>
                 </div>
-                <button id="btnConnect" class="btn btn-primary" onclick=connectclick()>Connect</button>
-                <button id="btnDisconnect" class="btn btn-secondary" disabled="True" onclick=disconnectclick()>Disconnect</button>
-                <button id="btnSavepositionbyminutes" class="btn btn-secondary" disabled="True" onclick=savepositionbyminutesclick()>Save</button>
-                <label for="batterylevel">Battery Level:</label>
-                <input type="text" id="batterylevel" name="batterylevel" maxlength="3" size="1" readonly><br>
+                <button id="btnConnect" class="btn btn-primary" disabled="true" onclick=connectclick()>Connect</button>
+                <button id="btnDisconnect" class="btn btn-primary" disabled="true" onclick=disconnectclick()>Disconnect</button>
+                <button id="btnSavepositionbyminutes" class="btn btn-primary" disabled="true" onclick=savepositionbyminutesclick()>Save</button>
+                <div class="form-group">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-text">Battery</span>
+                        <input type="text" class="form-control" id="batterylevel" name="batterylevel" maxlength="3" size="1" readonly>
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
             </div>
         </div>
     </section>
 
-    <canvas id="chartpositionpastminute" style="max-height:400px"></canvas>
+    <canvas id="chartpositionpastminute" width="1000" height="240"></canvas>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script src="https://www.puck-js.com/puck.js"></script>
