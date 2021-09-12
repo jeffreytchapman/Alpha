@@ -33,8 +33,154 @@ for (let i = 0; i < 93; i++) {
 const positionbyminutes = [];
 positionbyminutes[0] = { x: 0, y: 0, z: 8000, time: date.getTime() };
 
+// Code to upload to Bangle.js
+var BANGLE_CODE = `
+Puck.on('accel',function(a) {
+  var d = [
+    "A",
+    a.acc.x, a.acc.y, a.acc.z
+    ];
+  Bluetooth.println(d.join(","));
+});
+Puck.accelOn(1.6);
+NRF.setTxPower(4);
+`;
+
 // When we click the connect button...
+var connection;
 function connectclick() {
+    // disconnect if connected already
+    if (connection) {
+        connection.close();
+        connection = undefined;
+    }
+    // Connect
+    Puck.connect(function (c) {
+        if (!c) {
+            alert("Couldn't connect!");
+            return;
+        }
+        connection = c;
+        // Juliet code
+        document.getElementById("btnConnect").disabled=true;
+        document.getElementById("btnDisconnect").disabled = false;
+        //acceltimer = setInterval(accelcollect, 650);
+        //flashtimer = setInterval(flasher, 650);
+        //batterychecktimer = setInterval(batterycheck, 1000 * 60 * 10);
+        //savepositionbyminutestimer = setInterval(savepositionbyminutesclick, 1000 * 60 * 60);
+        //batterycheck();
+        //Set times
+        //Puck.setTime();
+        const connectclickdate = new Date();
+        previousposition.time = connectclickdate.getTime();
+
+        // Handle the data we get back, and call 'onLine'
+        // whenever we get a line
+        var buf = "";
+        connection.on("data", function (d) {
+            buf += d;
+            var l = buf.split("\n");
+            buf = l.pop();
+            l.forEach(onLine);
+        });
+        // First, reset the Bangle
+        connection.write("reset();\n", function () {
+            // Wait for it to reset itself
+            setTimeout(function () {
+                // Now upload our code to it
+                connection.write("\x03\x10if(1){" + BANGLE_CODE + "}\n",
+                    function () { console.log("Ready..."); });
+            }, 1500);
+        });
+    });
+};
+
+// When we get a line of data, check it and if it's
+// from the accelerometer, update it
+function onLine(line) {
+    console.log("RECEIVED:" + line);
+    var d = line.split(",");
+    if (d.length == 4 && d[0] == "A") {
+        // we have an accelerometer reading
+        var accelbar = {
+            x: parseInt(d[1]) * 100 / 8192,
+            y: parseInt(d[2]) * 100 / 8192,
+            z: parseInt(d[3]) * 100 / 8192,
+        };
+        // Update bar positions
+        setBarPos("barX", accelbar.x);
+        setBarPos("barY", accelbar.y);
+        setBarPos("barZ", accelbar.z);
+        // From old accelcollect
+        const accelcollectdate = new Date();
+        //Get accel data
+        accel.x = parseInt(d[1]);
+        currentposition.x = accel.x;
+        accel.y = parseInt(d[2]);
+        currentposition.y = accel.y;
+        accel.z = parseInt(d[3]);
+        currentposition.z = accel.z;
+        currentposition.time = accelcollectdate.getTime();
+        //Render Vector3
+        render();
+
+        //update positionbyseconds using an intermediary
+        let positiontoadd = new positionvariable();
+        positiontoadd.x = currentposition.x;
+        positiontoadd.y = currentposition.y;
+        positiontoadd.z = currentposition.z;
+        positiontoadd.time = currentposition.time;
+        positionbyseconds.pop;
+        positionbyseconds.unshift(positiontoadd);
+
+        //Update past minute chart, most recent position at end of array
+        positionpastminutexvalues.push(currentposition.x);
+        positionpastminutexvalues.shift();
+        positionpastminuteyvalues.push(currentposition.y);
+        positionpastminuteyvalues.shift();
+        positionpastminutezvalues.push(currentposition.z);
+        positionpastminutezvalues.shift();
+        positionpastminutetimevalues.push(currentposition.time);
+        positionpastminutetimevalues.shift();
+        chartpositionpastminute.update("none");
+
+        //Get angle change removed from observing protocol
+        /*anglechange = 57.2958 * Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x, 2) + Math.pow(previousposition.y, 2) + Math.pow(previousposition.z, 2)) * Math.sqrt(Math.pow(currentposition.x, 2) + Math.pow(currentposition.y, 2) + Math.pow(currentposition.z, 2))));
+        document.getElementById("anglechange").value = Math.round(anglechange);
+        //If angle change is significant reset previous position and time
+        if (anglechange > 20) {
+            previousposition.x = currentposition.x;
+            previousposition.y = currentposition.y;
+            previousposition.z = currentposition.z;
+            previousposition.time = currentposition.time;
+            lastsignificantpositionchangetime = currentposition.time
+        }
+        document.getElementById("positionduration").value = Math.trunc((currentposition.time - lastsignificantpositionchangetime) / (1000 * 60)) + " min";
+        */
+
+        //go to updateminute data function with every new accel position
+        updateminutedata(currentposition);
+
+
+
+    }
+}
+// Set the position of each bar
+function setBarPos(id, d) {
+    var s = document.getElementById(id).style;
+    if (d > 150) d = 150;
+    if (d < -150) d = -150;
+    if (d >= 0) {
+        s.left = "150px";
+        s.width = d + "px";
+    } else { // less than 0
+        s.left = (150 + d) + "px";
+        s.width = (-d) + "px";
+    }
+}
+
+// When we click the connect button...
+function XXXconnectclick() {
     document.getElementById("btnConnect").disabled = true;
     document.getElementById("btnDisconnect").disabled = false;
     Puck.write('Puck.accelOn(1.6);\n');
