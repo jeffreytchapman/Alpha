@@ -1,14 +1,10 @@
 // Variables
 var room;
 var level;
-var acceltimer;
-var flashtimer;
 var batterychecktimer;
 var savepositionbyminutestimer;
 var accel = new THREE.Vector3(0, 0, 1);
-var anglechange = "0";
 const date = new Date();
-var lastsignificantpositionchangetime = date.getTime();
 function positionvariable(x, y, z, time) {
     this.x = x;
     this.y = y;
@@ -64,13 +60,8 @@ function connectclick() {
         // Juliet code
         document.getElementById("btnConnect").disabled=true;
         document.getElementById("btnDisconnect").disabled = false;
-        //acceltimer = setInterval(accelcollect, 650);
-        //flashtimer = setInterval(flasher, 650);
-        //batterychecktimer = setInterval(batterycheck, 1000 * 60 * 10);
-        //savepositionbyminutestimer = setInterval(savepositionbyminutesclick, 1000 * 60 * 60);
-        //batterycheck();
-        //Set times
-        //Puck.setTime();
+        batterychecktimer = setInterval(batterycheck, 1000 * 60 * 1);
+        savepositionbyminutestimer = setInterval(savepositionbyminutesclick, 1000 * 60 * 60);
         const connectclickdate = new Date();
         previousposition.time = connectclickdate.getTime();
 
@@ -98,20 +89,24 @@ function connectclick() {
 // When we get a line of data, check it and if it's
 // from the accelerometer, update it
 function onLine(line) {
-    console.log("RECEIVED:" + line);
+    //console.log("RECEIVED:" + line);
     var d = line.split(",");
+    //console.log("d[0]="+d[0]+" d[1]="+d[1]+" d[2]="+d[2]+" d[3]="+d[3]+" d[4]="+d[4])
+    if (d.length == 1) {
+        console.log("parseInt(d[0].substr(1,2))="+parseInt(d[0].substr(1,2)))
+    }
+    
+    if (d.length == 1 && d[0].substr(0,1)=="=") {
+        console.log("parseInt(d[0].substr(1,2))="+parseInt(d[0].substr(1,2)))
+    }
+
+
+    if (d.length == 1 && d[0]>0 && d[0]<100) {
+        document.getElementById("batterylevel").value = d[0];
+    }
     if (d.length == 4 && d[0] == "A") {
         // we have an accelerometer reading
-        var accelbar = {
-            x: parseInt(d[1]) * 100 / 8192,
-            y: parseInt(d[2]) * 100 / 8192,
-            z: parseInt(d[3]) * 100 / 8192,
-        };
-        // Update bar positions
-        setBarPos("barX", accelbar.x);
-        setBarPos("barY", accelbar.y);
-        setBarPos("barZ", accelbar.z);
-        // From old accelcollect
+        // From juliet accelcollect
         const accelcollectdate = new Date();
         //Get accel data
         accel.x = parseInt(d[1]);
@@ -121,6 +116,7 @@ function onLine(line) {
         accel.z = parseInt(d[3]);
         currentposition.z = accel.z;
         currentposition.time = accelcollectdate.getTime();
+        connection.write("digitalPulse(LED2, 1, 200);\n");
         //Render Vector3
         render();
 
@@ -143,80 +139,27 @@ function onLine(line) {
         positionpastminutetimevalues.push(currentposition.time);
         positionpastminutetimevalues.shift();
         chartpositionpastminute.update("none");
-
-        //Get angle change removed from observing protocol
-        /*anglechange = 57.2958 * Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x, 2) + Math.pow(previousposition.y, 2) + Math.pow(previousposition.z, 2)) * Math.sqrt(Math.pow(currentposition.x, 2) + Math.pow(currentposition.y, 2) + Math.pow(currentposition.z, 2))));
-        document.getElementById("anglechange").value = Math.round(anglechange);
-        //If angle change is significant reset previous position and time
-        if (anglechange > 20) {
-            previousposition.x = currentposition.x;
-            previousposition.y = currentposition.y;
-            previousposition.z = currentposition.z;
-            previousposition.time = currentposition.time;
-            lastsignificantpositionchangetime = currentposition.time
-        }
-        document.getElementById("positionduration").value = Math.trunc((currentposition.time - lastsignificantpositionchangetime) / (1000 * 60)) + " min";
-        */
-
         //go to updateminute data function with every new accel position
         updateminutedata(currentposition);
-
-
-
     }
-}
-// Set the position of each bar
-function setBarPos(id, d) {
-    var s = document.getElementById(id).style;
-    if (d > 150) d = 150;
-    if (d < -150) d = -150;
-    if (d >= 0) {
-        s.left = "150px";
-        s.width = d + "px";
-    } else { // less than 0
-        s.left = (150 + d) + "px";
-        s.width = (-d) + "px";
-    }
-}
-
-// When we click the connect button...
-function XXXconnectclick() {
-    document.getElementById("btnConnect").disabled = true;
-    document.getElementById("btnDisconnect").disabled = false;
-    Puck.write('Puck.accelOn(1.6);\n');
-    Puck.write('NRF.setTxPower(4);\n');
-    acceltimer = setInterval(accelcollect, 650);
-    flashtimer = setInterval(flasher, 650);
-    batterychecktimer = setInterval(batterycheck, 1000 * 60 * 10);
-    savepositionbyminutestimer = setInterval(savepositionbyminutesclick, 1000 * 60 * 60);
-    batterycheck();
-    //Set times
-    Puck.setTime();
-    const connectclickdate = new Date();
-    previousposition.time = connectclickdate.getTime();
-}
-
-// Flash green when we collect accel data...
-function flasher() {
-    Puck.write('digitalPulse(LED2, 1, 200);\n');
 }
 
 // Collect battery level based on a timer...
 async function batterycheck() {
     let myPromise = new Promise(function (myResolve, myReject) {
-        myResolve(Puck.eval("E.getBattery()"));
+        //myResolve(Puck.eval("E.getBattery()"));
+        myResolve(connection.write("E.getBattery();\n"));
     });
-    document.getElementById("batterylevel").value = await myPromise;
+    
+    //console.log("E.getBattery()="+myPromise)
+    //document.getElementById("batterylevel").value = await myPromise;
 }
 
 // When we click the disconnect button...
 function disconnectclick() {
-    Puck.write('Puck.accelOff();\n');
-    clearInterval(flashtimer);
-    clearInterval(acceltimer);
     document.getElementById("btnConnect").disabled = false;
     document.getElementById("btnDisconnect").disabled = true;
-    Puck.write('reset();\n');
+    connection.write('reset();\n');
 }
 
 // When we click the savepositionbymimutesbutton button...
@@ -249,60 +192,6 @@ function savepositionbyminutesclick() {
     link.setAttribute("download", level + "-" + room + "-" + savepositionbyminutestime + ".csv");
     document.body.appendChild(link);
     link.click();
-}
-
-// Collect accel data
-function accelcollect() {
-    Puck.eval("Puck.accel()", function (x) {
-        const accelcollectdate = new Date();
-        //Get accel data
-        accel.x = x.acc.x;
-        currentposition.x = accel.x;
-        accel.y = x.acc.y;
-        currentposition.y = accel.y;
-        accel.z = x.acc.z;
-        currentposition.z = accel.z;
-        currentposition.time = accelcollectdate.getTime();
-        //Render Vector3
-        render();
-
-        //update positionbyseconds using an intermediary
-        let positiontoadd = new positionvariable();
-        positiontoadd.x = currentposition.x;
-        positiontoadd.y = currentposition.y;
-        positiontoadd.z = currentposition.z;
-        positiontoadd.time = currentposition.time;
-        positionbyseconds.pop;
-        positionbyseconds.unshift(positiontoadd);
-
-        //Update past minute chart, most recent position at end of array
-        positionpastminutexvalues.push(currentposition.x);
-        positionpastminutexvalues.shift();
-        positionpastminuteyvalues.push(currentposition.y);
-        positionpastminuteyvalues.shift();
-        positionpastminutezvalues.push(currentposition.z);
-        positionpastminutezvalues.shift();
-        positionpastminutetimevalues.push(currentposition.time);
-        positionpastminutetimevalues.shift();
-        chartpositionpastminute.update("none");
-
-        //Get angle change removed from observing protocol
-        /*anglechange = 57.2958 * Math.acos((previousposition.x * currentposition.x + previousposition.y * currentposition.y + previousposition.z * currentposition.z) / (Math.sqrt(Math.pow(previousposition.x, 2) + Math.pow(previousposition.y, 2) + Math.pow(previousposition.z, 2)) * Math.sqrt(Math.pow(currentposition.x, 2) + Math.pow(currentposition.y, 2) + Math.pow(currentposition.z, 2))));
-        document.getElementById("anglechange").value = Math.round(anglechange);
-        //If angle change is significant reset previous position and time
-        if (anglechange > 20) {
-            previousposition.x = currentposition.x;
-            previousposition.y = currentposition.y;
-            previousposition.z = currentposition.z;
-            previousposition.time = currentposition.time;
-            lastsignificantpositionchangetime = currentposition.time
-        }
-        document.getElementById("positionduration").value = Math.trunc((currentposition.time - lastsignificantpositionchangetime) / (1000 * 60)) + " min";
-        */
-
-        //go to updateminute data function with every new accel position
-        updateminutedata(currentposition);
-    })
 }
 
 function updateminutedata(inputposition) {
