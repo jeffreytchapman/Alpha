@@ -11,7 +11,6 @@ function positionvariable(x, y, z, time) {
     this.z = z;
     this.time = time;
 }
-const previousposition = new positionvariable(0, 0, 8000, date.getTime());
 const currentposition = new positionvariable(0, 0, 0, 0);
 const position = new positionvariable(0, 0, 0, 0);
 const positionbyseconds = [];
@@ -27,7 +26,7 @@ for (let i = 0; i < 93; i++) {
     positionpastminutetimevalues[i] = (date.getTime() - 650 * (92 - i));
 }
 const positionbyminutes = [];
-positionbyminutes[0] = { x: 0, y: 0, z: 8000, time: date.getTime() };
+positionbyminutes[0] = { x: 0, y: 0, z: 8000, time: date.getTime(), event: "start" };
 
 // Code to upload to Bangle.js
 var BANGLE_CODE = `
@@ -60,10 +59,8 @@ function connectclick() {
         // Juliet code
         document.getElementById("btnConnect").disabled=true;
         document.getElementById("btnDisconnect").disabled = false;
-        batterychecktimer = setInterval(batterycheck, 1000 * 60 * 1);
+        batterychecktimer = setInterval(batterycheck, 1000 * 60 * 10);
         savepositionbyminutestimer = setInterval(savepositionbyminutesclick, 1000 * 60 * 60);
-        const connectclickdate = new Date();
-        previousposition.time = connectclickdate.getTime();
 
         // Handle the data we get back, and call 'onLine'
         // whenever we get a line
@@ -89,21 +86,15 @@ function connectclick() {
 // When we get a line of data, check it and if it's
 // from the accelerometer, update it
 function onLine(line) {
-    //console.log("RECEIVED:" + line);
+    console.log("RECEIVED:" + line);
     var d = line.split(",");
-    //console.log("d[0]="+d[0]+" d[1]="+d[1]+" d[2]="+d[2]+" d[3]="+d[3]+" d[4]="+d[4])
-    if (d.length == 1) {
-        console.log("parseInt(d[0].substr(1,2))="+parseInt(d[0].substr(1,2)))
-    }
     
-    if (d.length == 1 && d[0].substr(0,1)=="=") {
-        console.log("parseInt(d[0].substr(1,2))="+parseInt(d[0].substr(1,2)))
+    // Check if data is the battery level
+    if (d.length == 1 && d[0].length<5 && parseInt(d[0].substr(1,d[0].length-1))>=0 && parseInt(d[0].substr(1,d[0].length-1))<=100) {
+        console.log("parseInt(d[0].substr(1,2)):"+parseInt(d[0].substr(1,d[0].length-1)))
+        document.getElementById("batterylevel").value = parseInt(d[0].substr(1,d[0].length-1));
     }
 
-
-    if (d.length == 1 && d[0]>0 && d[0]<100) {
-        document.getElementById("batterylevel").value = d[0];
-    }
     if (d.length == 4 && d[0] == "A") {
         // we have an accelerometer reading
         // From juliet accelcollect
@@ -150,9 +141,6 @@ async function batterycheck() {
         //myResolve(Puck.eval("E.getBattery()"));
         myResolve(connection.write("E.getBattery();\n"));
     });
-    
-    //console.log("E.getBattery()="+myPromise)
-    //document.getElementById("batterylevel").value = await myPromise;
 }
 
 // When we click the disconnect button...
@@ -170,13 +158,15 @@ function savepositionbyminutesclick() {
             "X",
             "Y",
             "Z",
-            "Time"
+            "Time",
+            "Event"
         ],
         ...positionbyminutes.map(item => [
             item.x,
             item.y,
             item.z,
-            item.time
+            item.time,
+            item.event
         ])
     ];
     let csvcontent = "data:text/csv;charset=utf-8,";
@@ -195,7 +185,6 @@ function savepositionbyminutesclick() {
 }
 
 function updateminutedata(inputposition) {
-    //console.log(Math.trunc((inputposition.time-positionbyminutes[(positionbyminutes.length-1)].time)/1000));    
     if (inputposition.time - positionbyminutes[(positionbyminutes.length - 1)].time >= 60000) {
         let averagex = 0;
         let averagey = 0;
@@ -216,12 +205,6 @@ function updateminutedata(inputposition) {
         if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
             document.getElementById("btnSavepositionbyminutes").disabled = false;
         }
-        //items below work
-        // console.log("after 60 sec update positionbyminutes[last].time=" + positionbyminutes[(positionbyminutes.length - 1)].time);
-        //console.log("after 60 sec update positionbyminutes[last].x="+positionbyminutes[(positionbyminutes.length-1)].x);
-        //console.log("after 60 sec update positionbyminutes[last].y="+positionbyminutes[(positionbyminutes.length-1)].y);
-        //console.log("after 60 sec update positionbyminutes[last].z="+positionbyminutes[(positionbyminutes.length-1)].z);
-        //Puck.eval("NRF.getBattery()",function(w) { console.log("battery=" + w); });
     }
 }
 
@@ -277,8 +260,8 @@ function RoomSelected(selectLevel, selectRoom) {
 
 // THREE boilerplate
 var scene, camera, renderer, cube;
-var WIDTH = window.innerWidth * 0.4;
-var HEIGHT = window.innerHeight * 0.4;
+var WIDTH = window.innerWidth * 0.1;
+var HEIGHT = window.innerHeight * 0.1
 function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 40);
@@ -292,7 +275,6 @@ function init() {
     renderer.setSize(WIDTH, HEIGHT);
     document.body.appendChild(renderer.domElement);
 }
-
 function render() {
     cube.lookAt(accel);
     renderer.render(scene, camera);
