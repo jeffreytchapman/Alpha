@@ -5,14 +5,15 @@ var batterychecktimer;
 var savepositionbyminutestimer;
 var accel = new THREE.Vector3(0, 0, 1);
 const date = new Date();
-function positionvariable(x, y, z, time) {
+function positionvariable(x, y, z, time, event) {
     this.x = x;
     this.y = y;
     this.z = z;
     this.time = time;
+    this.event = event;
 }
-const currentposition = new positionvariable(0, 0, 0, 0);
-const position = new positionvariable(0, 0, 0, 0);
+const currentposition = new positionvariable(0, 0, 0, 0, "");
+const position = new positionvariable(0, 0, 0, 0, "");
 const positionbyseconds = [];
 const positionpastminutetimevalues = [];
 const positionpastminutexvalues = [];
@@ -26,6 +27,8 @@ for (let i = 0; i < 93; i++) {
     positionpastminutetimevalues[i] = (date.getTime() - 650 * (92 - i));
 }
 const positionbyminutes = [];
+var eventtext;
+eventtext = "";
 positionbyminutes[0] = { x: 0, y: 0, z: 8000, time: date.getTime(), event: "start" };
 
 // Code to upload to Bangle.js
@@ -57,7 +60,7 @@ function connectclick() {
         }
         connection = c;
         // Juliet code
-        document.getElementById("btnConnect").disabled=true;
+        document.getElementById("btnConnect").disabled = true;
         document.getElementById("btnDisconnect").disabled = false;
         batterychecktimer = setInterval(batterycheck, 1000 * 60 * 10);
         savepositionbyminutestimer = setInterval(savepositionbyminutesclick, 1000 * 60 * 60);
@@ -88,11 +91,11 @@ function connectclick() {
 function onLine(line) {
     console.log("RECEIVED:" + line);
     var d = line.split(",");
-    
+
     // Check if data is the battery level
-    if (d.length == 1 && d[0].length<5 && parseInt(d[0].substr(1,d[0].length-1))>=0 && parseInt(d[0].substr(1,d[0].length-1))<=100) {
-        console.log("parseInt(d[0].substr(1,2)):"+parseInt(d[0].substr(1,d[0].length-1)))
-        document.getElementById("batterylevel").value = parseInt(d[0].substr(1,d[0].length-1));
+    if (d.length == 1 && d[0].length < 5 && parseInt(d[0].substr(1, d[0].length - 1)) >= 0 && parseInt(d[0].substr(1, d[0].length - 1)) <= 100) {
+        console.log("parseInt(d[0].substr(1,2)):" + parseInt(d[0].substr(1, d[0].length - 1)))
+        document.getElementById("batterylevel").value = parseInt(d[0].substr(1, d[0].length - 1));
     }
 
     if (d.length == 4 && d[0] == "A") {
@@ -184,6 +187,22 @@ function savepositionbyminutesclick() {
     link.click();
 }
 
+// When we click the btnVerifyHand button...
+function verifyhandclick() {
+    document.getElementById("btnVerifyHand").disabled = true;
+    document.getElementById("btnVerifyHand").style.backgroundColor = "#5cb85c";
+    document.getElementById("btnVerifyHand").innerHTML = "Verified";
+    eventtext = "verified by hand"
+}
+
+// When we click the btnVerifyFeet button...
+function verifyfeetclick() {
+    document.getElementById("btnVerifyFeet").disabled = true;
+    document.getElementById("btnVerifyFeet").style.backgroundColor = "#5cb85c";
+    document.getElementById("btnVerifyFeet").innerHTML = "Verified";
+    eventtext = "verified by feet"
+}
+
 function updateminutedata(inputposition) {
     if (inputposition.time - positionbyminutes[(positionbyminutes.length - 1)].time >= 60000) {
         let averagex = 0;
@@ -201,10 +220,18 @@ function updateminutedata(inputposition) {
         positiontoadd.y = Math.round(averagey / 93);
         positiontoadd.z = Math.round(averagez / 93);
         positiontoadd.time = inputposition.time;
+        positiontoadd.event = eventtext;
+        eventtext = "";
         positionbyminutes.push(positiontoadd);
+        //Updated save and verify buttons to active
         if (document.getElementById("btnSavepositionbyminutes").disabled = true) {
             document.getElementById("btnSavepositionbyminutes").disabled = false;
         }
+        //update verify buttons to be able to enter another event
+        document.getElementById("btnVerifyHand").disabled = false;
+        document.getElementById("btnVerifyHand").style.backgroundColor = "#0275d8";
+        document.getElementById("btnVerifyFeet").disabled = false;
+        document.getElementById("btnVerifyFeet").style.backgroundColor = "#0275d8";
     }
 }
 
@@ -215,8 +242,7 @@ function LevelSelected(selectLevel, selectRoom) {
     document.getElementById("labelLevel").innerHTML = "Level";
     document.getElementById("labelRoom").innerHTML = "Set Room";
     document.getElementById("labelRoom").disabled = "false";
-    //document.getElementById("labelLevel").style.backgroundColor = "chartreuse";
-    //document.getElementById("labelLevel").style.color = "chartreuse";
+    document.getElementById("labelLevel").style.backgroundColor = "#5cb85c";
     level = selectLevel.value;
     if (level == "6" || level == "7" || level == "8") {
         level = "0" + level;
@@ -250,8 +276,7 @@ function RoomSelected(selectLevel, selectRoom) {
     var selectRoom = document.getElementById(selectRoom);
     document.getElementById("labelRoom").innerHTML = "Room";
     document.getElementById("btnConnect").disabled = false
-    //document.getElementById("labelLevel").style.backgroundColor = "chartreuse";
-    //document.getElementById("labelLevel").style.color.replace = "chartreuse";
+    document.getElementById("labelRoom").style.backgroundColor = "#5cb85c";
     room = selectRoom.value;
     if (room == "1" || room == "2" || room == "3" || room == "4" || room == "5" || room == "6" || room == "7" || room == "8" || room == "9") {
         room = "0" + room;
