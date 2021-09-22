@@ -285,8 +285,8 @@ function RoomSelected(selectLevel, selectRoom) {
 
 // THREE boilerplate
 var scene, camera, renderer, cube;
-var WIDTH = window.innerWidth * 0.1;
-var HEIGHT = window.innerHeight * 0.1
+var WIDTH = window.innerWidth * 0.14;
+var HEIGHT = window.innerHeight * 0.14;
 function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 40);
